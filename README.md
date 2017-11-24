@@ -1,37 +1,15 @@
-## Welcome to GitHub Pages
+## Welcome to the Impostor Programmer
 
-You can use the [editor on GitHub](https://github.com/impostorprogrammer/impostorprogrammer.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Are you also an impostor like me? 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+> Whether you call it imposter syndrome or simply your jerkbrain acting up, we all have our moments of feeling like a fake and that, someday, everyone will find out. And at it turns out, one of the professions most prone to imposter syndrome is software development."
+https://www.laserfiche.com/simplicity/shut-up-imposter-syndrome-i-can-too-program/
 
-### Markdown
+Check back here for further ramblings about being an impostor programmer!
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
+### Editing... 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
+[edit on GitHub](https://github.com/impostorprogrammer/impostorprogrammer.github.io/edit/master/README.md)
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/impostorprogrammer/impostorprogrammer.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
