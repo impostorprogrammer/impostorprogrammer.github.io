@@ -11,6 +11,6 @@ Check back here for further ramblings about being an impostor programmer!
 ### Editing... 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-[edit on GitHub](https://github.com/impostorprogrammer/impostorprogrammer.github.io/edit/master/README.md)
+[Edit on GitHub](https://github.com/impostorprogrammer/impostorprogrammer.github.io/edit/master/README.md)
 
 
