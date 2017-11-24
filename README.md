@@ -1,5 +1,3 @@
----
----
 ## Welcome to the Impostor Programmer
 
 Are you also an impostor like me? 
