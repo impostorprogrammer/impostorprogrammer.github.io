@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Html Canvas with Console look</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+ -->
+    <script src="require.js"></script>
+</head>
+
+<body>
+    <canvas id="terminal_canvas" style="width:98vw;height:97vh;border:1px solid black;background-color: black;"></canvas>
+    <script type="text/javascript">
+        var textHeightCalc = function (text, font) {
+            var fontDraw = document.createElement("canvas");
+
+            var height = 400;
+            var width = 400;
+
+            // here we expect that font size will be less canvas geometry
+            fontDraw.setAttribute("height", height);
+            fontDraw.setAttribute("width", width);
+
+            var ctx = fontDraw.getContext('2d');
+            // black is default
+            ctx.fillRect(0, 0, width, height);
+            ctx.textBaseline = 'top';
+            ctx.fillStyle = 'white';
+            ctx.font = font;
+            ctx.fillText(text/*'Eg'*/, 0, 0);
+
+            var pixels = ctx.getImageData(0, 0, width, height).data;
+
+            // row numbers where we first find letter end where it ends 
+            var start = -1;
+            var end = -1;
+
+            for (var row = 0; row < height; row++) {
+                for (var column = 0; column < width; column++) {
+
+                    var index = (row * width + column) * 4;
+
+                    // if pixel is not white (background color)
+                    if (pixels[index] == 0) {
+                        // we havent met white (font color) pixel
+                        // on the row and the letters was detected
+                        if (column == width - 1 && start != -1) {
+                            end = row;
+                            row = height;
+                            break;
+                        }
+                        continue;
+                    }
+                    else {
+                        // we find top of letter
+                        if (start == -1) {
+                            start = row;
+                        }
+                        // ..letters body
+                        break;
+                    }
+
+                }
+
+            }
+
+            // document.body.appendChild(fontDraw);
+            // fontDraw.style.pixelLeft = 400;
+            // fontDraw.style.pixelTop = 400;
+            // fontDraw.style.position = "absolute";
+
+
+            return end - start;
+
+        }
+
+
+        // var oldMeasureText = CanvasRenderingContext2D.prototype.measureText;
+
+        // CanvasRenderingContext2D.prototype.measureText = function () {
+        //     var advanced = {
+        //         width: oldMeasureText.apply(this, arguments).width,
+        //         height: textHeightCalc("█", this.font)
+        //     }
+        //     return advanced;
+        // }
+        require(['matrix_rain'], function () {
+            require(['paintContext'], function() {
+            console.info("matrix_rain loaded");
+            paintCtx.font = "30px Consolas";
+            paintCtx = _.paintContext.wrap(paintCtx.canvas);
+            const ConsoleColor =
+                {
+                    DefaultColor: '#000000',
+                    DarkGreen: '#11890D',
+                    Green: '#1AFF10',
+                    White: '#FFFFE6',
+                    BrightWhite: '#FFFFE6'
+                };
+
+            NormalColor = ConsoleColor.DarkGreen;
+            GlowColor = ConsoleColor.Green;
+            FancyColor = ConsoleColor.BrightWhite;
+
+
+            Main();
+            });
+        });
+        // require(['paintContext'], function () {
+
+        //     var canvas = document.getElementById("terminal_canvas");
+        //     canvas.width = canvas.clientWidth;
+        //     canvas.height = canvas.clientHeight;
+
+        //     //var ctx = _.paintContext.wrap(canvas);
+
+        //     var ctx = canvas.getContext("2d");
+        //     var width = canvas.width;
+        //     var height = canvas.height;
+        //     ctx.textBaseline = 'top';
+        //     //Paint background
+        //     ctx.fillStyle = "#8f8f8f";
+        //     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        //     ctx.fillStyle = "#FF0000";
+        //     ctx.fillRect(width / 2 - width / 4, height / 2 - height / 4, width / 2, height / 2);
+
+        //     //ctx.strokeStyle = "#00FF00";
+        //     ctx.fillStyle = "#FFFFFF";
+        //     ctx.font = "60px monospace"; //size+'px/'+lineHeight+'em monospace'
+        //     //ctx.font = "60px Arial"; //size+'px/'+lineHeight+'em monospace'
+        //     var text1 = "Hello² World!";
+        //     var text2 = "██████████████████";
+        //     var text = text2;
+        //     var textMeasure = ctx.measureText(text);
+
+        //     ctx.fillText(text, width / 4, height / 4);
+        //     ctx.fillText("Width = " + textMeasure.width + "; Height =" + textMeasure.height, width / 4, height / 4 + 2 * textMeasure.height);
+        //     ctx.lineWidth = 6;
+
+        //     //ctx.strokeRect(width / 4 - 3, height / 4 + 6, textMeasure.width + 6, -66);
+        //     //ctx.fillRect(86, 20, 150, 75);
+        //     // ctx.strokeStyle = "#FF0000";
+        //     // 
+        //     // ctx.beginPath();
+        //     // ctx.moveTo(width / 4 - 3, height / 4 + 6);
+        //     // ctx.lineTo(width / 4  - 3 + textMeasure.width, height / 4 + 6);
+        //     // ctx.stroke();
+        //     ctx.strokeStyle = "#FF0000";
+        //     ctx.lineWidth = 1;
+        //     ctx.strokeRect(width / 4, height / 4, textMeasure.width, textMeasure.height);
+
+
+
+        // });
+
+
+    </script>
+</body>
+
+</html>
