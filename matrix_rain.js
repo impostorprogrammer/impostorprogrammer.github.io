@@ -118,7 +118,7 @@ function run(dimensions, yobj) {
             console.clear();
             Console.CursorVisible = true;
         }
-    }, 50);
+    }, 70);
     // while (!shouldExit) {
     //     Counter = Counter + 1;
     //     UpdateAllColumns(dimensions, yobj.y);
