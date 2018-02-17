@@ -107,7 +107,7 @@ function Main() {
 
 }
 function run(dimensions, yobj) {
-    setTimeout(() => {
+    setTimeout(function ()  {
         Counter = Counter + 1;
         UpdateAllColumns(dimensions, yobj.y);
         if (Counter > (3 * Interval))
