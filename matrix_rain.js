@@ -19,7 +19,7 @@ else if(window !== undefined){
 
 
 var Counter = 0;
-const rand = new Random();
+var rand = new Random();
 
 function Random() {
     return {
@@ -32,12 +32,12 @@ function Random() {
 
 console.log = undefined; //Hide or remove console.log to avoid calling it by mistake
 
-const Interval = 100; // Normal Flowing of Matrix Rain
-const FullFlow = Interval + 30; // Fast Flowing of Matrix Rain
-const Blacking = FullFlow + 50; // Displaying the Test Alone
+var Interval = 100; // Normal Flowing of Matrix Rain
+var FullFlow = Interval + 30; // Fast Flowing of Matrix Rain
+var Blacking = FullFlow + 50; // Displaying the Test Alone
 
 
-const ConsoleColor =
+var ConsoleColor =
     {
         DefaultColor: '0',
         DarkGreen: '32',
@@ -50,8 +50,8 @@ var NormalColor = ConsoleColor.DarkGreen;
 var GlowColor = ConsoleColor.Green;
 var FancyColor = ConsoleColor.BrightWhite;
 
-const TextInput = "HOLA CODESPACE!";
-const TextInput2 = "Así es el mundo..";
+var TextInput = "HOLA CODESPACE!";
+var TextInput2 = "Así es el mundo..";
 
 
 
@@ -91,7 +91,7 @@ function Main() {
     //painCtx.ForegroundColor = NormalColor;
     paintCtx.fillStyle = NormalColor; //"#FFFFFF";
 
-    const dimensions = {
+    var dimensions = {
         get height() {
             return Math.round(paintCtx.height); // process.stdout.rows;
         },
