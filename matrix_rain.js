@@ -1,6 +1,6 @@
 /* eslint-env node */
 /* eslint-disable no-console, quotes, no-inner-declarations */
-"use strict";
+//"use strict";
 var paintCtx;
 var Console = { Clear: function(){} };
 if (typeof process !== "undefined") {
