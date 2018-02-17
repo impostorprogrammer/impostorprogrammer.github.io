@@ -5,8 +5,7 @@ var paintCtx;
 var Console = { Clear: function(){} };
 if (typeof process !== "undefined") {
     Console = require("./extend_console");
-
-    let paintCtxWrapper = require("./paintContext");
+    var paintCtxWrapper = require("./paintContext");
     paintCtx = paintCtxWrapper.paintContext.wrap(Console);
 } 
 // eslint-disable-next-line no-undef
@@ -19,13 +18,13 @@ else if(window !== undefined){
 }
 
 
-let Counter = 0;
+var Counter = 0;
 const rand = new Random();
 
 function Random() {
     return {
         Next: function (num) {
-            let res = Math.random() * num;
+            var res = Math.random() * num;
             return Math.round(res);
         }
     };
@@ -56,10 +55,10 @@ const TextInput2 = "Así es el mundo..";
 
 
 
-let AsciiCharacter =
+var AsciiCharacter =
     {
         get: function () {
-            let t = rand.Next(10);
+            var t = rand.Next(10);
             if (t <= 2)
                 return String.fromCharCode("0".charCodeAt(0) + rand.Next(10));
             //return (char)('0' + rand.Next(10));
@@ -128,7 +127,9 @@ function run(dimensions, yobj) {
 }
 
 function UpdateAllColumns(dimensions, y) {
-    let x = 0;
+    var x = 0;
+    var temp;
+    var temp1;
     if (Counter < Interval) {
         for (x = 0; x < dimensions.width; ++x) {
             if (x % 10 == 1)//Randomly setting up the White Position
@@ -145,13 +146,13 @@ function UpdateAllColumns(dimensions, y) {
                 paintCtx.fillStyle = FancyColor;
             else
                 paintCtx.fillStyle = NormalColor;
-            let temp = y[x] - 2;
+            temp = y[x] - 2;
 
             // painCtx.SetCursorPosition(x, inScreenYPosition(temp, dimensions.height));
             // painCtx.Write(AsciiCharacter);
             paintCtx.fillText(AsciiCharacter.get(), x, inScreenYPosition(temp, dimensions.height));
 
-            let temp1 = y[x] - 20;
+            temp1 = y[x] - 20;
             // painCtx.SetCursorPosition(x, inScreenYPosition(temp1, dimensions.height));
             // painCtx.Write(' ');
             paintCtx.fillText(' ', x, inScreenYPosition(temp1, dimensions.height));
@@ -182,7 +183,7 @@ function UpdateAllColumns(dimensions, y) {
             // painCtx.Write(' ');//Slowly blacking out the Screen
             paintCtx.fillText(' ', x, y[x]);
 
-            let temp1 = y[x] - 20;
+            temp1 = y[x] - 20;
             // painCtx.SetCursorPosition(x, inScreenYPosition(temp1, dimensions.height));
             // painCtx.Write(' ');
             paintCtx.fillText(' ', x, inScreenYPosition(temp1, dimensions.height));
@@ -193,7 +194,7 @@ function UpdateAllColumns(dimensions, y) {
                     paintCtx.fillStyle = FancyColor;
                 else
                     paintCtx.fillStyle = NormalColor;
-                let temp = y[x] - 2;
+                temp = y[x] - 2;
                 // painCtx.SetCursorPosition(x, inScreenYPosition(temp, dimensions.height));
                 // painCtx.Write(AsciiCharacter);//The Text is printed Always
                 paintCtx.fillText(AsciiCharacter.get(), x, inScreenYPosition(temp, dimensions.height));
@@ -226,7 +227,7 @@ function Initialize(dimensions, yobj) {
     yobj.y = new Array(dimensions.width).fill(0);
     Console.Clear();
 
-    for (let x = 0; x < dimensions.width; ++x)//Setting the cursor at random at program startup
+    for (var x = 0; x < dimensions.width; ++x)//Setting the cursor at random at program startup
     {
         yobj.y[x] = rand.Next(dimensions.height);
     }
