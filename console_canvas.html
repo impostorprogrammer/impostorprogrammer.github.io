@@ -91,9 +91,13 @@
         require(['matrix_rain'], function () {
             require(['paintContext'], function() {
             console.info("matrix_rain loaded");
+
+
             paintCtx.font = "30px Consolas";
+            paintCtx.textBaseline = "top";
+            
             paintCtx = _.paintContext.wrap(paintCtx.canvas);
-            const ConsoleColor =
+            var ConsoleColor =
                 {
                     DefaultColor: '#000000',
                     DarkGreen: '#11890D',

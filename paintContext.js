@@ -142,6 +142,11 @@
                 else
                     this._wrapped.ForegroundColor = value;
             },
+            get fillStyle() {
+                if(this._fillColor != 0 && this._wrapped.fillStyle != this._fillColor)
+                    throw "Should be the same";
+                return this._fillColor;
+            },
             _previousColor: 0,
             _saveStack : 0,
             save: function () {

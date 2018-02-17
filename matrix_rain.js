@@ -36,6 +36,18 @@ var Interval = 100; // Normal Flowing of Matrix Rain
 var FullFlow = Interval + 30; // Fast Flowing of Matrix Rain
 var Blacking = FullFlow + 50; // Displaying the Test Alone
 
+if(typeof Array.prototype.fill == 'undefined')
+{
+    //Poly fill
+    Array.prototype.fill = function (value)
+    {
+        for(var i = 0; i < this.length;i++)
+        {
+            this[i] = value;
+        }
+        return this;
+    };
+}
 
 var ConsoleColor =
     {
