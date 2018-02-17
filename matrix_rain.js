@@ -74,16 +74,17 @@ var AsciiCharacter =
         }
     };
 var shouldExit = false;
+function handle() {
+    //Console.Write(`Received ${signal}`);
+    paintCtx.Write("CTRL-C\n");
+    shouldExit = true;
+}
+
 function Main() {
 
     if (typeof process !== "undefined") {  //Only on node
         process.on('SIGINT', handle); //Should be triggerd by CTRL+C
         process.on('SIGTERM', handle); //Should be triggerd by CTRL+BREAK
-        function handle() {
-            //Console.Write(`Received ${signal}`);
-            paintCtx.Write("CTRL-C\n");
-            shouldExit = true;
-        }
     }
 
     Console.CursorVisible = false;
