@@ -13,7 +13,9 @@
 </head>
 
 <body>
-    <canvas id="terminal_canvas" style="width:98vw;height:97vh;border:1px solid black;background-color: black;"></canvas>
+    <div style="position:absolute;top:0;width: 100%;bottom:0;">
+        <canvas id="terminal_canvas" style="border:1px solid black;background-color: black;width: 100%;height: 100%;"></canvas>
+    </div>
     <script type="text/javascript">
         var textHeightCalc = function (text, font) {
             var fontDraw = document.createElement("canvas");
@@ -89,29 +91,29 @@
         //     return advanced;
         // }
         require(['matrix_rain'], function () {
-            require(['paintContext'], function() {
-            console.info("matrix_rain loaded");
+            require(['paintContext'], function () {
+                console.info("matrix_rain loaded");
 
 
-            paintCtx.font = "30px Consolas";
-            paintCtx.textBaseline = "top";
-            
-            paintCtx = _.paintContext.wrap(paintCtx.canvas);
-            var ConsoleColor =
-                {
-                    DefaultColor: '#000000',
-                    DarkGreen: '#11890D',
-                    Green: '#1AFF10',
-                    White: '#FFFFE6',
-                    BrightWhite: '#FFFFE6'
-                };
+                paintCtx.font = "30px Consolas";
+                paintCtx.textBaseline = "top";
 
-            NormalColor = ConsoleColor.DarkGreen;
-            GlowColor = ConsoleColor.Green;
-            FancyColor = ConsoleColor.BrightWhite;
+                paintCtx = _.paintContext.wrap(paintCtx.canvas);
+                var ConsoleColor =
+                    {
+                        DefaultColor: '#000000',
+                        DarkGreen: '#11890D',
+                        Green: '#1AFF10',
+                        White: '#FFFFE6',
+                        BrightWhite: '#FFFFE6'
+                    };
+
+                NormalColor = ConsoleColor.DarkGreen;
+                GlowColor = ConsoleColor.Green;
+                FancyColor = ConsoleColor.BrightWhite;
 
 
-            Main();
+                Main();
             });
         });
         // require(['paintContext'], function () {

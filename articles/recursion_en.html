@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../styles/markdown.css">
+	</head>
+<body>
+<h1>Recursion</h1>
+<h2>To understand recursion, you need to understand recursion until you understand recursion.</h2>
+<p>In everyday live we are surrounded by recursion, there are recursive structures every where both man made and in nature, many repetitive tasks are recursive or can be viewed as recursive.</p>
+<img src="./Nested_Matryoshka_Dolls.jpg" style="width:60%;min-width:500px;max-width:600px;" alt="Nested Recursive Matryoshka Dolls" title="Traditional Nested Matryoshka Dolls are recursive in structure" >
+<h2>Traditional nested Matryoshka dolls are recursive in structure</h2>
+<img src="https://i.imgur.com/jMLR0.jpg" style="width:60%;min-width:500px;max-width:600px;" alt="Nested Recursive Picture in a Picture in a picture... courtesy of Imgur" title="Nested Recursive Picture in a Picture in a picture... courtesy of Imgur" >
+<br/>Nested recursive picture of a picture of a picture... courtesy of Imgur
+<h2>Infinite recursion at play: A picture of a picture of a picture a picture...</h2>
+<h1>Read a book with 100 pages using a recursive approach</h1>
+<ol>
+<li>
+<p><strong>Problem:</strong> Read a book with 100 pages
+<br/> <strong>Solution:</strong> If there are pages unread, read one page and then read a book with 99 pages.</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Read a book with 99 pages
+<br/> <strong>Solution:</strong> If there are pages unread, read one page and then read a book with 98 pages.</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Read a book with 98 pages
+<br/> <strong>Solution:</strong> If there are pages unread, read one page and then read a book with 97 pages.</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Read a book with 97 pages
+<br/> <strong>Solution:</strong> If there are pages unread, read one page and then read a book with 96 pages.</p>
+</li>
+</ol>
+<h3>........ steps excluded for brevity ..........</h3>
+<ol start="99">
+<li>
+<p><strong>Problem:</strong> Read a book with 2 pages
+<br/> <strong>Solution:</strong> If there are pages unread, read one page and then read a book with 1 page.</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Read a book with 1 pages
+<br/> <strong>Solution:</strong> If there are pages unread, read one page and then read a book with 0 pages.</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Read a book with 0 pages
+<br/> <strong>Solution:</strong> If there are pages unread, no pages unread so you stop here!</p>
+</li>
+</ol>
+<h1>General solution: Read a book with <strong>n</strong> pages</h1>
+<ol>
+<li>
+<p><strong>Problem:</strong> Read a book with <strong>n</strong> pages
+<br/> <strong>Solution:</strong> If there are pages unread, read one page and then read a book with  <strong>n-1</strong> pages.</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Read a book with <strong>n-1</strong> pages
+<br/> <strong>Solution:</strong> If there are pages unread, read one page and then read a book with <strong>n-2</strong> pages.</p>
+</li>
+</ol>
+<h3>........ repeat until ..........</h3>
+<p><strong>Problem:</strong> Read a book with <strong>n-n</strong> (0) pages
+<br/> <strong>Solution:</strong> There are no pages unread, so you stop here!</p>
+<h1>Say out load all the numbers from 1 to 5</h1>
+<ol>
+<li>
+<p><strong>Problem:</strong> Say out loud all the numbers from 1 to 5
+<br/> <strong>Solution:</strong> Say out loud number 1, then say out loud the numbers from 2 to 5</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Say out loud all the numbers from 2 to 5
+<br/> <strong>Solution:</strong> Say out loud number 2, then say out loud the numbers from 3 to 5</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Say out loud all the numbers from 3 to 5
+<br/> <strong>Solution:</strong> Say out loud number 3, then say out loud the numbers from 4 to 5</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Say out loud all the numbers from 4 to 5
+<br/> <strong>Solution:</strong> Say out loud number 4, then say out loud the numbers from 5 to 5</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Say out loud all the numbers from 5 to 5
+<br/> <strong>Solution:</strong> Say out loud number 5, then there are no more numbers to say</p>
+</li>
+</ol>
+<h1>Generalized solution: Say out load all the numbers from n to m</h1>
+<ol>
+<li>
+<p><strong>Problem:</strong> Say out loud all the numbers from <strong>n</strong> to <strong>m</strong>
+<br/> <strong>Solution:</strong> Say out loud number <strong>n</strong>, then say out loud the numbers from <strong>n+1</strong> to <strong>m</strong></p>
+</li>
+<li>
+<p><strong>Problem:</strong> Say out loud all the numbers from <strong>n+1</strong> to <strong>m</strong>
+<br/> <strong>Solution:</strong> Say out loud number <strong>n+1</strong>, then say out loud the numbers from <strong>(n+1)+1</strong> to <strong>m</strong></p>
+</li>
+</ol>
+<h3>........ repeat ..........</h3>
+<p><strong>Problem:</strong> Say out loud all the numbers from <strong>n+x</strong> to <strong>m</strong>, where <strong>n+x == m</strong>
+<br/> <strong>Solution:</strong> Say out loud number <strong>n+x</strong>, when <strong>n+x == m</strong> there are no more numbers to say</p>
+<h1>Now with programming....</h1>
+<p>Instead of saying out load the numbers, let print them on the console...</p>
+<h1>Print all the numbers from 1 to 5 on the console</h1>
+<ol>
+<li>
+<p><strong>Problem:</strong> Print all the numbers from 1 to 5
+<br/> <strong>Solution:</strong> Print the number 1, then print the numbers from 2 to 5</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Print all the numbers from 2 to 5
+<br/> <strong>Solution:</strong> Print the number 2, then print the numbers from 3 to 5</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Print all the numbers from 3 to 5
+<br/> <strong>Solution:</strong> Print the number 3, then print the numbers from 4 to 5</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Print all the numbers from 4 to 5
+<br/> <strong>Solution:</strong> Print the number 4, then print the numbers from 5 to 5</p>
+</li>
+<li>
+<p><strong>Problem:</strong> Print all the numbers from 5 to 5
+<br/> <strong>Solution:</strong> Print the number 5, then there are no more numbers to print!</p>
+</li>
+</ol>
+<h1>Generalized solution: Print all the numbers from n to m</h1>
+<ol>
+<li>
+<p><strong>Problem:</strong> Print all the numbers from <strong>n</strong> to <strong>m</strong>
+<br/> <strong>Solution:</strong> Print the number <strong>n</strong>, then print the numbers from <strong>n+1</strong> to <strong>m</strong></p>
+</li>
+<li>
+<p><strong>Problem:</strong> Print all the numbers from <strong>n+1</strong> to <strong>m</strong>
+<br/> <strong>Solution:</strong> Print the number <strong>n+1</strong>, then print the numbers from <strong>(n+1)+1</strong> to <strong>m</strong></p>
+</li>
+</ol>
+<h3>........ repeat ..........</h3>
+<p><strong>Problem:</strong> Print all the numbers from <strong>n+x</strong> to <strong>m</strong>, where <strong>n+x == m</strong>
+<br/> <strong>Solution:</strong> Print the number <strong>n+x</strong>, when <strong>n+x == m</strong> there are no more numbers print!</p>
+<h1>With JavaScript code</h1>
+<img src="./RecursivePrint.png" style="width:60%;min-width:500px;max-width:600px;" alt="Nested Recursive Matryoshka Dolls" title="Traditional Nested Matryoshka Dolls are recursive in structure" ></body></html>

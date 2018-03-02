@@ -1,0 +1,175 @@
+img {
+	font-size: 0px;
+	vertical-align: middle;
+	-ms-interpolation-mode: bicubic;
+}
+*, *::before, *::after {
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-touch-callout: none;
+}
+abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, dialog, div, dl, dt, em, embed, fieldset, figcaption, figure, font, form, h1, h2, h3, h4, h5, h6, hgroup, hr, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, meter, nav, object, ol, output, p, pre, progress, q, rp, rt, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video, xmp {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+html, body {
+	height: 100%;
+}
+.markdownWrapper {
+	font-family: "Arial",sans-serif;
+}
+.preview-wrapper .preview.markdown .markdown_slide .markdownWrapper {
+	max-width: calc(-40px + 100%);
+	margin: 0 auto;
+	height: auto;
+	min-height: 100%;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-line-pack: center;
+	align-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-ms-flex-direction: column;
+	flex-direction: column;
+}
+/* @media all and (min-width:700px) */
+.preview-wrapper .preview.markdown .markdown_slide .markdownWrapper {
+	max-width: 80%;
+}
+.markdown_slide {
+	background: #fff;
+	color: #000;
+	font: 18px/1.5 'FrutigerNextW01-Medium',sans-serif;
+	background-size: cover;
+}
+/* @media all and (min-width:400px) */
+.markdown_slide {
+	font-size: 17px;
+}
+/* @media all and (min-width:600px) */
+.markdown_slide {
+	font-size: 18px;
+}
+/* @media all and (min-width:800px) */
+.markdown_slide {
+	font-size: 19px;
+}
+/* @media all and (min-width:1000px) */
+.markdown_slide {
+	font-size: 20px;
+}
+.preview-wrapper .preview.markdown .markdown_slide {
+	height: 100%;
+	width: 100%;
+	cursor: text;
+	overflow-x: hidden;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+.preview-wrapper .preview {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.preview-wrapper .preview.markdown {
+	background-color: white;
+}
+.preview-wrapper {
+	position: relative;
+	height: calc(-60px + 100%);
+	width: 100%;
+}
+.preview-page {
+	width: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	width: 100%;
+	height: auto;
+}
+.window-wrapper .overlay-wrapper .content {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	z-index: 22;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}
+.window-wrapper .overlay-wrapper {
+	visibility: hidden;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	min-width: 320px;
+	overflow: hidden;
+}
+.window-wrapper.modal-up .overlay-wrapper {
+	visibility: visible;
+}
+body {
+	font: 14px 'Arial',sans-serif;
+	background: #fff;
+	color: #000;
+	min-width: 320px;
+}
+.preview-wrapper .preview.markdown .markdown_slide .markdownWrapper .markdownInnerWrapper {
+	padding: 6vw 0;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+}
+h1 {
+	font-size: 2.2em;
+	line-height: 1.4em;
+}
+h2 {
+	font-size: 1.9em;
+	line-height: 1.4em;
+}
+.markdown_slide h1, .markdown_slide h2, .markdown_slide h3, .markdown_slide h4, .markdown_slide h5, .markdown_slide h6 {
+	font-weight: normal;
+	padding-top: 2%;
+	padding-bottom: 2%;
+	line-height: 1.2;
+}
+.markdown_slide h1 {
+	font-size: 3.7vw;
+}
+.markdownInnerWrapper > pre:first-child, .markdownInnerWrapper > ul:first-child, .markdownInnerWrapper > ol:first-child, .markdownInnerWrapper > p:first-child, .markdownInnerWrapper > h1:first-child, .markdownInnerWrapper > h2:first-child, .markdownInnerWrapper > h3:first-child, .markdownInnerWrapper > h4:first-child, .markdownInnerWrapper > h5:first-child, .markdownInnerWrapper > h6:first-child {
+	padding-top: 0px;
+}
+.markdown_slide h2 {
+	font-size: 3.4vw;
+}
+.markdown_slide pre, .markdown_slide blockquote, .markdownInnerWrapper > ul, .markdownInnerWrapper > ol, .markdownInnerWrapper > p, .markdown_slide .center pre, .markdown_slide .center blockquote, .markdownInnerWrapper .center > ul, .markdownInnerWrapper .center > ol, .markdownInnerWrapper .center > p {
+	padding-top: 2%;
+	padding-bottom: 2%;
+	max-width: 38em;
+}
+.markdown_slide li, .markdown_slide button, .markdown_slide label, .markdown_slide p, .markdown_slide ul, .markdown_slide ol, .markdown_slide pre code, .markdown_slide blockquote {
+	font-size: 1.5vw;
+}
+.markdownInnerWrapper > pre:last-child, .markdownInnerWrapper > ul:last-child, .markdownInnerWrapper > ol:last-child, .markdownInnerWrapper > p:last-child, .markdownInnerWrapper > h1:last-child, .markdownInnerWrapper > h2:last-child, .markdownInnerWrapper > h3:last-child, .markdownInnerWrapper > h4:last-child, .markdownInnerWrapper > h5:last-child, .markdownInnerWrapper > h6:last-child {
+	padding-bottom: 0px;
+}
+img {
+	max-width: 100%;
+}
+.markdown_slide img {
+	max-width: 100%;
+	display: block;
+}
+.markdown_slide p > img {
+	padding-top: 1%;
+}

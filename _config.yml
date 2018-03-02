@@ -1,3 +1,4 @@
 theme: jekyll-theme-cayman
 title: Impostor Programmer
 description: Impostor Syndrome as a Programmer, real or ...
+exclude: ["articles"]
