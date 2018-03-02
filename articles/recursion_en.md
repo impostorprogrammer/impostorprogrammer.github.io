@@ -1,21 +1,30 @@
 [//]: # ( spellcheck-language en )
 
 
+[En Español](./recursion_es.html)
 # Recursion
-## To understand recursion, you need to understand recursion until you understand recursion.
+## To understand recursion, understand one bit of recursion then the rest of recursion.
 
 In everyday live we are surrounded by recursion, there are recursive structures every where both man made and in nature, many repetitive tasks are recursive or can be viewed as recursive.
 
-<img src="./Nested_Matryoshka_Dolls.jpg" style="width:60%;min-width:500px;max-width:600px;" alt="Nested Recursive Matryoshka Dolls" title="Traditional Nested Matryoshka Dolls are recursive in structure" >
 
 ##  Traditional nested Matryoshka dolls are recursive in structure
+<img src="./Nested_Matryoshka_Dolls.jpg" style="width:60%;min-width:500px;max-width:600px;" alt="Nested Recursive Matryoshka Dolls" title="Traditional Nested Matryoshka Dolls are recursive in structure" >
 
 
 
+
+## Infinite recursion at play: A picture of a picture of a picture a picture...  
 <img src="https://i.imgur.com/jMLR0.jpg" style="width:60%;min-width:500px;max-width:600px;" alt="Nested Recursive Picture in a Picture in a picture... courtesy of Imgur" title="Nested Recursive Picture in a Picture in a picture... courtesy of Imgur" >
 <br/>Nested recursive picture of a picture of a picture... courtesy of Imgur
 
-## Infinite recursion at play: A picture of a picture of a picture a picture...  
+
+## Better our hands aren´t recursive...  
+<img src="./RecursiveHand.jpg" style="width:60%;min-width:500px;max-width:600px;" alt="Recursive hand from the movie Dr. Strange" title="Recursive hand from the movie Dr. Strange" >
+<br/>Recursive hand from the movie Dr. Strange
+
+
+
 
 # Read a book with 100 pages using a recursive approach
 
@@ -53,11 +62,11 @@ In everyday live we are surrounded by recursion, there are recursive structures 
 
 ### ........ repeat until ..........
 
-**Problem:** Read a book with **n-n** (0) pages 
+**n+1**. **Problem:** Read a book with **n-n** (0) pages 
 <br/> **Solution:** There are no pages unread, so you stop here!
 
 
-# Say out load all the numbers from 1 to 5
+# Say out loud all the numbers from 1 to 5
 1. **Problem:** Say out loud all the numbers from 1 to 5
 <br/> **Solution:** Say out loud number 1, then say out loud the numbers from 2 to 5
 
@@ -73,7 +82,7 @@ In everyday live we are surrounded by recursion, there are recursive structures 
 5. **Problem:** Say out loud all the numbers from 5 to 5
 <br/> **Solution:** Say out loud number 5, then there are no more numbers to say
 
-# Generalized solution: Say out load all the numbers from n to m
+# Generalized solution: Say out loud all the numbers from **n** to **m**
 1. **Problem:** Say out loud all the numbers from **n** to **m**
 <br/> **Solution:** Say out loud number **n**, then say out loud the numbers from **n+1** to **m**
 
@@ -82,12 +91,12 @@ In everyday live we are surrounded by recursion, there are recursive structures 
 
 ### ........ repeat ..........
 
-**Problem:** Say out loud all the numbers from **n+x** to **m**, where **n+x == m**
+**x+1**. **Problem:** Say out loud all the numbers from **n+x** to **m**, where **n+x == m**
 <br/> **Solution:** Say out loud number **n+x**, when **n+x == m** there are no more numbers to say
 
 
 # Now with programming....
-Instead of saying out load the numbers, let print them on the console...
+Instead of saying out loud the numbers, let's print them in the console...
 # Print all the numbers from 1 to 5 on the console
 
 1. **Problem:** Print all the numbers from 1 to 5
@@ -106,7 +115,7 @@ Instead of saying out load the numbers, let print them on the console...
 <br/> **Solution:** Print the number 5, then there are no more numbers to print!
 
 
-# Generalized solution: Print all the numbers from n to m
+# Generalized solution: Print all the numbers from **n** to **m**
 1. **Problem:** Print all the numbers from **n** to **m**
 <br/> **Solution:** Print the number **n**, then print the numbers from **n+1** to **m**
 
@@ -115,9 +124,9 @@ Instead of saying out load the numbers, let print them on the console...
 
 ### ........ repeat ..........
 
-**Problem:** Print all the numbers from **n+x** to **m**, where **n+x == m**
+**x+1**. **Problem:** Print all the numbers from **n+x** to **m**, where **n+x == m**
 <br/> **Solution:** Print the number **n+x**, when **n+x == m** there are no more numbers print!
 
 # With JavaScript code
 
-<img src="./RecursivePrint.png" style="width:60%;min-width:500px;max-width:600px;" alt="Nested Recursive Matryoshka Dolls" title="Traditional Nested Matryoshka Dolls are recursive in structure" >
+<img src="./RecursivePrint.png" style="width:60%;min-width:500px;max-width:600px;" alt="JavaScript recursive print numbers" title="JavaScript recursive print numbers" >
