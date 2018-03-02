@@ -1,3 +1,4 @@
+[//]: # ( spellcheck-language en )
 ## Welcome to the Impostor Programmer
 
 
@@ -9,7 +10,9 @@
 
 ![Image of Impostor Syndrome Feeling](./impostor.png)
 
-Check back here for further ramblings about being an impostor programmer!
+Recursion, how to twist your brain inside out... [a brain exercise to 'get' recursive thinking](./articles/recursion_en.html)
+
+Check back here for further ramblings from the Impostor programmer!
 
 
 
