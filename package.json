@@ -7,11 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "gulp-concat": "^2.6.1",
     "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
     "gulp-footer": "^2.0.1",
     "gulp-header": "^2.0.1",
-    "gulp-markdown-it": "^0.1.1"      
+    "gulp-markdown-it": "^0.1.1",
+    "highlightjs": "^9.10.0"
   },
   "repository": {
     "type": "git",

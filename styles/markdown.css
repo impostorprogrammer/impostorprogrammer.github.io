@@ -170,8 +170,8 @@ blockquote {
 
 code {
 	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
-	font-size: 14px;
-	line-height: 19px;
+	font-size: 18px;
+	line-height: 23px;
 }
 
 body.wordWrap pre {

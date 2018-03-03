@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../styles/markdown.css">
+
+	</head>
+<body>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-58458282-5');
+</script>
+<h1>Introducción a Clases, Herencia y Polimorfismo en JavaScript</h1>
+<p>Muchas veces queremos representar una idea o un concepto en nuestros programas — tal vez un usuario, un archivo, una suscripción, o una lectura de la temperatura. <br/>
+Si puedes pensar en algo como una entidad distinta, es probable que debas definir una clase para representar esa &quot;cosa&quot; en tu programa.</p>
+<h2>La representación de estos conceptos en el código tiene dos partes:</h2>
+<ul>
+<li>Los datos representando el <em>estado</em></li>
+<li>Las funciones representan el <em>comportamiento</em></li>
+</ul>
+<h2>Facilidad para modelar nuestro conceptos y comportamientos</h2>
+<p>Las clases nos dan una sintaxis conveniente para definir el estado y el comportamiento de los objetos que representarán nuestros conceptos.
+<br/></p>
+<h2>Integridad de estado y Inicialización</h2>
+<p>Hacen que nuestro código sea más seguro garantizando que se llamará una función de <em><strong>inicialización</strong></em>, y facilitan la definición de un <strong><em>conjunto fijo de funciones</em></strong> que operan en esos datos y mantienen el <em><strong>estado válido</strong></em>.</p>
+<h3>Mira atentamente ese código, que no usa clases. ¿Cuántos problemas o errores encuentras? ¿Cómo lo arreglarías?</h3>
+<pre><code class="language-javascript"><span class="hljs-comment">// assigna hoy el Octubre 24</span>
+<span class="hljs-keyword">let</span> hoy = {
+    <span class="hljs-attr">dia</span>: <span class="hljs-number">10</span>,
+    <span class="hljs-attr">mes</span>: <span class="hljs-number">24</span>,
+};
+
+<span class="hljs-keyword">let</span> mañana = {
+    <span class="hljs-attr">ano</span>: hoy.ano,
+    <span class="hljs-attr">mes</span>: hoy.mes,
+    <span class="hljs-attr">dia</span>: hoy.dia + <span class="hljs-number">1</span>,
+};
+
+<span class="hljs-keyword">let</span> pasadoMañana = {
+    <span class="hljs-attr">ano</span>: mañana.ano,
+    <span class="hljs-attr">mes</span>: mañana.mes,
+    <span class="hljs-attr">dia</span>: mañana.dia + <span class="hljs-number">1</span> &lt;= <span class="hljs-number">31</span> ? mañana.dia + <span class="hljs-number">1</span> : <span class="hljs-number">1</span>,
+};
+</code></pre>
+<p>El objeto <strong><code>hoy</code></strong> no es valido, no hay un mes 24. También no esta completamente inicializado, falta el <strong><code>año</code></strong>.
+Seria mucho mejor tener una función que inicializa todo correcto y no se puede olvidar. <br/>
+Tambien nota que añadiendo un dia, verificamos si no sobre pasa 31, pero solo en un lugar, no en el objeto <strong><code>mañana</code></strong>.</p>
+<h3>Mucho mejor si interactuamos con estos objetos solo via unos funciones que cada uno mantenga los objetos en un estado valido.</h3>
+<h2>Version mejorado usando clases</h2>
+<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FechaSimple</span> </span>{
+    <span class="hljs-keyword">constructor</span>(dia, mes, ano){
+        <span class="hljs-keyword">this</span>._dia = dia;
+        <span class="hljs-keyword">this</span>._mes = mes;
+        <span class="hljs-keyword">this</span>._ano = ano;
+    }
+    anadirDias(nDias)
+    {
+        <span class="hljs-comment">//incrementar **this** dias con nDias</span>
+    }
+    obtenerDia()
+    {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._dia;
+    }
+}
+
+<span class="hljs-keyword">let</span> hoy = <span class="hljs-keyword">new</span> FechaSimple(<span class="hljs-number">24</span>, <span class="hljs-number">10</span>, <span class="hljs-number">2018</span>); <span class="hljs-comment">//Garantizado ser inicializado correcto </span>
+
+<span class="hljs-comment">//Manipulando solo a traves unos funciones 'autorizados' asegura que el estado se mantiene valido</span>
+hoy.anadirDias(<span class="hljs-number">1</span>);
+
+</code></pre>
+<ul>
+<li>
+<h2>Las funciones que pertenecen a los objetos a menudo se llaman <strong>métodos</strong>.</h2>
+</li>
+<li>
+<h2>Cuado creamos un objeto de una clase, ese objeto es una <strong>instancia</strong> de la clase.</h2>
+</li>
+</ul>
+<h1>Metodo constructor</h1>
+<p>Es un metodo especial, resolve el primer problema inicializando el objeto siempre en la misma manera, y no se puede olvidar.
+Es la unica manera crear un objecto de un clase.</p>
+<h2>Proteger los datos del objeto</h2>
+</body></html>
