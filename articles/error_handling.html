@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../styles/markdown.css">
+
+	</head>
+<body>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-58458282-5');
+</script>
+<h1>Manejo de errores y excepciones</h1>
+<h2>?Que hacemos cuando nuestro código, o nuestro funciones recibe datos que no tiene sentido, cuando el resultado de un función no tiene sentido, cuando sabemos que algo esta mal, y no podemos seguir en el código?</h2>
+<h2>Estrategias</h2>
+<p>La estrategia o manera de señalar errores o manejar situaciones fuera de lo normal depende casi siempre de la situación. <br/></p>
+<h3>Ejemplos:</h3>
+<ul>
+<li>Si el llamador de una función puede recuperarse de un error o no.</li>
+<li>Si hay una manera comunicar a el llamador que ha ocurrido un error.</li>
+<li>Si es una situación que sabemos que suele pasar, pero hay que manejarlo.</li>
+<li>Si es algo inesperado, algo que no sabemos como tratar, ni tampoco que hacer.</li>
+</ul>
+<h2>Retornando valores 'especiales'</h2>
+<p>Una función que debe devolver un número, puede indicar un error o situación inesperada retornando NaN</p>
+<pre><code class="language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sumNtoM</span>(<span class="hljs-params">n, m</span>) </span>{
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> n != <span class="hljs-string">'number'</span> || <span class="hljs-keyword">typeof</span> m != <span class="hljs-string">'number'</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">NaN</span>;
+    <span class="hljs-keyword">if</span> (n == m)
+    {
+        <span class="hljs-keyword">return</span> m; <span class="hljs-comment">//No hay nada mas que sumar, la suma de n a n = n</span>
+    }
+    <span class="hljs-keyword">else</span>
+    {
+        <span class="hljs-comment">//suma n y la suma del resto de los numero n+1 hasta m</span>
+        <span class="hljs-keyword">return</span> n + sumNtoM(n + <span class="hljs-number">1</span>, m);
+    }
+}
+</code></pre>
+<p>Tal comportamiento estaría en línea con cómo las funciones del javascript mismo manejan resultados que no son números.
+Arriba retornamos <span class="hljs-literal">NaN</span> si recibimos datos inesperados.</p>
+<p>Nota que en ese ejemplo comprobamos si los argumentos son del tipo esperados. Esa manera de 'proteger' o verificar es muy común.</p>
+<p>¿Pero que pasa si el función ya puede retornar todo tipos de valores cuando funciona normalmente?<br/> Como por ejemplo:</p>
+<pre><code class="language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ultimoElemento</span>(<span class="hljs-params">array</span>) </span>{
+    <span class="hljs-keyword">if</span> (array.length &gt; <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">return</span> array[array.length - <span class="hljs-number">1</span>];
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
+}
+
+<span class="hljs-built_in">console</span>.log(ultimoElemento([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-literal">undefined</span>])); 
+</code></pre>
+<p>En ese caso, no se puede distinguir el resultado si el ultimo elemento era <span class="hljs-literal">undefined</span> o si no es un array, o el array es vacío, o el parámetro ni siquiera es un objeto...</p>
+<p>Seguramente has visto fallos en tus intentos de programar, no funciona y en un punto to depurador se reclama o sale un error <em>raro</em> como algo así,</p>
+<img src="./TypeException.png" alt="Exception has occurred: TypeError: Cannot read property 'length' of undefined" title="Exception has occurred: TypeError: Cannot read property 'length' of undefined">
+<p>Esto es justo lo que pasaría, si llamas el función <span class="hljs-title">ultimoElemento</span> sin parámetro. Se ha producido una excepción. Muchas veces nos ayuda a encontrar fallos en el código, y eso es bueno. Pero no seria bueno si nosotros también podría causar un &quot;fallo&quot; así en situaciones excepcionales, cuando no hay como seguir. O puede que hay un fallo en el código en otro lugar, y queremos saberlo. Bueno, si los excepciones se pueden lanzar desde código normal también, hasta definir nuestro propio excepciones.</p>
+<h2>Excepciones</h2>
+<p>Cuando nos encuentra en una situación excepcional, cuando no sabemos como recuperar, ni tampoco que hacer, podemos lanzar una excepción.</p>
+<h3>Para lanzarlo usamos <span class="hljs-keyword">throw</span></h3>
+<pre><code class="language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ultimoElemento</span>(<span class="hljs-params">array</span>) </span>{
+    <span class="hljs-keyword">if</span> (array.length &gt; <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">return</span> array[array.length - <span class="hljs-number">1</span>];
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">throw</span> <span class="hljs-string">"No se puede sacar el ultimo elemento de un array vacio"</span>;
+}
+
+<span class="hljs-built_in">console</span>.log(ultimoElemento([])); 
+</code></pre>
+<h2>Excepciones esperados...</h2>
+<p>Hay situaciones cuando una función, o una llamado, tal vez fuera de nuestro control lanza una excepción, pero sabemos como recuperar y intentar otra vez, o llamar otra funcionalidad.</p>
+<p>Pero como hemos visto, la programa entera falla, y termina después de una excepción fue lanzada.
+Así, hace falta una manera de 'coger' la excepción lanzado sin terminar la programa.<br/>
+Para eso en javascript tenemos la combinación <span class="hljs-keyword">try/catch</span>.</p>
+<h2><span class="hljs-keyword">try/catch</span></h2>
+<h3>En un bloque <span class="hljs-keyword">try</span> podemos intenta algo que puede lanzar una excepción.</h3>
+<h3>Si una excepción fue lanzado dentro del bloque <span class="hljs-keyword">try</span>, llegamos en el bloque <span class="hljs-keyword">catch</span></h3>
+<pre><code class="language-javascript">
+<span class="hljs-keyword">try</span> {
+    <span class="hljs-comment">//Intenta algo que puede lanzar una excepción.</span>
+}
+<span class="hljs-keyword">catch</span>(error){
+    <span class="hljs-comment">//Si una excepcione fue lanzado dentro del bloque try, llegamos aqui</span>
+}
+
+
+</code></pre>
+</body></html>

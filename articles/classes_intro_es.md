@@ -11,6 +11,8 @@
 
 # Introducción a Clases, Herencia y Polimorfismo en JavaScript
 
+# Clases
+
 Muchas veces queremos representar una idea o un concepto en nuestros programas &mdash; tal vez un usuario, un archivo, una suscripción, o una lectura de la temperatura. <br/>
 Si puedes pensar en algo como una entidad distinta, es probable que debas definir una clase para representar esa "cosa" en tu programa.
 
@@ -25,6 +27,7 @@ Las clases nos dan una sintaxis conveniente para definir el estado y el comporta
 Hacen que nuestro código sea más seguro garantizando que se llamará una función de _**inicialización**_, y facilitan la definición de un **_conjunto fijo de funciones_** que operan en esos datos y mantienen el _**estado válido**_. 
 
 ### Mira atentamente ese código, que no usa clases. ¿Cuántos problemas o errores encuentras? ¿Cómo lo arreglarías?
+
 ```javascript
 // assigna hoy el Octubre 24
 let hoy = {
@@ -32,22 +35,22 @@ let hoy = {
     mes: 24,
 };
 
-let mañana = {
+let manana = {
     ano: hoy.ano,
     mes: hoy.mes,
     dia: hoy.dia + 1,
 };
 
-let pasadoMañana = {
-    ano: mañana.ano,
-    mes: mañana.mes,
-    dia: mañana.dia + 1 <= 31 ? mañana.dia + 1 : 1,
+let pasadoManana = {
+    ano: manana.ano,
+    mes: manana.mes,
+    dia: manana.dia + 1 <= 31 ? manana.dia + 1 : 1,
 };
 ```
 
-El objeto **`hoy`** no es valido, no hay un mes 24. También no esta completamente inicializado, falta el **`año`**.
+El objeto **hoy** no es valido, no hay un mes 24. También no esta completamente inicializado, falta el <span class="hljs-attr">**ano**</span>.
 Seria mucho mejor tener una función que inicializa todo correcto y no se puede olvidar. <br/> 
-Tambien nota que añadiendo un dia, verificamos si no sobre pasa 31, pero solo en un lugar, no en el objeto **`mañana`**.
+Tambien nota que añadiendo un dia, verificamos si no sobre pasa 31, pero solo en un lugar, no en el objeto **manana**.
 
 ### Mucho mejor si interactuamos con estos objetos solo via unos funciones que cada uno mantenga los objetos en un estado valido.
 
@@ -62,7 +65,7 @@ class FechaSimple {
     }
     anadirDias(nDias)
     {
-        //incrementar **this** dias con nDias
+        this._dia += nDias; 
     }
     obtenerDia()
     {
@@ -74,6 +77,7 @@ let hoy = new FechaSimple(24, 10, 2018); //Garantizado ser inicializado correcto
 
 //Manipulando solo a traves unos funciones 'autorizados' asegura que el estado se mantiene valido
 hoy.anadirDias(1);
+console.log(hoy.obtenerDias());
 
 ```
 
@@ -84,5 +88,218 @@ hoy.anadirDias(1);
 Es un metodo especial, resolve el primer problema inicializando el objeto siempre en la misma manera, y no se puede olvidar.
 Es la unica manera crear un objecto de un clase.
 
-## Proteger los datos del objeto
+```javascript
+let hoy = new FechaSimple(24, 10, 2018); //Llama el constructor del FechaSimple con los argumentos
+```
 
+## Validez del los datos y el estado del objeto
+Intentamos diseñar nuestros clases en una manera que garantiza que su estado esta valida. Usando un `constructor` que sabes iniciar solo con valores validos. Creando métodos que solo cambian valores en una manera que deja los valores del objeto siempre en un estado valido.
+
+Obviamente, solo el hecho que tenemos un `constructor` y métodos no garantiza el validez. _**PERO**_, si hemos equivocado hay un lugar concreto y facil encontrar donde corregir los errores. 
+
+## Proteger los datos del objeto
+Para asegurarnos que nada o nadie altera los datos del objeto fuera de los métodos _oficiales_ seria bueno si podríamos proteger los datos o propiedades de alteración directa, fuer de los métodos diseñado por tal fin.
+
+En `JavaScript` y los clases no hay desafortunadamente ningún mecanismo inherente o nativo para hacer esto. Tenemos que hacerlo usando convenciones, y nuestra propia disciplina para cumplirlo. En otros lenguajes de programación en muchas ocasiones hay palabra claves para proteger los miembros (propiedades) del los clases y objetos.
+
+Si prestaba atención en el ejemplo arriba del clase <span class="hljs-title">FechaSimple</span> los propiedades tiene un prefijo **'`_`'** como **`_dia`**  etc. Así, podemos usar la convención que propiedades con ese prefijo son _**privados**_ y no se debe usar no tocar fuera del clase que los defina.
+
+
+## Propiedades en clases
+
+
+En las declaraciones de clases, no se declara simple propiedades como en los objetos, por ejemplo <span class="hljs-attr">dia</span> y <span class="hljs-attr">mes</span> abajo.
+
+```javascript
+let o = fecha {
+    dia: 3,
+    mes: 12
+}
+```
+Para añadir propiedades en los clases, se crea o añade los propiedades en el <span class="hljs-keyword">constructor</span> como:
+
+```javascript
+class Fecha {
+    constructor(dia, mes)
+    {
+        this.dia = dia;
+        this.mes = mes;
+    }
+}
+```
+
+Esto crea dos propiedades en los objetos instanciado del clases <span class="hljs-title">Fecha</span> y se puede acceder y usar como de siempre:
+```javascript
+let hoy = new Fecha(4, 3); // 4 de marzo
+
+console.log(hoy.dia); // 4
+
+```
+
+## Métodos **`get`** y **`set`** (getter y setter)
+
+Pero, si creamos los propiedades como arriba, es facil acceder y alterarlo sin darse cuenta, usando la convención de _ hacemos la misma pero 'esconderlos' con la convención. 
+Ya solo falta una manera de acceder y alerar estos datos en una manera segura y controlada. Por eso en los clases tenemo los metodos `get` y `set`.
+
+### El método **`get`**
+El método `get` es una función que se comporta como una propiedad, para llamarle no hace falta los brackets o paréntesis **()**, y retorna un valor. 
+
+```javascript
+class Fecha {
+...
+    get mes()
+    {
+        return this._mes;
+    }
+...
+}
+let f = new Fecha(...);
+console.log(f.mes);
+
+```
+
+### El método **`set`**
+El método  `set` es una función que se comporta como una propiedad, se recibe un parametro representando el valor que queremos asignar, pero para llamarle no hace falta los brackets/paréntesis (), solo el sintaxis para asignar valor con **`=`** . 
+
+```javascript
+class Fecha {
+...
+    set dia(dia){
+    {
+        return this._dia = dia;
+    }
+...
+}
+let f = new Fecha(...);
+f.dia = 23;
+
+```
+
+
+
+## Ejemplo: Clase con métodos **`get`** y **`set`**
+```javascript
+class Fecha {
+    constructor(dia, mes)
+    {
+        this._dia = dia;
+        this._mes = mes;
+    }
+    get mes()
+    {
+        return this._mes;
+    }
+    get dia(){
+        return this._dia;
+    }
+    set dia(dia){
+        let diferencia = dia;
+        while(diferencia>31) // Mientras nos queda mas que 31, incrementamos el mes
+        {
+            diferencia = diferencia - 31;
+            this._mes++;
+        }
+        this._dia = diferencia; // Lo que queda es el dia en el mes actual
+    }
+}
+```
+
+## El uso de estas propiedades es igual qua cualquiera normal 
+
+```javascript
+let f = new Fecha(1,1);
+f.dia = 64;
+console.log(f.dia, f.mes); // 2 3
+```
+
+## Grandes ventajas con **`get`** y **`set`**
+
+En los dos casos, con el get y el set podemos _**interceptar el acceso**_, igual leyendo el valor y asignando un valor. Así se pueden añadir logico, o cálculos etc. al los propiedades cuando están leídos o asignados.
+
+También con **`get`** podemos hacer un _propiedad de solo lectura_, simplemente no implementamos ninguno método **`set`** con el mismo nombre. Así solo hay _una funcion para leer_ el valor, y ninguna para asignar un valor.
+
+```javascript
+class Lectura
+{
+    constructor(nombre)
+    {
+        this._nombre = nombre;
+    }
+    get Nombre() {
+        return this._nombre;
+    }
+}
+
+let obj = new Lectura("Solo Lectura");
+console.log(obj.Nombre);
+obj.Nombre = "No funciona!";
+
+```
+<img src="./OnlyGetter.png" alt="Exception has occurred: TypeError Cannot set property Nombre of #<Lectura> which has only a getter" title="Exception has occurred: TypeError Cannot set property Nombre of #<Lectura> which has only a getter">
+
+## Propiedades calculadas
+Con **`get`** y **`set`** puedes tener propiedades _virtuales_, es decir actúan como propiedades pero no hay una sola pieza de datos que les corresponda. También se pueden considerar propiedades calculadas.
+
+## **`get`** calculado de otros datos
+
+### **nombre**
+```javascript
+class Persona {
+    constructor(nombre_de_pila, apellidos)
+    {
+        this._nombre_de_pila = nombre_de_pila;
+        this._apellidos = apellidos;
+    }
+    get nombre()
+    {
+        return this._nombre_de_pila + " " + this._apellidos;
+    }
+}
+let p = new Persona("Jonas", "Brandel");
+console.log(p.nombre);
+```
+### **fecha**
+```javascript
+class Fecha {
+    constructor(dia, mes, ano)
+    {
+        this._dia = dia;
+        this._mes = mes;
+        this._ano = ano;
+    }
+    get fecha(){
+        return this._dia + "/" + this._mes + "/" + this._ano;
+    }
+}
+```
+
+## Propiedad **`set`** parseado (deconstruido) en sus partes
+
+```javascript
+class Fecha {
+    constructor(dia, mes, ano)
+    {
+        this._dia = dia;
+        this._mes = mes;
+        this._ano = ano;
+    }
+    get ano()
+    {
+        return this._ano;
+    }
+    get fecha(){
+        return this._dia + "/" + this._mes + "/" + this._ano;
+    }
+    set fecha(fechaCompuesta)
+    {
+        let partes = fechaCompuesta.split("/"); //divide un string 
+        this._dia = partes[0];
+        this._mes = partes[1];
+        this._ano = partes[2];
+    }
+}
+
+let f = new Fecha();
+f.fecha = "2/1/1968";
+console.log(f.ano); //1968
+```
