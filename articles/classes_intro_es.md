@@ -48,13 +48,13 @@ let pasadoManana = {
 };
 ```
 
-El objeto **hoy** no es valido, no hay un mes 24. Tampoco esta completamente inicializado, falta el <span class="hljs-attr">**ano**</span>.
+El objeto **hoy** no es valido, no hay un mes 24. Tampoco esta completamente inicializado, falta el <span class="hljs-attr">**año**</span>.
 Seria mucho mejor tener una función que inicializa todo correcto y que no se puede olvidar. <br/> 
-Tambien nota que añadiendo un dia, verificamos si no sobre pasa 31, pero solo en un lugar, no en el objeto **manana**.
+También nota que añadiendo un dia, verificamos si no sobrepasa 31, pero solo en un lugar, no en el objeto **manana**.
 
 ### Mucho mejor si interactuamos con estos objetos solo via unos funciones que cada uno mantenga los objetos en un estado valido.
 
-## Version mejorado usando clases
+## Versión mejorado usando clases
 
 ```javascript
 class FechaSimple {
@@ -65,7 +65,7 @@ class FechaSimple {
     }
     anadirDias(nDias)
     {
-        this._dia += nDias; 
+        //Aumentar los dias con nDias y validar aqui
     }
     obtenerDia()
     {
