@@ -52,7 +52,7 @@ El objeto **hoy** no es valido, no hay un mes 24. Tampoco esta completamente ini
 Seria mucho mejor tener una función que inicializa todo correcto y que no se puede olvidar. <br/> 
 También nota que añadiendo un dia, verificamos si no sobrepasa 31, pero solo en un lugar, no en el objeto **manana**.
 
-### Mucho mejor si interactuamos con estos objetos solo via unos funciones que cada uno mantenga los objetos en un estado valido.
+### Mucho mejor si interactuamos con estos objetos solo vía unos funciones que cada uno mantenga los objetos en un estado valido.
 
 ## Versión mejorado usando clases
 
@@ -82,10 +82,10 @@ console.log(hoy.obtenerDias());
 ```
 
 * ## Las funciones que pertenecen a los objetos a menudo se llaman **métodos**.
-* ## Cuado creamos un objeto de una clase, ese objeto es una **instancia** de la clase. 
+* ## Cuando creamos un objeto de una clase, ese objeto es una **instancia** de la clase. 
 
-# Metodo constructor
-Es un metodo especial, resolve el primer problema inicializando el objeto siempre en la misma manera, y no se puede olvidar.
+# Método constructor
+Es un método especial, que resolve el primer problema inicializando el objeto siempre en la misma manera, y no se puede olvidar.
 Es la unica manera crear un objecto de un clase.
 
 ```javascript

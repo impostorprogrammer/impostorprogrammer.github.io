@@ -52,7 +52,7 @@ Si puedes pensar en algo como una entidad distinta, es probable que debas defini
 <p>El objeto <strong>hoy</strong> no es valido, no hay un mes 24. Tampoco esta completamente inicializado, falta el <span class="hljs-attr"><strong>año</strong></span>.
 Seria mucho mejor tener una función que inicializa todo correcto y que no se puede olvidar. <br/>
 También nota que añadiendo un dia, verificamos si no sobrepasa 31, pero solo en un lugar, no en el objeto <strong>manana</strong>.</p>
-<h3>Mucho mejor si interactuamos con estos objetos solo via unos funciones que cada uno mantenga los objetos en un estado valido.</h3>
+<h3>Mucho mejor si interactuamos con estos objetos solo vía unos funciones que cada uno mantenga los objetos en un estado valido.</h3>
 <h2>Versión mejorado usando clases</h2>
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FechaSimple</span> </span>{
     <span class="hljs-keyword">constructor</span>(dia, mes, ano){
@@ -82,11 +82,11 @@ hoy.anadirDias(<span class="hljs-number">1</span>);
 <h2>Las funciones que pertenecen a los objetos a menudo se llaman <strong>métodos</strong>.</h2>
 </li>
 <li>
-<h2>Cuado creamos un objeto de una clase, ese objeto es una <strong>instancia</strong> de la clase.</h2>
+<h2>Cuando creamos un objeto de una clase, ese objeto es una <strong>instancia</strong> de la clase.</h2>
 </li>
 </ul>
-<h1>Metodo constructor</h1>
-<p>Es un metodo especial, resolve el primer problema inicializando el objeto siempre en la misma manera, y no se puede olvidar.
+<h1>Método constructor</h1>
+<p>Es un método especial, que resolve el primer problema inicializando el objeto siempre en la misma manera, y no se puede olvidar.
 Es la unica manera crear un objecto de un clase.</p>
 <pre><code class="language-javascript"><span class="hljs-keyword">let</span> hoy = <span class="hljs-keyword">new</span> FechaSimple(<span class="hljs-number">24</span>, <span class="hljs-number">10</span>, <span class="hljs-number">2018</span>); <span class="hljs-comment">//Llama el constructor del FechaSimple con los argumentos</span>
 </code></pre>
