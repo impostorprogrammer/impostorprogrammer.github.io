@@ -49,11 +49,11 @@ Si puedes pensar en algo como una entidad distinta, es probable que debas defini
     <span class="hljs-attr">dia</span>: manana.dia + <span class="hljs-number">1</span> &lt;= <span class="hljs-number">31</span> ? manana.dia + <span class="hljs-number">1</span> : <span class="hljs-number">1</span>,
 };
 </code></pre>
-<p>El objeto <strong>hoy</strong> no es valido, no hay un mes 24. También no esta completamente inicializado, falta el <span class="hljs-attr"><strong>ano</strong></span>.
-Seria mucho mejor tener una función que inicializa todo correcto y no se puede olvidar. <br/>
-Tambien nota que añadiendo un dia, verificamos si no sobre pasa 31, pero solo en un lugar, no en el objeto <strong>manana</strong>.</p>
+<p>El objeto <strong>hoy</strong> no es valido, no hay un mes 24. Tampoco esta completamente inicializado, falta el <span class="hljs-attr"><strong>año</strong></span>.
+Seria mucho mejor tener una función que inicializa todo correcto y que no se puede olvidar. <br/>
+También nota que añadiendo un dia, verificamos si no sobrepasa 31, pero solo en un lugar, no en el objeto <strong>manana</strong>.</p>
 <h3>Mucho mejor si interactuamos con estos objetos solo via unos funciones que cada uno mantenga los objetos en un estado valido.</h3>
-<h2>Version mejorado usando clases</h2>
+<h2>Versión mejorado usando clases</h2>
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FechaSimple</span> </span>{
     <span class="hljs-keyword">constructor</span>(dia, mes, ano){
         <span class="hljs-keyword">this</span>._dia = dia;
@@ -62,7 +62,7 @@ Tambien nota que añadiendo un dia, verificamos si no sobre pasa 31, pero solo e
     }
     anadirDias(nDias)
     {
-        <span class="hljs-keyword">this</span>._dia += nDias; 
+        <span class="hljs-comment">//Aumentar los dias con nDias y validar aqui</span>
     }
     obtenerDia()
     {
