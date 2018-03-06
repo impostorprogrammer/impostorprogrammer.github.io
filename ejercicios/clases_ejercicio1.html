@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../styles/markdown.css">
+
+	</head>
+<body>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-58458282-5');
+</script>
+<h1>Clases Ejercicio 1</h1>
+<h2>Diseña una clase que representa un Libro</h2>
+<p>Libros tiene Títulos, la clase Libro tiene una propiedad Titulo, solo lectura. El titulo se guarda en el constructor.</p>
+<h2>Diseña otra clase que representa una Estantería</h2>
+<p>Cada estantería tiene un propiedad lectura solo, libros que retorna la colección de libros guardado.</p>
+<p>Los Libros se pueden guardar en una Estantería. Cada libro guardado, tiene una propiedad Estantería que contiene una referencia al Estantería donde esta guardado.</p>
+<h2>Los dos clases Libro y Estanteria se pueden usar en esa manera:</h2>
+<pre><code class="language-javascript"><span class="hljs-keyword">let</span> libro1 = <span class="hljs-keyword">new</span> Libro(<span class="hljs-string">"Libro1"</span>);
+<span class="hljs-keyword">let</span> libro2 = <span class="hljs-keyword">new</span> Libro(<span class="hljs-string">"Libro2"</span>);
+
+<span class="hljs-keyword">let</span> estanteria1 = <span class="hljs-keyword">new</span> Estanteria(<span class="hljs-string">"e1"</span>);
+
+libro1.guardameEn(estanteria1);
+libro2.guardameEn(estanteria1);
+<span class="hljs-built_in">console</span>.log(libro1.estanteria.nombre); <span class="hljs-comment">// e1</span>
+<span class="hljs-built_in">console</span>.log(estanteria1.libros.length); <span class="hljs-comment">// 2</span>
+<span class="hljs-built_in">console</span>.log(estanteria1.libros[<span class="hljs-number">0</span>].titulo); <span class="hljs-comment">// Libro1</span>
+
+</code></pre>
+<h1>Solucion:</h1>
+<pre><code class="language-javascript">
+
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Libro</span> </span>{
+    <span class="hljs-keyword">constructor</span>(titulo) {
+        <span class="hljs-keyword">this</span>._titulo = titulo;
+    }
+
+    get titulo() {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._titulo;
+    }
+    get estanteria() {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._estanteria;
+    }
+    guardameEn(estanteria) {
+        <span class="hljs-keyword">this</span>._estanteria = estanteria;
+        <span class="hljs-keyword">this</span>._estanteria.libros.push(<span class="hljs-keyword">this</span>);
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Estanteria</span> </span>{
+    <span class="hljs-keyword">constructor</span>(nombre)
+    {
+        <span class="hljs-keyword">this</span>._nombre = nombre;
+        <span class="hljs-keyword">this</span>._libros = [];
+    }
+    get nombre(){
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._nombre;
+    }
+    get libros()
+    {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._libros;
+    }
+}
+
+<span class="hljs-keyword">let</span> libro1 = <span class="hljs-keyword">new</span> Libro(<span class="hljs-string">"Libro1"</span>);
+<span class="hljs-keyword">let</span> libro2 = <span class="hljs-keyword">new</span> Libro(<span class="hljs-string">"Libro2"</span>);
+
+<span class="hljs-keyword">let</span> estanteria1 = <span class="hljs-keyword">new</span> Estanteria(<span class="hljs-string">"e1"</span>);
+
+libro1.guardameEn(estanteria1);
+libro2.guardameEn(estanteria1);
+<span class="hljs-built_in">console</span>.log(libro1.estanteria.nombre); <span class="hljs-comment">// e1</span>
+<span class="hljs-built_in">console</span>.log(estanteria1.libros.length); <span class="hljs-comment">// 2</span>
+<span class="hljs-built_in">console</span>.log(estanteria1.libros[<span class="hljs-number">0</span>].titulo); <span class="hljs-comment">// Libro1</span>
+</code></pre>
+</body></html>

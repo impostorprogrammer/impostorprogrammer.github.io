@@ -30,6 +30,22 @@ Si puedes pensar en algo como una entidad distinta, es probable que debas defini
 <br/></p>
 <h2>Integridad de estado y Inicialización</h2>
 <p>Hacen que nuestro código sea más seguro garantizando que se llamará una función de <em><strong>inicialización</strong></em>, y facilitan la definición de un <strong><em>conjunto fijo de funciones</em></strong> que operan en esos datos y mantienen el <em><strong>estado válido</strong></em>.</p>
+<h2>Primera Clase</h2>
+<pre><code class="language-javascript">
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FirstClass</span> </span>{
+
+}
+
+<span class="hljs-keyword">let</span> fc1 = <span class="hljs-keyword">new</span> FirstClass();
+<span class="hljs-keyword">let</span> fc2 = <span class="hljs-keyword">new</span> FirstClass();
+<span class="hljs-built_in">console</span>.log(fc1 <span class="hljs-keyword">instanceof</span> FirstClass); <span class="hljs-comment">//instanceof -&gt; ¿es esto una instancia de aquel?</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">typeof</span> fc1); <span class="hljs-comment">// 'object'</span>
+<span class="hljs-built_in">console</span>.log(fc1 <span class="hljs-keyword">instanceof</span> <span class="hljs-built_in">Date</span>);
+<span class="hljs-built_in">console</span>.log(fc1 == fc2);
+
+</code></pre>
+<img src="./FirstClassDebugger.png" alt="Simple clase en el depurador" title="Simple clase en el depurador-----">
+<h2>Objetos 'clásico'...</h2>
 <h3>Mira atentamente ese código, que no usa clases. ¿Cuántos problemas o errores encuentras? ¿Cómo lo arreglarías?</h3>
 <pre><code class="language-javascript"><span class="hljs-comment">// assigna hoy el Octubre 24</span>
 <span class="hljs-keyword">let</span> hoy = {
@@ -86,23 +102,22 @@ hoy.anadirDias(<span class="hljs-number">1</span>);
 </li>
 </ul>
 <h1>Método constructor</h1>
-<p>Es un método especial, que resolve el primer problema inicializando el objeto siempre en la misma manera, y no se puede olvidar.
-Es la unica manera crear un objecto de un clase.</p>
+<p>Es un método especial, que resuelve el primer problema inicializando el objeto siempre en la misma manera, y no se puede olvidar. Es la única manera crear un objeto de una clase.</p>
 <pre><code class="language-javascript"><span class="hljs-keyword">let</span> hoy = <span class="hljs-keyword">new</span> FechaSimple(<span class="hljs-number">24</span>, <span class="hljs-number">10</span>, <span class="hljs-number">2018</span>); <span class="hljs-comment">//Llama el constructor del FechaSimple con los argumentos</span>
 </code></pre>
 <h2>Validez del los datos y el estado del objeto</h2>
 <p>Intentamos diseñar nuestros clases en una manera que garantiza que su estado esta valida. Usando un <code>constructor</code> que sabes iniciar solo con valores validos. Creando métodos que solo cambian valores en una manera que deja los valores del objeto siempre en un estado valido.</p>
-<p>Obviamente, solo el hecho que tenemos un <code>constructor</code> y métodos no garantiza el validez. <em><strong>PERO</strong></em>, si hemos equivocado hay un lugar concreto y facil encontrar donde corregir los errores.</p>
+<p>Obviamente, solo el hecho que tenemos un <code>constructor</code> y métodos no garantiza el validez. <em><strong>PERO</strong></em>, si hemos equivocado hay un lugar concreto y fácil encontrar donde corregir los errores.</p>
 <h2>Proteger los datos del objeto</h2>
 <p>Para asegurarnos que nada o nadie altera los datos del objeto fuera de los métodos <em>oficiales</em> seria bueno si podríamos proteger los datos o propiedades de alteración directa, fuer de los métodos diseñado por tal fin.</p>
 <p>En <code>JavaScript</code> y los clases no hay desafortunadamente ningún mecanismo inherente o nativo para hacer esto. Tenemos que hacerlo usando convenciones, y nuestra propia disciplina para cumplirlo. En otros lenguajes de programación en muchas ocasiones hay palabra claves para proteger los miembros (propiedades) del los clases y objetos.</p>
-<p>Si prestaba atención en el ejemplo arriba del clase <span class="hljs-title">FechaSimple</span> los propiedades tiene un prefijo <strong>'<code>_</code>'</strong> como <strong><code>_dia</code></strong>  etc. Así, podemos usar la convención que propiedades con ese prefijo son <em><strong>privados</strong></em> y no se debe usar no tocar fuera del clase que los defina.</p>
+<p>Si prestaba atención en el ejemplo arriba del clase <span class="hljs-title">FechaSimple</span> los propiedades tiene un prefijo <strong>'<code>_</code>'</strong> como <strong><code>_dia</code></strong>  etc. Así, podemos usar la convención que propiedades con ese prefijo son <em><strong>privados</strong></em> y no se debe usar n tocar fuera del clase que los defina.</p>
 <h2>Propiedades en clases</h2>
 <p>En las declaraciones de clases, no se declara simple propiedades como en los objetos, por ejemplo <span class="hljs-attr">dia</span> y <span class="hljs-attr">mes</span> abajo.</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">let</span> o = fecha {
+<pre><code class="language-javascript"><span class="hljs-keyword">let</span> fecha = {
     <span class="hljs-attr">dia</span>: <span class="hljs-number">3</span>,
     <span class="hljs-attr">mes</span>: <span class="hljs-number">12</span>
-}
+};
 </code></pre>
 <p>Para añadir propiedades en los clases, se crea o añade los propiedades en el <span class="hljs-keyword">constructor</span> como:</p>
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Fecha</span> </span>{
@@ -119,9 +134,14 @@ Es la unica manera crear un objecto de un clase.</p>
 <span class="hljs-built_in">console</span>.log(hoy.dia); <span class="hljs-comment">// 4</span>
 
 </code></pre>
+<h2>Similar como añadimos propiedades dinámicamente en JavaScript</h2>
+<pre><code class="language-javascript"><span class="hljs-keyword">let</span> fecha = {};
+fecha.dia = <span class="hljs-number">3</span>;
+fecha.mes = <span class="hljs-number">12</span>;
+</code></pre>
 <h2>Métodos <strong><code>get</code></strong> y <strong><code>set</code></strong> (getter y setter)</h2>
 <p>Pero, si creamos los propiedades como arriba, es facil acceder y alterarlo sin darse cuenta, usando la convención de _ hacemos la misma pero 'esconderlos' con la convención.
-Ya solo falta una manera de acceder y alerar estos datos en una manera segura y controlada. Por eso en los clases tenemo los metodos <code>get</code> y <code>set</code>.</p>
+Ya solo falta una manera de acceder y alterar estos datos en una manera segura y controlada. Por eso en los clases tenemo los metodos <code>get</code> y <code>set</code>.</p>
 <h3>El método <strong><code>get</code></strong></h3>
 <p>El método <code>get</code> es una función que se comporta como una propiedad, para llamarle no hace falta los brackets o paréntesis <strong>()</strong>, y retorna un valor.</p>
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Fecha</span> </span>{
@@ -154,7 +174,7 @@ f.dia = <span class="hljs-number">23</span>;
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Fecha</span> </span>{
     <span class="hljs-keyword">constructor</span>(dia, mes)
     {
-        <span class="hljs-keyword">this</span>._dia = dia;
+        <span class="hljs-keyword">this</span>.dia = dia;
         <span class="hljs-keyword">this</span>._mes = mes;
     }
     get mes()
@@ -175,6 +195,7 @@ f.dia = <span class="hljs-number">23</span>;
     }
 }
 </code></pre>
+<p>*Hay una problema con esa clase, intenta averiguarlo...</p>
 <h2>El uso de estas propiedades es igual qua cualquiera normal</h2>
 <pre><code class="language-javascript"><span class="hljs-keyword">let</span> f = <span class="hljs-keyword">new</span> Fecha(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>);
 f.dia = <span class="hljs-number">64</span>;
@@ -183,7 +204,7 @@ f.dia = <span class="hljs-number">64</span>;
 <h2>Grandes ventajas con <strong><code>get</code></strong> y <strong><code>set</code></strong></h2>
 <p>En los dos casos, con el get y el set podemos <em><strong>interceptar el acceso</strong></em>, igual leyendo el valor y asignando un valor. Así se pueden añadir logico, o cálculos etc. al los propiedades cuando están leídos o asignados.</p>
 <p>También con <strong><code>get</code></strong> podemos hacer un <em>propiedad de solo lectura</em>, simplemente no implementamos ninguno método <strong><code>set</code></strong> con el mismo nombre. Así solo hay <em>una funcion para leer</em> el valor, y ninguna para asignar un valor.</p>
-<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Lectura</span>
+<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SoloLectura</span>
 </span>{
     <span class="hljs-keyword">constructor</span>(nombre)
     {
@@ -194,7 +215,7 @@ f.dia = <span class="hljs-number">64</span>;
     }
 }
 
-<span class="hljs-keyword">let</span> obj = <span class="hljs-keyword">new</span> Lectura(<span class="hljs-string">"Solo Lectura"</span>);
+<span class="hljs-keyword">let</span> obj = <span class="hljs-keyword">new</span> SoloLectura(<span class="hljs-string">"Solo Lectura"</span>);
 <span class="hljs-built_in">console</span>.log(obj.Nombre);
 obj.Nombre = <span class="hljs-string">"No funciona!"</span>;
 
@@ -232,6 +253,18 @@ obj.Nombre = <span class="hljs-string">"No funciona!"</span>;
 }
 </code></pre>
 <h2>Propiedad <strong><code>set</code></strong> parseado (deconstruido) en sus partes</h2>
+<p>Hay situaciones cuando hay varias maneras expresar un valor, puede que es una manera conjunta, como por ejemplo una fecha como &quot;2 de enero de 1968&quot;, o &quot;2/1/1968&quot; etc. pero en nuestras clases guardamos esto separado en día, mes, año.</p>
+<p>Aunque así, por para mayor comodidad queremos que el uso de nuestra clase puede directamente usar una fecha así.</p>
+<h2>Asignar el valor</h2>
+<pre><code class="language-javascript"><span class="hljs-keyword">let</span> f = <span class="hljs-keyword">new</span> Fecha();
+f.fecha = <span class="hljs-string">"2/1/1968"</span>;
+<span class="hljs-built_in">console</span>.log(f.ano); <span class="hljs-comment">//1968</span>
+</code></pre>
+<h2>Sacar/leer el valor</h2>
+<pre><code class="language-javascript"><span class="hljs-keyword">let</span> f = <span class="hljs-keyword">new</span> Fecha(<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1968</span>);
+<span class="hljs-built_in">console</span>.log(f.fecha); <span class="hljs-comment">//"2/1/1968"</span>
+</code></pre>
+<p>Con la 'magia' de metodos  <strong><code>get</code></strong> y  <strong><code>set</code></strong> podemos intreceptar y convertir a y desde nuestro formato interno.</p>
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Fecha</span> </span>{
     <span class="hljs-keyword">constructor</span>(dia, mes, ano)
     {
@@ -244,11 +277,13 @@ obj.Nombre = <span class="hljs-string">"No funciona!"</span>;
         <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._ano;
     }
     get fecha(){
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._dia + <span class="hljs-string">"/"</span> + <span class="hljs-keyword">this</span>._mes + <span class="hljs-string">"/"</span> + <span class="hljs-keyword">this</span>._ano;
+        <span class="hljs-comment">//Calculando el string de fecha para retornar como propiedad</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._dia + <span class="hljs-string">"/"</span> + <span class="hljs-keyword">this</span>._mes + <span class="hljs-string">"/"</span> + <span class="hljs-keyword">this</span>._ano; 
     }
     set fecha(fechaCompuesta)
     {
-        <span class="hljs-keyword">let</span> partes = fechaCompuesta.split(<span class="hljs-string">"/"</span>); <span class="hljs-comment">//divide un string </span>
+        <span class="hljs-comment">//Descontruir el string recibido como propiedad, y guardando en nuestro formato interno</span>
+        <span class="hljs-keyword">let</span> partes = fechaCompuesta.split(<span class="hljs-string">"/"</span>); <span class="hljs-comment">//divide un string en un array de 3 partes </span>
         <span class="hljs-keyword">this</span>._dia = partes[<span class="hljs-number">0</span>];
         <span class="hljs-keyword">this</span>._mes = partes[<span class="hljs-number">1</span>];
         <span class="hljs-keyword">this</span>._ano = partes[<span class="hljs-number">2</span>];
@@ -258,5 +293,92 @@ obj.Nombre = <span class="hljs-string">"No funciona!"</span>;
 <span class="hljs-keyword">let</span> f = <span class="hljs-keyword">new</span> Fecha();
 f.fecha = <span class="hljs-string">"2/1/1968"</span>;
 <span class="hljs-built_in">console</span>.log(f.ano); <span class="hljs-comment">//1968</span>
+</code></pre>
+<h1>Herencia</h1>
+<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Criatura</span> </span>{
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mamifero</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Criatura</span> </span>{
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Humano</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Mamifero</span> </span>{
+}
+
+<span class="hljs-keyword">let</span> yo = <span class="hljs-keyword">new</span> Humano();
+<span class="hljs-built_in">console</span>.log(yo <span class="hljs-keyword">instanceof</span> Humano);
+<span class="hljs-built_in">console</span>.log(yo <span class="hljs-keyword">instanceof</span> Mamifero);
+<span class="hljs-built_in">console</span>.log(yo <span class="hljs-keyword">instanceof</span> Criatura);
+
+<span class="hljs-keyword">let</span> gato = <span class="hljs-keyword">new</span> Mamifero();
+<span class="hljs-built_in">console</span>.log(gato <span class="hljs-keyword">instanceof</span> Humano);
+<span class="hljs-built_in">console</span>.log(gato <span class="hljs-keyword">instanceof</span> Mamifero);
+<span class="hljs-built_in">console</span>.log(gato <span class="hljs-keyword">instanceof</span> Criatura);
+</code></pre>
+<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mueble</span> </span>{
+    <span class="hljs-keyword">constructor</span>(tipo)
+    {
+        <span class="hljs-keyword">this</span>._tipo = tipo;
+    }
+    get tipo()
+    {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._tipo;
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MuebleConPatas</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Mueble</span>
+</span>{
+    <span class="hljs-keyword">constructor</span>(tipo, cantidad_patas)
+    {
+        <span class="hljs-keyword">super</span>(tipo);
+        <span class="hljs-keyword">this</span>._cantidad_patas = cantidad_patas;
+    }
+    get numeroDePatas()
+    {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._cantidad_patas;
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mesa</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">MuebleConPatas</span>
+</span>{
+    <span class="hljs-keyword">constructor</span>()
+    {
+        <span class="hljs-keyword">super</span>(<span class="hljs-string">"Mesa"</span>, <span class="hljs-number">4</span>);
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Silla</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">MuebleConPatas</span>
+</span>{
+    <span class="hljs-keyword">constructor</span>()
+    {
+        <span class="hljs-keyword">super</span>(<span class="hljs-string">"Silla"</span>, <span class="hljs-number">4</span>);
+    }
+}
+
+<span class="hljs-keyword">let</span> s = <span class="hljs-keyword">new</span> Silla();
+<span class="hljs-keyword">let</span> m = <span class="hljs-keyword">new</span> Mesa();
+<span class="hljs-keyword">let</span> t = <span class="hljs-keyword">new</span> MuebleConPatas(<span class="hljs-string">"Taburete"</span>, <span class="hljs-number">3</span>);
+<span class="hljs-keyword">let</span> e = <span class="hljs-keyword">new</span> Mueble(<span class="hljs-string">"Estanteria"</span>);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printMueble</span>(<span class="hljs-params">mueble</span>)
+</span>{
+    <span class="hljs-keyword">if</span>(!(mueble <span class="hljs-keyword">instanceof</span> Mueble))
+        <span class="hljs-keyword">throw</span> <span class="hljs-string">"No es un mueble"</span>;
+
+    <span class="hljs-keyword">let</span> detalles = mueble.tipo;
+    <span class="hljs-keyword">if</span>(mueble <span class="hljs-keyword">instanceof</span> MuebleConPatas)
+    {
+        detalles += <span class="hljs-string">" tiene "</span> + mueble.numeroDePatas + <span class="hljs-string">" patas"</span>;
+    }
+    <span class="hljs-keyword">else</span>
+    {
+        detalles += <span class="hljs-string">" no tiene patas"</span>;
+    }
+    <span class="hljs-built_in">console</span>.log(detalles);
+}
+
+printMueble(s); <span class="hljs-comment">//Silla tiene 4 patas</span>
+printMueble(m); <span class="hljs-comment">//Mesa tiene 4 patas</span>
+printMueble(t); <span class="hljs-comment">//Taburete tiene 3 patas</span>
+printMueble(e); <span class="hljs-comment">//Estanteria no tiene patas</span>
 </code></pre>
 </body></html>
