@@ -103,5 +103,62 @@ catch(error){
     //Si una excepcione fue lanzado dentro del bloque try, llegamos aqui
 }
 
+```
+
+## Un clase que recibe datos mal en el constructor
+```javascript
+class Fecha
+{
+    constructor(dia, mes, ano)
+    {
+        if(typeof dia != 'number' || 
+           typeof mes != 'number' || 
+           typeof ano != 'number')
+           {
+               throw "dia, mes o ano no es un numero!";
+               //throw new Error("dia, mes o ano no es un numero!");
+           }
+    }
+}
+let f = new Fecha(2,"marzo",2018);
+
+
+try{
+    let f2 = new Fecha(2,"marzo",2018);
+}
+catch(error)
+{
+    
+}
+
+```
+
+## Ahora con este código
+
+```javascript
+class Fecha
+{
+    constructor(dia, mes, ano)
+    {
+        if(typeof dia != 'number' || 
+           typeof mes != 'number' || 
+           typeof ano != 'number')
+           {
+               throw new Error("dia, mes o ano no es un numero!");
+           }
+    }
+}
+
+try {
+    let f2 = new Fecha(2,"marzo",2018);
+}
+catch(error) {
+    console.log(error.message);    
+}
+finally
+{
+    console.log("Excepcion o no, siempre esto");
+}
+
 
 ```

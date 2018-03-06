@@ -89,6 +89,58 @@ Para eso en JavaScript tenemos la combinación <span class="hljs-keyword">try/ca
     <span class="hljs-comment">//Si una excepcione fue lanzado dentro del bloque try, llegamos aqui</span>
 }
 
+</code></pre>
+<h2>Un clase que recibe datos mal en el constructor</h2>
+<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Fecha</span>
+</span>{
+    <span class="hljs-keyword">constructor</span>(dia, mes, ano)
+    {
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> dia != <span class="hljs-string">'number'</span> || 
+           <span class="hljs-keyword">typeof</span> mes != <span class="hljs-string">'number'</span> || 
+           <span class="hljs-keyword">typeof</span> ano != <span class="hljs-string">'number'</span>)
+           {
+               <span class="hljs-keyword">throw</span> <span class="hljs-string">"dia, mes o ano no es un numero!"</span>;
+               <span class="hljs-comment">//throw new Error("dia, mes o ano no es un numero!");</span>
+           }
+    }
+}
+<span class="hljs-keyword">let</span> f = <span class="hljs-keyword">new</span> Fecha(<span class="hljs-number">2</span>,<span class="hljs-string">"marzo"</span>,<span class="hljs-number">2018</span>);
+
+
+<span class="hljs-keyword">try</span>{
+    <span class="hljs-keyword">let</span> f2 = <span class="hljs-keyword">new</span> Fecha(<span class="hljs-number">2</span>,<span class="hljs-string">"marzo"</span>,<span class="hljs-number">2018</span>);
+}
+<span class="hljs-keyword">catch</span>(error)
+{
+    
+}
+
+</code></pre>
+<h2>Ahora con este código</h2>
+<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Fecha</span>
+</span>{
+    <span class="hljs-keyword">constructor</span>(dia, mes, ano)
+    {
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> dia != <span class="hljs-string">'number'</span> || 
+           <span class="hljs-keyword">typeof</span> mes != <span class="hljs-string">'number'</span> || 
+           <span class="hljs-keyword">typeof</span> ano != <span class="hljs-string">'number'</span>)
+           {
+               <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"dia, mes o ano no es un numero!"</span>);
+           }
+    }
+}
+
+<span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">let</span> f2 = <span class="hljs-keyword">new</span> Fecha(<span class="hljs-number">2</span>,<span class="hljs-string">"marzo"</span>,<span class="hljs-number">2018</span>);
+}
+<span class="hljs-keyword">catch</span>(error) {
+    <span class="hljs-built_in">console</span>.log(error.message);    
+}
+<span class="hljs-keyword">finally</span>
+{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Excepcion o no, siempre esto"</span>);
+}
+
 
 </code></pre>
 </body></html>
