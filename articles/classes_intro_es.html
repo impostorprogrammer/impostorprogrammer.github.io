@@ -295,6 +295,7 @@ f.fecha = <span class="hljs-string">"2/1/1968"</span>;
 <span class="hljs-built_in">console</span>.log(f.ano); <span class="hljs-comment">//1968</span>
 </code></pre>
 <h1>Herencia</h1>
+<h2>Herencia - extends</h2>
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Criatura</span> </span>{
 }
 
@@ -314,6 +315,27 @@ f.fecha = <span class="hljs-string">"2/1/1968"</span>;
 <span class="hljs-built_in">console</span>.log(gato <span class="hljs-keyword">instanceof</span> Mamifero);
 <span class="hljs-built_in">console</span>.log(gato <span class="hljs-keyword">instanceof</span> Criatura);
 </code></pre>
+<h2>La subclase hereda de su superclase</h2>
+<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Criatura</span> </span>{
+    <span class="hljs-keyword">constructor</span>(tipo)
+    {
+        <span class="hljs-keyword">this</span>._tipo = tipo;
+    }
+    get tipo(){
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._tipo;
+    }
+}
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mamifero</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Criatura</span> </span>{
+    <span class="hljs-keyword">constructor</span>()
+    {
+        <span class="hljs-keyword">super</span>(<span class="hljs-string">"Mamifero"</span>); <span class="hljs-comment">// Llama el constructor de su 'progenitora'</span>
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.tipo); <span class="hljs-comment">// Hereda de su super-clase</span>
+    }
+}
+<span class="hljs-keyword">let</span> mamifero = <span class="hljs-keyword">new</span> Mamifero();
+<span class="hljs-built_in">console</span>.log(mamifero.tipo);
+</code></pre>
+<p><h2 id="multi_classes">Clases diferentes con la misma super-clase</h2></p>
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mueble</span> </span>{
     <span class="hljs-keyword">constructor</span>(tipo)
     {

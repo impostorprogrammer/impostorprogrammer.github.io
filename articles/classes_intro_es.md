@@ -359,6 +359,8 @@ console.log(f.ano); //1968
 ```
 
 # Herencia
+
+## Herencia - extends
 ```javascript
 class Criatura {
 }
@@ -380,6 +382,30 @@ console.log(gato instanceof Mamifero);
 console.log(gato instanceof Criatura);
 ```
 
+## La subclase hereda de su superclase
+```javascript
+class Criatura {
+    constructor(tipo)
+    {
+        this._tipo = tipo;
+    }
+    get tipo(){
+        return this._tipo;
+    }
+}
+class Mamifero extends Criatura {
+    constructor()
+    {
+        super("Mamifero"); // Llama el constructor de su 'progenitora'
+        console.log(this.tipo); // Hereda de su super-clase
+    }
+}
+let mamifero = new Mamifero();
+console.log(mamifero.tipo);
+```
+
+
+<h2 id="multi_classes">Clases diferentes con la misma super-clase</h2>
 
 ```javascript
 class Mueble {
