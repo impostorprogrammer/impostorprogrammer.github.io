@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../styles/markdown.css">
+
+	</head>
+<body>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-58458282-5');
+</script>
+<h1>Listas</h1>
+<h2>Secuencia de elementos con orden, permite duplicados</h2>
+<h2>1, 8, 2, 9, 2, 2, 11, 21, 19, 1, 2, 7, 9</h2>
+<img src="./Lista.png">
+<img src="./Lista2.png">
+<h2>Ejemplo: Array</h2>
+<h3><strong><em>Array también tiene posición, y acceso directa por posición</em></strong></h3>
+<img src="./Array.png">
+<hr>
+<h2>Lista enlazada simple</h2>
+<img src="./SimpleLinkedList.png">
+<h2>Cada elemento tiene un 'enlace' al siguiente elemento,</h2>
+<h2>o cada nodo tiene un vínculo o referencia a su sucesor</h2>
+<img src="./SimpleLinkedList2.png">
+<h2>Manualmente, elemento por elemento</h2>
+<pre><code class="language-javascript"><span class="hljs-keyword">let</span> n6 = { <span class="hljs-attr">value</span>: <span class="hljs-number">11</span>, <span class="hljs-attr">tail</span>: <span class="hljs-literal">null</span> };
+<span class="hljs-keyword">let</span> n5 = { <span class="hljs-attr">value</span>: <span class="hljs-number">21</span>, <span class="hljs-attr">tail</span>: n6 };
+<span class="hljs-keyword">let</span> n4 = { <span class="hljs-attr">value</span>: <span class="hljs-number">11</span>, <span class="hljs-attr">tail</span>: n5 };
+<span class="hljs-keyword">let</span> n3 = { <span class="hljs-attr">value</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">tail</span>: n4 };
+<span class="hljs-keyword">let</span> n2 = { <span class="hljs-attr">value</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">tail</span>: n3 };
+<span class="hljs-keyword">let</span> n1 = { <span class="hljs-attr">value</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">tail</span>: n2 };
+
+</code></pre>
+<h2>En un golpe, toda la lista</h2>
+<pre><code class="language-javascript"><span class="hljs-keyword">let</span> m1 = {
+    <span class="hljs-string">"value"</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-string">"tail"</span>: {
+        <span class="hljs-string">"value"</span>: <span class="hljs-number">2</span>,
+        <span class="hljs-string">"tail"</span>: {
+            <span class="hljs-string">"value"</span>: <span class="hljs-number">2</span>,
+            <span class="hljs-string">"tail"</span>: {
+                <span class="hljs-string">"value"</span>: <span class="hljs-number">11</span>,
+                <span class="hljs-string">"tail"</span>: {
+                    <span class="hljs-string">"value"</span>: <span class="hljs-number">21</span>,
+                    <span class="hljs-string">"tail"</span>: {
+                        <span class="hljs-string">"value"</span>: <span class="hljs-number">11</span>,
+                        <span class="hljs-string">"tail"</span>: <span class="hljs-literal">null</span>
+                    }
+                }
+            }
+        }
+    }
+};
+</code></pre>
+<h2>Con un clase, agregando en bucle</h2>
+<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span> </span>{
+    <span class="hljs-keyword">constructor</span>(value, tail) {
+        <span class="hljs-keyword">this</span>.value = value;
+        <span class="hljs-keyword">this</span>.tail = tail ? tail : <span class="hljs-literal">null</span>;
+    }
+    addTail(value) {
+        <span class="hljs-keyword">this</span>.tail = <span class="hljs-keyword">new</span> Node(value, <span class="hljs-literal">null</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.tail;
+    }
+}
+
+<span class="hljs-keyword">let</span> myList = <span class="hljs-keyword">new</span> Node(<span class="hljs-number">0</span>);
+<span class="hljs-keyword">let</span> last = myList;
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt; <span class="hljs-number">10</span>; i++) {
+    last = last.addTail(i);
+}
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">JSON</span>.stringify(myList, <span class="hljs-literal">null</span>, <span class="hljs-number">4</span>));
+</code></pre>
+<h1>Lista doblemente enlazada</h1>
+<h2>Igual que la lista enlazada simple, pero con enlace al predecesor también.</h2>
+<img src="./Doubly-Linked-List.gif">
+<h2>Se puede atravesar tanto hacia delante como hacia atrás</h2>
+</body></html>

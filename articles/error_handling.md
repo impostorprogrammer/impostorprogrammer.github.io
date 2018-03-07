@@ -83,13 +83,13 @@ console.log(ultimoElemento([]));
 
 ## Excepciones esperados...
 
-Hay situaciones cuando una función, o una llamado, tal vez fuera de nuestro control lanza una excepción, pero sabemos como recuperar y intentar otra vez, o llamar otra funcionalidad. 
+Hay situaciones cuando una función, o una llamado, tal vez fuera de nuestro control lanza una excepción, pero sabemos como recuperar y intentar otra vez, o llamar otra funcionalidad, o abandonar sin terminar la programa.
 
 Pero como hemos visto, la programa entera falla, y termina después de una excepción fue lanzada.
 Así, hace falta una manera de 'coger' la excepción lanzado sin terminar la programa.<br/> 
 Para eso en JavaScript tenemos la combinación <span class="hljs-keyword">try/catch</span>.
 
-## <span class="hljs-keyword">try/catch</span>
+## <span class="hljs-keyword">try/catch/finally</span>
 
 ### En un bloque <span class="hljs-keyword">try</span> podemos intenta algo que puede lanzar una excepción.
 ### Si una excepción fue lanzado dentro del bloque <span class="hljs-keyword">try</span>, llegamos en el bloque <span class="hljs-keyword">catch</span>
@@ -116,7 +116,6 @@ class Fecha
            typeof ano != 'number')
            {
                throw "dia, mes o ano no es un numero!";
-               //throw new Error("dia, mes o ano no es un numero!");
            }
     }
 }
