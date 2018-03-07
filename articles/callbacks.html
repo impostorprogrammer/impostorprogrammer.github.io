@@ -58,7 +58,8 @@ myArrow(<span class="hljs-string">"Hello"</span>);
 <span class="hljs-keyword">var</span> request = <span class="hljs-keyword">new</span> XMLHttpRequest();
 
 request.onload = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-    <span class="hljs-comment">//console.log(this.responseText);</span>
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.responseText);
+    <span class="hljs-comment">//let jsonO = JSON.parse(this.responseText);</span>
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Response received"</span>);
 };
 
@@ -66,7 +67,7 @@ request.onerror = <span class="hljs-function"><span class="hljs-keyword">functio
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"There was a problem with the request"</span>);
 };
 
-request.open(<span class="hljs-string">"get"</span>, <span class="hljs-string">"http://www.impostorprogrammer.com/matrix_rain.js"</span>, <span class="hljs-literal">true</span>);
+request.open(<span class="hljs-string">"get"</span>, <span class="hljs-string">"https://api.npmjs.org/downloads/range/2018-02-28:2018-03-09/measure-duration"</span>, <span class="hljs-literal">true</span>);
 request.send();
 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"La peticion ye esta hecha..."</span>);
 </code></pre>
