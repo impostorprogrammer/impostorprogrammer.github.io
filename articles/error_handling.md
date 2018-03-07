@@ -106,6 +106,7 @@ catch(error){
 ```
 
 ## Un clase que recibe datos mal en el constructor
+## En un constructor no podemos retornar un valor, tenemos que usar una excepción
 ```javascript
 class Fecha
 {
@@ -150,6 +151,7 @@ class Fecha
 
 try {
     let f2 = new Fecha(2,"marzo",2018);
+    console.log("Esto no ejecuta si hay una excepción");
 }
 catch(error) {
     console.log(error.message);    
@@ -158,6 +160,26 @@ finally
 {
     console.log("Excepcion o no, siempre esto");
 }
-
-
 ```
+
+# Ejercicio: Añadir todo la verificación posible en el constructor de Fecha
+
+## 1. Lanza excepciones con mensajes que son instructivas para el usuario del clase
+## 2. Hacer llamadas comprobando todo los casos que has añadido
+
+
+```javascript
+class Fecha
+{
+    constructor(dia, mes, ano)
+    {
+        if(typeof dia != 'number' || 
+           typeof mes != 'number' || 
+           typeof ano != 'number')
+           {
+               throw new Error("dia, mes o ano no es un numero!");
+           }
+        
+        //MAS AQUI!!!
+    }
+}

@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../styles/markdown.css">
+
+	</head>
+<body>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-58458282-5');
+</script>
+<h1>Funciones como parámetros, y callbacks (retro-llamadas)</h1>
+<h2>Llamadas asincrónicas</h2>
+<p>A veces hay llamadas que pueden tomar un tiempo para completar y volver. Para evitar bloquear el programa en espera de tales llamadas, usamos algo de llamadas asincrónicas.</p>
+<p>Le decimos a la llamada qué hacer cuando regrese, y luego seguimos adelante con el resto del programa, antes de que algo haya sucedido.</p>
+<h2>Ejemplo: setTimeout con función como parámetro</h2>
+<pre><code class="language-javascript">
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callback</span>(<span class="hljs-params"></span>)
+</span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"callback called"</span>);
+}
+setTimeout(callback, <span class="hljs-number">3000</span>);
+
+
+setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"2 segundos"</span>);
+}, <span class="hljs-number">2000</span>);
+
+
+setTimeout(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Despues de 1 segundo"</span>);
+}, <span class="hljs-number">1000</span>);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"setTimeout llamado 3 veces..."</span>);
+
+</code></pre>
+<h2>Función de flecha</h2>
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> myArrow = <span class="hljs-function">(<span class="hljs-params">msg</span>)=&gt;</span>
+{
+    <span class="hljs-built_in">console</span>.log(msg);    
+};
+
+myArrow(<span class="hljs-string">"Hello"</span>);
+</code></pre>
+<h2>Descargar algo que puede tardar mucho tiempo, o fallar</h2>
+<pre><code class="language-javascript"><span class="hljs-comment">//En nodeJs instala xmlhttprequest primero, con</span>
+<span class="hljs-comment">//npm install xmlhttprequest</span>
+<span class="hljs-comment">//y use ese linea</span>
+<span class="hljs-keyword">const</span> XMLHttpRequest = <span class="hljs-built_in">require</span>(<span class="hljs-string">"xmlhttprequest"</span>).XMLHttpRequest;
+
+<span class="hljs-keyword">var</span> request = <span class="hljs-keyword">new</span> XMLHttpRequest();
+
+request.onload = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">//console.log(this.responseText);</span>
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Response received"</span>);
+};
+
+request.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"There was a problem with the request"</span>);
+};
+
+request.open(<span class="hljs-string">"get"</span>, <span class="hljs-string">"http://www.impostorprogrammer.com/matrix_rain.js"</span>, <span class="hljs-literal">true</span>);
+request.send();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"La peticion ye esta hecha..."</span>);
+</code></pre>
+<h2>Nuestra propia función que recibe una función</h2>
+<h2>Ejemplo</h2>
+<pre><code class="language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callTheFunction</span>(<span class="hljs-params">functionToCall</span>)
+</span>{
+    functionToCall();
+}
+</code></pre>
+<h1>Ejercicio:</h1>
+<h2>Crea una función que recibe una función myFunction como parámetro</h2>
+<h2>La función recibido, usa un parámetro string, pasa &quot;Hola&quot; como parámetro cuando lo llamas dentro tu función myFunction</h2>
+<h2>Luego llama tu función myFunction, así:</h2>
+<pre><code class="language-javascript">myFunction(<span class="hljs-built_in">console</span>.log);
+</code></pre>
+</body></html>
