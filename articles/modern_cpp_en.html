@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../styles/markdown.css">
+
+	</head>
+<body>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-58458282-5');
+</script>
+<h1>Modern C++ - AKA C++ &gt;= 11</h1>
+<p>A discovery of the new ubiquitous features in modern C++ that show why C++ code 11 and beyond is clean, safe and fast, as clean and secure as code written in any other modern and current language, and with the traditional C++ performance so strong as always.
+A look at ways to make the code more robust and easier to maintain, such as avoiding memory leaks, more validation during compilation, ensuring how to avoid incorrect or unintentional overload resolution, ways of facilitating code refactoring and more.</p>
+<p>We look at patterns and paradigms like making the code scalable and robust with best practices of multithreading, concurrency and minimization of &quot;bottlenecks&quot; and blocking.</p>
+<h1>Common dangers in C++ when returning references</h1>
+<h2>Returning references to stack allocated memory</h2>
+<pre><code class="language-cpp"><span class="hljs-function"><span class="hljs-keyword">int</span>&amp; <span class="hljs-title">getSomething</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> stackValue = <span class="hljs-number">123</span>;
+    <span class="hljs-keyword">return</span> stackValue;  <span class="hljs-comment">// DON'T DO THIS.</span>
+}
+</code></pre>
+<p>The memory allocated for the reference will go away, and you have a reference to nothing</p>
+<h2>Returning reference to heap allocated memory</h2>
+<pre><code class="language-cpp"><span class="hljs-function"><span class="hljs-keyword">int</span>&amp; <span class="hljs-title">getSomething</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span>* heapValue = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;
+    <span class="hljs-keyword">return</span> *heapValue;  <span class="hljs-comment">// DON'T DO THIS.</span>
+}
+</code></pre>
+<p>Now the caller will have to do 'strange' things to get the original pointer out of the reference to delete it, or simply miss that it has an underlying heap allocation needing deletion.</p>
+<h2>Didn't notice the value was returned by reference</h2>
+<pre><code class="language-cpp"><span class="hljs-keyword">int</span> anyOldInt = getSomething(); <span class="hljs-comment">//Storing a copy in stack variable, original reference lost!</span>
+</code></pre>
+<h2>Forgetting to get keep the reference, but still trying to delete it</h2>
+<pre><code class="language-cpp"><span class="hljs-keyword">int</span> not_good = getSomething(); 
+<span class="hljs-keyword">delete</span> &amp;not_good;   <span class="hljs-comment">// bad behavior, trying to delete memory of stack variable</span>
+</code></pre>
+<h2>Strange way of deleting memory of pointer</h2>
+<pre><code class="language-cpp"><span class="hljs-keyword">int</span>&amp; myRef = getSomething(); <span class="hljs-comment">// We must use the &amp;, to not loose the reference!</span>
+<span class="hljs-keyword">delete</span> &amp;myRef;               <span class="hljs-comment">// and get the underlying pointer to delete... strange</span>
+</code></pre>
+<h3>Avoid returning references, use a pattern to pass on the responsibility</h3>
+<h2>Typically use <span class="hljs-built_in">std::unique_ptr&lt;T&gt;</span> and let it manage the lifetime of the object</h2>
+<pre><code class="language-cpp"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; getSomething() {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">std</span>::make_unique&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-number">123</span>);
+}
+</code></pre>
+<p>And the calling code simply keeps the pointer around as for the life-time of the <span class="hljs-built_in">std::unique_ptr&lt;T&gt;</span> instance.</p>
+<pre><code class="language-cpp"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; x = getSomething();
+</code></pre>
+<h2><span class="hljs-keyword">auto</span> - Much better yet, you can safely and conveniently use auto</h2>
+<pre><code class="language-cpp"><span class="hljs-keyword">auto</span> x = getSomething();
+</code></pre>
+</body></html>
