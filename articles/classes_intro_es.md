@@ -475,3 +475,4 @@ printMueble(m); //Mesa tiene 4 patas
 printMueble(t); //Taburete tiene 3 patas
 printMueble(e); //Estanteria no tiene patas
 ```
+

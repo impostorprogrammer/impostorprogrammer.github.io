@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../styles/markdown.css">
+
+	</head>
+<body>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-58458282-5');
+</script>
+<h1>Clases Ejercicio 2</h1>
+<h2>Herencia</h2>
+<p>Crea 3 clases: Gato, Rata y Perro que tienen el mismo super-clase</p>
+<p>Todo los clases, tiene tipo, peso y nombre.</p>
+<p>Evita duplicar código, usa herencia!</p>
+<p>El tipo (propiedad) de unos de estos objetos no se pueden cambiar, se inicializa cuando el objeto es instanciado.</p>
+<h2>Ejemplo de uso</h2>
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> oGato = <span class="hljs-keyword">new</span> Gato(<span class="hljs-number">3.3</span>, <span class="hljs-string">"Felino"</span>);
+<span class="hljs-built_in">console</span>.log(oGato.tipo + <span class="hljs-string">" "</span> + oGato.peso + <span class="hljs-string">" "</span> + oGato.nombre); <span class="hljs-comment">// Gato 3.2 Felino</span>
+
+<span class="hljs-keyword">const</span> oPerro = <span class="hljs-keyword">new</span> Perro(<span class="hljs-number">7.1</span>, <span class="hljs-string">"Fido"</span>);
+<span class="hljs-built_in">console</span>.log(oPerro.tipo + <span class="hljs-string">" "</span> + oPerro.peso + <span class="hljs-string">" "</span> + oPerro.nombre); <span class="hljs-comment">// Perro 7.1 Fido</span>
+
+oPerro.tipo = <span class="hljs-string">"Leon"</span>; <span class="hljs-comment">//Excepcion: TypeError: Cannot set property tipo of #&lt;Perro&gt; which has only a getter</span>
+</code></pre>
+<h1>Solucion:</h1>
+<pre><code class="language-javascript">
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> </span>{
+    <span class="hljs-keyword">constructor</span>(tipo, peso, nombre)
+    {
+        <span class="hljs-keyword">this</span>._tipo = tipo;
+        <span class="hljs-keyword">this</span>.peso = peso;
+        <span class="hljs-keyword">this</span>.nombre = nombre;
+    }
+    get tipo(){
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._tipo;
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Gato</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Animal</span> </span>{
+    <span class="hljs-keyword">constructor</span>(peso, nombre)
+    {
+        <span class="hljs-keyword">super</span>(<span class="hljs-string">"Gato"</span>, peso, nombre);
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Perro</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Animal</span> </span>{
+    <span class="hljs-keyword">constructor</span>(peso, nombre)
+    {
+        <span class="hljs-keyword">super</span>(<span class="hljs-string">"Perro"</span>, peso, nombre);
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Rata</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Animal</span> </span>{
+    <span class="hljs-keyword">constructor</span>(peso, nombre)
+    {
+        <span class="hljs-keyword">super</span>(<span class="hljs-string">"Rata"</span>, peso, nombre);
+    }
+}
+
+<span class="hljs-keyword">const</span> oGato = <span class="hljs-keyword">new</span> Gato(<span class="hljs-number">3.3</span>, <span class="hljs-string">"Felino"</span>);
+<span class="hljs-built_in">console</span>.log(oGato.tipo + <span class="hljs-string">" "</span> + oGato.peso + <span class="hljs-string">" "</span> + oGato.nombre); <span class="hljs-comment">// Gato 3.2 Felino</span>
+
+<span class="hljs-keyword">const</span> oPerro = <span class="hljs-keyword">new</span> Perro(<span class="hljs-number">7.1</span>, <span class="hljs-string">"Fido"</span>);
+<span class="hljs-built_in">console</span>.log(oPerro.tipo + <span class="hljs-string">" "</span> + oPerro.peso + <span class="hljs-string">" "</span> + oPerro.nombre); <span class="hljs-comment">// Perro 7.1 Fido</span>
+
+oPerro.tipo = <span class="hljs-string">"Leon"</span>; <span class="hljs-comment">//Excepcion: TypeError: Cannot set property tipo of #&lt;Perro&gt; which has only a getter</span>
+
+
+</code></pre>
+</body></html>
