@@ -21,5 +21,6 @@
 5. Retorna la lista ordenada
 
 <img src="Merge-sort-example-300px.gif">
+Image Author: Swfung8 from https://upload.wikimedia.org/wikipedia/commons/c/cc/Merge-sort-example-300px.gif
 
 <img src="merge-sort-diagram.png">
