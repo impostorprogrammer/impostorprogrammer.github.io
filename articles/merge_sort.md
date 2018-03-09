@@ -24,3 +24,45 @@
 Image Author: Swfung8 from https://upload.wikimedia.org/wikipedia/commons/c/cc/Merge-sort-example-300px.gif
 
 <img src="merge-sort-diagram.png">
+
+```javascript
+function mergeSort(toSort)
+{
+    var toSortArray = [...toSort];
+    if(toSort.length < 2)
+        return toSort;
+    //even sized arrays
+    //Divide in two
+    var left = toSortArray.slice(0, Math.round(toSortArray.length/2));
+    var right = toSortArray.slice(Math.round(toSortArray.length/2));
+    
+    var leftSorted = mergeSort(left);
+    var rightSorted = mergeSort(right);
+
+    var result = merge(leftSorted, rightSorted);
+    return result;
+}
+
+function merge(leftSorted, rightSorted)
+{
+    let merged = [];
+    let leftRemoved = 0;
+    let rightRemoved = 0; 
+    while(leftSorted.length - leftRemoved > 0 && rightSorted.length - rightRemoved > 0)
+    {
+        if(leftSorted[0] <= rightSorted[0])
+            merged.push(leftSorted[leftRemoved++]);
+        else
+            merged.push(rightSorted[rightRemoved++]);
+    }
+    while(leftSorted.length - leftRemoved > 0)
+    {
+        merged.push(leftSorted[leftRemoved++]);
+    }
+    while(rightSorted.length - rightRemoved > 0)
+    {
+        merged.push(rightSorted[rightRemoved++]);
+    }
+    return merged;
+}
+```

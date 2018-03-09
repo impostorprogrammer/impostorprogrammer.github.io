@@ -28,4 +28,44 @@
 <img src="Merge-sort-example-300px.gif">
 Image Author: Swfung8 from https://upload.wikimedia.org/wikipedia/commons/c/cc/Merge-sort-example-300px.gif
 <img src="merge-sort-diagram.png">
+<pre><code class="language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mergeSort</span>(<span class="hljs-params">toSort</span>)
+</span>{
+    <span class="hljs-keyword">var</span> toSortArray = [...toSort];
+    <span class="hljs-keyword">if</span>(toSort.length &lt; <span class="hljs-number">2</span>)
+        <span class="hljs-keyword">return</span> toSort;
+    <span class="hljs-comment">//even sized arrays</span>
+    <span class="hljs-comment">//Divide in two</span>
+    <span class="hljs-keyword">var</span> left = toSortArray.slice(<span class="hljs-number">0</span>, <span class="hljs-built_in">Math</span>.round(toSortArray.length/<span class="hljs-number">2</span>));
+    <span class="hljs-keyword">var</span> right = toSortArray.slice(<span class="hljs-built_in">Math</span>.round(toSortArray.length/<span class="hljs-number">2</span>));
+    
+    <span class="hljs-keyword">var</span> leftSorted = mergeSort(left);
+    <span class="hljs-keyword">var</span> rightSorted = mergeSort(right);
+
+    <span class="hljs-keyword">var</span> result = merge(leftSorted, rightSorted);
+    <span class="hljs-keyword">return</span> result;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">merge</span>(<span class="hljs-params">leftSorted, rightSorted</span>)
+</span>{
+    <span class="hljs-keyword">let</span> merged = [];
+    <span class="hljs-keyword">let</span> leftRemoved = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">let</span> rightRemoved = <span class="hljs-number">0</span>; 
+    <span class="hljs-keyword">while</span>(leftSorted.length - leftRemoved &gt; <span class="hljs-number">0</span> &amp;&amp; rightSorted.length - rightRemoved &gt; <span class="hljs-number">0</span>)
+    {
+        <span class="hljs-keyword">if</span>(leftSorted[<span class="hljs-number">0</span>] &lt;= rightSorted[<span class="hljs-number">0</span>])
+            merged.push(leftSorted[leftRemoved++]);
+        <span class="hljs-keyword">else</span>
+            merged.push(rightSorted[rightRemoved++]);
+    }
+    <span class="hljs-keyword">while</span>(leftSorted.length - leftRemoved &gt; <span class="hljs-number">0</span>)
+    {
+        merged.push(leftSorted[leftRemoved++]);
+    }
+    <span class="hljs-keyword">while</span>(rightSorted.length - rightRemoved &gt; <span class="hljs-number">0</span>)
+    {
+        merged.push(rightSorted[rightRemoved++]);
+    }
+    <span class="hljs-keyword">return</span> merged;
+}
+</code></pre>
 </body></html>
