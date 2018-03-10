@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../styles/markdown.css">
+
+	<!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script><script>  window.dataLayer = window.dataLayer || [];  function gtag(){dataLayer.push(arguments);}  gtag("js", new Date());  gtag("config", "UA-58458282-5");</script></head>
+<body>
+<!-- Features and support until 2015 https://msdn.microsoft.com/en-us/library/hh567368.aspx -->
+<!-- Up until 2017 15.3 Preview https://blogs.msdn.microsoft.com/vcblog/2017/05/10/c17-features-in-vs-2017-3/  -->
+<!-- Up until 2017 15.6 Installed  -->
+<h1>Las 4 versiones principales del estándar del C++</h1>
+<p>Hoy en día tenemos 4 'grandes' estándares de C++ para tomar en cuenta:</p>
+<ul>
+<li><strong>C++ clásico:</strong></li>
+<li><strong>C++11</strong></li>
+<li><strong>C++14</strong></li>
+<li><strong>C++17</strong></li>
+</ul>
+<h2>Mejoras en el lenguaje C++ y en la librería estándar de C++</h2>
+<p>Cada versión del estándar ha llevada cambios y mejoras tanto en el lenguaje como en la librería estándar.</p>
+<h1>C++ clásico - Punteros crudos y desnudos, <span class="hljs-keyword">new</span> y <span class="hljs-keyword">delete</span></h1>
+<p>Incluye los estándares <strong>C++98</strong> y <strong>C++03</strong> (El <strong>C++03</strong> fue principalmente para solucionar problemas identificados en <strong>C++98</strong>)</p>
+<h2>El C++ que conocemos de toda la vida...</h2>
+<!-- TODO: Validate this code -->
+<pre><code class="language-cpp"><span class="hljs-keyword">class</span> Persona{
+    <span class="hljs-keyword">public</span>:
+    Persona(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* nombre)
+    {
+        <span class="hljs-keyword">if</span>(nombre &amp;&amp; nombre[<span class="hljs-number">0</span>] != <span class="hljs-number">0</span>)
+        {
+            <span class="hljs-built_in">strcpy</span>(m_nombre, nombre);
+        }
+    }
+    <span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">char</span> m_nombre[<span class="hljs-number">1024</span>];
+    ...
+}
+
+Persona* p1 = <span class="hljs-keyword">new</span> Persona();
+...
+
+<span class="hljs-keyword">delete</span> p1;
+p1 = <span class="hljs-literal">NULL</span>;
+
+</code></pre>
+<h1>C++11 - Mejorar y corregir las deficiencias en la librería estándar y mas</h1>
+<p>Una de los objetivos del diseño era preferir cambios en la librería estándar sobre cambios al lenguaje.</p>
+<p>Aunque así, el lenguaje se mejoraron significativamente incluyendo soporte de <em><strong>multihilo</strong></em>, soporte de <em><strong>programación genérico</strong></em>, <em><strong>inicialización uniforme</strong></em> y <em><strong>rendimiento</strong></em>. Como fue previsto se realizaron cambios significativos en la biblioteca estándar de C++ también, las adiciones incluyeron <em><strong>expresiones regulares</strong></em>, <em><strong>punteros inteligentes</strong></em>, <em><strong>tablas hash</strong></em> y <em><strong>generadores de números aleatorios</strong></em> entre otras cosas.</p>
+<h2>C++11 Mayor Language Features</h2>
+<h2>C++11 Mayor Standard Library Features</h2>
+<h1>Compatibilidad con estándares de C++ y versiones de Visual Studio</h1>
+<h1>C++ clásico - Visual Studio versiones hasta 2012</h1>
+<p>Aunque 2012 tenia cositas del estándar de C++11, prácticamente fue C++ clásico.</p>
+<h1>C++11 - Visual Studio 2013 parcialmente, y Visual Studio 2015 efectivamente</h1>
+<p>Visual Studio 2013 tenia un gran parte del estándar de C++11 implementado, aunque es el 2015 se considera efectivamente con suporte de C++11.</p>
+<h1>C++14 - Visual Studio 2015 parcialmente, y Visual Studio 2017 efectivamente</h1>
+<p>Visual Studio 2015 tenia un importantes parte del estándar de C++14 implementado como: <em>lambdas genéricos</em> y <em>tipos de retorno <span class="hljs-keyword">auto</span></em>. Pero al final es el Visual Studio 2017 se considera efectivamente con suporte de C++14.</p>
+<h1>C++17</h1>
+<pre><code class="language-cpp"><span class="hljs-keyword">new</span>
+<span class="hljs-keyword">delete</span>
+
+</code></pre>
+<div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>

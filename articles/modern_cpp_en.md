@@ -1,13 +1,4 @@
 [//]: # ( spellcheck-language en )
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-58458282-5');
-</script>
 
 # Modern C++ - AKA C++ >= 11
 A discovery of the new ubiquitous features in modern C++ that show why C++ code 11 and beyond is clean, safe and fast, as clean and secure as code written in any other modern and current language, and with the traditional C++ performance so strong as always.
@@ -19,12 +10,14 @@ We look at patterns and paradigms like making the code scalable and robust with 
 
 ## Returning references to stack allocated memory
 ```cpp
-int& getSomething() {
+int& getOnStack() {
     int stackValue = 123;
     return stackValue;  // DON'T DO THIS.
 }
 ```
-The memory allocated for the reference will go away, and you have a reference to nothing
+The memory allocated for the reference will go away, and you have a reference to random memory
+
+<br/>
 ## Returning reference to heap allocated memory
 ```cpp
 int& getSomething() {

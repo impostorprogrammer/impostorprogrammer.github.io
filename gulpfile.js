@@ -1,3 +1,4 @@
+/* eslint-disable no-console, no-unused-vars, quotes, no-empty*/
 var gulp = require('gulp');
 var markdown = require('gulp-markdown-it');
 var hljs = require('highlightjs');
@@ -37,8 +38,18 @@ gulp.task('markdown', function () {
             '<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title></title>\n\t\t' +
             '<link type="text/css" rel="stylesheet" href="../styles/vs.css">\n' +
             '<link type="text/css" rel="stylesheet" href="../styles/markdown.css">\n' +
-            '\n\t</head>\n<body>\n'))
-        .pipe(footer('</body></html>'))
+            '\n\t' +
+            '<!-- Global site tag (gtag.js) - Google Analytics -->' +
+            '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>' +
+            '<script>' +
+            '  window.dataLayer = window.dataLayer || [];' +
+            '  function gtag(){dataLayer.push(arguments);}' +
+            '  gtag("js", new Date());' +
+            '' +
+            '  gtag("config", "UA-58458282-5");' +
+            '</script>' + 
+            '</head>\n<body>\n'))
+        .pipe(footer('<div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>'))
         .pipe(through.obj(function (file, enc, callback) {
             console.log("Finishing processing  " + file.relative);
             // make sure the file goes through the next gulp plugin
