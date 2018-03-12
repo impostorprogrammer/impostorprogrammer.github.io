@@ -10,8 +10,8 @@ markdown.html = true;
 function getRelativePathSteps(relativeFilePath) {
 
     let relativeSteps = [];
-    const steps = relativeFilePath.replace('\\', '/').split('/');
-    for (let i = 0; i < steps.length; i++) {
+    let steps = relativeFilePath.split('\\');
+    for (let i = 0; i < steps.length - 1; i++) {
         relativeSteps.push("..");
     }
     return relativeSteps.join("/");
@@ -52,7 +52,9 @@ gulp.task('markdown', function () {
     const myGulpStep = function (){
         return through.obj(function (file, enc, callback) {
             console.log("Started processing  " + file.relative);
-            file.relativeSteps = getRelativePathSteps;
+            if(typeof(global.relativeSteps) == 'undefined') 
+                global.relativeSteps = getRelativePathSteps;
+
             // make sure the file goes through the next gulp plugin
             this.push(file);
             callback();
@@ -77,8 +79,8 @@ gulp.task('markdown', function () {
         .pipe(markdown(config))
         .pipe(header('\ufeff' +
                     '<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title></title>\n\t\t' +
-                    '<link type="text/css" rel="stylesheet" href="<%=file.relativeSteps(file.relative)%>/styles/vs.css">\n' +
-                    '<link type="text/css" rel="stylesheet" href="<%=file.relativeSteps(file.relative)%>/styles/markdown.css">\n' +
+                    '<link type="text/css" rel="stylesheet" href="<%=global.relativeSteps(file.relative)%>/styles/vs.css">\n' +
+                    '<link type="text/css" rel="stylesheet" href="<%=global.relativeSteps(file.relative)%>/styles/markdown.css">\n' +
                     '\n\t' +
                     '<!-- Global site tag (gtag.js) - Google Analytics -->\n' +
                     '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>\n' +
@@ -89,7 +91,7 @@ gulp.task('markdown', function () {
                     '\n' +
                     '  gtag("config", "UA-58458282-5");\n' +
                     '</script>\n' +
-                    '<!-- Source File <%= file.relativeSteps(file.relative) %> -->\n' +
+                    '<!-- Source File <%= file.relative %> -->\n' +
                     '</head>\n<body>\n')
         )
         .pipe(footer('<div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>'))

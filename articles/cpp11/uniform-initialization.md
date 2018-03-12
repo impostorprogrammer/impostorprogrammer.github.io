@@ -73,7 +73,7 @@ Con C++ 11 podemos iniciar directamente con una lista de valores, similares como
 	float f = d;
 	float f2{ d }; //error C2397: conversion from 'double' to 'float' requires a narrowing conversion
 
-	//No loss of data, no problem or warning
+	//No hay pérdida de datos, entonces no es un problema
 	double d2{ f };
 	int64_t longLong{ minusOne };
 ```
@@ -86,9 +86,9 @@ Con C++ 11 podemos iniciar directamente con una lista de valores, similares como
         double m_f;
     };
 
-	TestStruct ts = { 1, 2, 3.2 }; // For structs you could do this since C99
-	TestStruct ts1 = { 1, 2 }; //Zero initializing the rest
-	TestStruct ts2 = {};     // Initialize to 0
+	TestStruct ts = { 1, 2, 3.2 }; // Para structs se puede hacer esto desde C99
+	TestStruct ts1 = { 1, 2 }; //Inicializando el resto con cero
+	TestStruct ts2 = {};     // Inicializar a 0
 ```
 
 ## C++ 11 - Inicializacion de struct
@@ -106,29 +106,44 @@ Con C++ 11 podemos iniciar directamente con una lista de valores, similares como
 ```
 
 ## Clase de toda la vida
+### **_Problemas o riesgos:_**
+## * _**Olvidarse de inicializar miembros, especialmente en clases grandes con varios constructores**_
+## * _**Duplicando codigo en constructores**_
 
 ```cpp
-    class Test
-    {
-        public:
-            Test(int i, std::string tipo, double f = 0.0):
-                i(i),
-                tipo(tipo),
-                f(f)
-            {
+class Test
+{
+	public:
+		Test(int i, std::string tipo, double f = 0.0):
+			i(i),
+			tipo(tipo),
+			f(f)
+			//Falta el p
+		{
 
-            }
-            int getI() { 
-                return i; 
-            }
-            int p;
-        private:
-            int i;
-            std::string tipo;
-            double f;
-    }
+		}
+		Test(int i) :
+			i(1),
+			f(f)
+			//Que vamos hacer con el tipo?
+		{
+			p = f * i;
+		}
+		int getI() { 
+			return i; 
+		}
+		int p;
+	private:
+		int i;
+		std::string tipo;
+		double f;
+};
 ```
+
+## C++ 98 - Inicializacion de clases
+
 ```cpp
+    //Simple es una clase 'agregada', como un struct sin constructor
     class Simple {
     public:
         int first;
@@ -136,57 +151,120 @@ Con C++ 11 podemos iniciar directamente con una lista de valores, similares como
         std::string third;
     };
 ```
-
-## C++ 98 - Inicializacion de clases
-
 ```cpp
-	Test t(23, "old"); 	//Via constructor only way
+	Test t(23, "old"); 	//A través del constructor era la única manera
 
-	Simple s1 = { 1, 2.1, "Simple" }; //Same behaviour as struct, Simple is an 'aggregate' class
+	Simple s1 = { 1, 2.1, "Simple" }; //El mismo comportamiento que struct, simple es una clase 'agregada'
 
 ```
 
 ## C++ 11 - Inicializacion de clases
 
+**_En un clase con constructor la lista de inicializacion tiene que coincidir con los parametros de un constructor._**
+
 ```cpp
-	auto t = Test{ 34, "Test", 22, 3 }; // No matching constructor - error C2440: '<function-style-cast>' : cannot convert from 'initializer-list' to 'Test'
+    // No hay constructor coincidente - error C2440: '<function-style-cast>' : cannot convert from 'initializer-list' to 'Test'
+	auto t = Test{ 34, "Test", 22, 3 }; 
+```
+```cpp
+    // No hay constructor coincidente - error C2440: '<function-style-cast>' : cannot convert from 'initializer-list' to 'Test'
+	auto t = Test{ 34 }; 
+```
+```cpp
+    //A través del constructor de toda la vida, con auto
+    auto t2 = new Test(32.1, "32.1"); //warning C4244 : 'argument' : conversion from 'double' to 'int', possible loss of data
+```
+## Solo en C++ >= 11
+```cpp
+    auto t5 = Test{ 32, "Test" };
 
-	auto t = Test{ 34 }; // No matching constructor - error C2440: '<function-style-cast>' : cannot convert from 'initializer-list' to 'Test'
+	Test t6 = { 0, "Test2" };
 
-    //DIFFERENTE de clases
+	Test t7 { 32, "Test" };
+```
+```cpp
+    //DIFFERENTE 'tolerancia' en ese tipo de inicializacion con clases en C++ 11...
 	auto t0 = Test{ 32.1, "Test" }; //error C2398: Element '1': conversion from 'double' to 'int' requires a narrowing conversion
-	auto t1 = Test{ 32, "Test" };
-
-	auto t2 = Test{ 0, "Test2" };
-	cout << t2.getI() << el;
-
+```
+```cpp
 	Test arrTests[] = { { 1,"1" },{ 2,"2" },{ 3,"3" } };
 
-	std::vector<Test> classes = { { 1,"1" },{ 2,"2", 3.1415 },{ 3 ,"3" } };
+	std::vector<Test> classes = { { 1,"1" },{ 2,"2"}, { 3, "3.5" },{ 3 ,"3" } };
+	std::vector<Test> classes2 = { { 1,"1" },{ 0 },{ 2,"2", 3.1415 },{ 3 ,"3" } }; //Constructores diferentes
 
 ```
+```cpp
+```
+
 
 <h2 id="class-members">C++ 11 inicialization de miembros de clases en la declaracion del clase</h2>
 
-```cpp
-    class Test
-    {
-        public:
-            Test(int i, std::string tipo, double f = 0.0):
-                i(i),
-                tipo(tipo),
-                f(f)
-            {
+## _**Olvidarse de inicializar miembros, especialmente en clases grandes con varios constructores**_
 
-            }
-            int getI() { 
-                return i; 
-            }
-            int p{-1};
-        private:
-            int i {0};
-            std::string tipo {"Sin Tipo"}; //No implementado en Visual Studio 2013 toolset, desde VS 2015
-            double f {1.0f};
-    }
+```cpp
+class Test
+{
+	public:
+		Test(int i, std::string tipo, double f = 0.0):
+			i(i),
+			tipo(tipo),
+			f(f)
+			//Falta el p
+		{
+
+		}
+		Test(int i) :
+			i(1),
+			f(f)
+		{
+			p = f * i;
+		}
+		int getI() { 
+			return i; 
+		}
+        int p {-1};
+    private:
+        int i {0};
+        std::string tipo {"Sin Tipo"}; //No implementado en Visual Studio 2013 toolset, desde VS 2015
+        double f {1.0f};
+}
 ```
-## Delegating constructors en C++ 11
+## Constructores con delegación en C++ 11
+
+En el clase <span class="hljs-title">Test</span> anterior hay duplicado del initicializacion, tambien un calculo en el segundo constructor que hemos olvidado en la primera. Cosas que pasan, y antes de C++ 11 podria ocurir facilmente con clases grandes con varios combinaciones del parametros en los constructores.
+En C++ 11 al final tenemos constructores con delegación, algo que con por ejemplo C# estamos acostrumbrados.
+```cpp
+class Test
+{
+	public:
+		Test(int i, double f):
+        i(i),
+        f(f)
+		{
+			p = f * i;
+		}    
+		Test(int i, std::string tipo, double f = 0.0):Test(i,f)
+			tipo(tipo)
+		{
+		}
+		int getI() { 
+			return i; 
+		}
+        int p {-1};
+    private:
+        int i {0};
+        std::string tipo {"Sin Tipo"}; //No implementado en Visual Studio 2013 compilador, desde VS 2015
+        double f {1.0f};
+}
+```
+
+## Conveniencia al llamar a funciones con objetos creados para la llamada
+```cpp
+void draw_rect( rectangle );
+ 
+// C++98
+draw_rect( rectangle( myobj.origin, selection.extents ) );
+ 
+// C++11
+draw_rect( { myobj.origin, selection.extents } );
+```

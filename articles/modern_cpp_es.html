@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<title></title>
-		<link type="text/css" rel="stylesheet" href="../../styles/vs.css">
-<link type="text/css" rel="stylesheet" href="../../styles/markdown.css">
+		<link type="text/css" rel="stylesheet" href="../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../styles/markdown.css">
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
@@ -14,33 +14,171 @@
 
   gtag("config", "UA-58458282-5");
 </script>
-<!-- Source File ../.. -->
+<!-- Source File articles\modern_cpp_es.html -->
 </head>
 <body>
 <h1>C++ MODERNO - AKA C++ &gt;= 11</h1>
 <p>Las nuevas características omnipresentes en C++ moderno que muestran por qué el código de C++ 11 y más allá es limpio, seguro y rápido, tan limpio y seguro como el código escrito en cualquier otro lenguaje moderno y corriente, y con el rendimiento tradicional de C++ tan fuerte como siempre.
 Maneras que hacer que el código sea más robusto y más fácil de mantener, como evitar fugas de memoria, más validación durante compilación, asegurar como evitar una resolución de sobrecarga incorrecta o no intencionada, y maneras para facilitar refactorización de código y más.</p>
 <p>Miramos patrones y paradigmas como hacer el código escalable y robusto con mejores prácticas de multihilo, concurrencia y minimización de “cuellos de botella” y bloqueos.</p>
-<pre><code class="language-cpp">
-    <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;vector&gt;</span></span>
-    <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;string&gt;</span></span>
-    <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span>
-    <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
-    <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
-
-    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>  <span class="hljs-comment">// small program messing around with strings</span>
-    </span>{
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"enter some whitespace-separated words:\n"</span>;
-        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt; v;
-        <span class="hljs-built_in">string</span> s;
-        <span class="hljs-keyword">while</span> (<span class="hljs-built_in">cin</span>&gt;&gt;s) v.push_back(s);
-
-        sort(v.begin(),v.end());
-
-        <span class="hljs-built_in">string</span> cat;
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp; str : v) cat += str+<span class="hljs-string">"+"</span>;
-        <span class="hljs-built_in">cout</span> &lt;&lt; cat &lt;&lt; <span class="hljs-string">'\n'</span>;
-    }
-
+<h1>Peligros comunes en C++ al devolver referencias</h1>
+<h2>Devolución de referencias a memoria asignada del stack</h2>
+<pre><code class="language-cpp"><span class="hljs-function"><span class="hljs-keyword">int</span>&amp; <span class="hljs-title">getOnStack</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> stackValue = <span class="hljs-number">123</span>;
+    <span class="hljs-keyword">return</span> stackValue;  <span class="hljs-comment">// DON'T DO THIS.</span>
+}
 </code></pre>
+<p>La memoria asignada para la referencia desaparece, y quedas con una referencia a memoria aleatoria</p>
+<br/>
+## Devolución de referencia a memoria asignada del heap
+```cpp
+int& getSomething() {
+    int* heapValue = new int;
+    return *heapValue;  // DON'T DO THIS.
+}
+```
+Ahora el llamador tendrá que hacer cosas ' extrañas ' para obtener el puntero original fuera de la referencia para eliminarlo, o simplemente no se da cuenta que haya una asignación memoria del heap que requiera la eliminación.
+<h2>No notó el valor fue devuelto por referencia</h2>
+<pre><code class="language-cpp"><span class="hljs-keyword">int</span> anyOldInt = getSomething(); <span class="hljs-comment">//Storing a copy in stack variable, original reference lost!</span>
+</code></pre>
+<h2>Olvidándose de conseguir mantener la referencia, pero todavía tratando de liberar la memoria</h2>
+<pre><code class="language-cpp"><span class="hljs-keyword">int</span> not_good = getSomething(); 
+<span class="hljs-keyword">delete</span> &amp;not_good;   <span class="hljs-comment">// Mal asunto, intentar eliminar la memoria de una variable asignada del stack</span>
+</code></pre>
+<h2>Extraña manera de liberar la memoria del puntero</h2>
+<pre><code class="language-cpp"><span class="hljs-keyword">int</span>&amp; myRef = getSomething(); <span class="hljs-comment">// ¡Debemos usar el &amp;, para no perder la referencia!</span>
+<span class="hljs-keyword">delete</span> &amp;myRef;               <span class="hljs-comment">// y obtener el puntero subyacente para eliminar... extraño</span>
+</code></pre>
+<h2>Hay situaciones perfectamente valido retornar referencias</h2>
+<pre><code class="language-cpp"><span class="hljs-function"><span class="hljs-keyword">int</span>&amp; <span class="hljs-title">getInt</span><span class="hljs-params">()</span>
+</span>{
+   <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> x = <span class="hljs-number">4</span>;
+   <span class="hljs-keyword">return</span> x;
+}
+</code></pre>
+<h2>Por ejemplo singletons</h2>
+<pre><code class="language-cpp">Class Singleton
+{
+    <span class="hljs-keyword">public</span>:
+        <span class="hljs-function"><span class="hljs-keyword">static</span> Singleton&amp; <span class="hljs-title">instance</span><span class="hljs-params">()</span>
+        </span>{
+            <span class="hljs-keyword">static</span> Singleton instance;
+            <span class="hljs-keyword">return</span> instance;
+        };
+}
+</code></pre>
+<h3>Pero si no es necesario, evita devolver referencias, utilice un patrón para pasar la responsabilidad del recurso</h3>
+<h2>Normalmente se utiliza <span class="hljs-built_in">std::unique_ptr&lt;T&gt;</span> y dejar que administre la vida útil del objeto</h2>
+<pre><code class="language-cpp"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; getSomething() {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">std</span>::make_unique&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-number">123</span>);
+}
+</code></pre>
+<p>Y el código de llamada simplemente mantiene el puntero mientras de la instancia de <span class="hljs-built_in">std::unique_ptr&lt;T&gt;</span> existe.</p>
+<pre><code class="language-cpp"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; x = getSomething();
+</code></pre>
+<h1>Ejemplo de <span class="hljs-built_in">std::unique_ptr&lt;T&gt;</span> con clase</h1>
+<pre><code class="language-cpp"><span class="hljs-keyword">class</span> UPTest {
+<span class="hljs-keyword">public</span>:
+    UPTest(<span class="hljs-keyword">int</span> id):
+        _id(id)
+    { }
+    ~UPTest() {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"deleted UPTest "</span> &lt;&lt; _id &lt;&lt; el;
+    }
+    <span class="hljs-keyword">int</span> _id;
+};
+</code></pre>
+<pre><code class="language-cpp"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;UPTest&gt; getSomething() {
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> c = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">std</span>::make_unique&lt;UPTest&gt;(c++);
+}
+
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;UPTest&gt; getAnotherOne()
+{
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;UPTest&gt; x = getSomething();
+    <span class="hljs-keyword">return</span> x;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">doStuff</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;UPTest&gt; o)</span>
+</span>{
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Doing stuff with UPTest "</span> &lt;&lt; o-&gt;_id &lt;&lt; el;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">uniquePtr</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;UPTest&gt; x = getSomething();
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;UPTest&gt; y = getAnotherOne();
+
+    <span class="hljs-comment">//std::unique_ptr&lt;UPTest&gt; x1(x);    // ERROR! error C2280: 'std::unique_ptr&lt;UPTest... : attempting to reference a deleted function</span>
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;UPTest&gt; x2;
+    <span class="hljs-comment">//x2 = x;                   // ERROR! error C2280: 'std::unique_ptr&lt;UPTest... : attempting to reference a deleted function</span>
+
+    x2 = <span class="hljs-built_in">std</span>::move(y); <span class="hljs-comment">//Move semantics required, moves the own pointer from one to the other</span>
+
+    doStuff(<span class="hljs-built_in">std</span>::move(x)); <span class="hljs-comment">//Pass along the pointer and ownership</span>
+    assert(x == <span class="hljs-literal">nullptr</span>);
+    assert(y == <span class="hljs-literal">nullptr</span>);
+    assert(x2 != <span class="hljs-literal">nullptr</span>);
+    <span class="hljs-built_in">cout</span> &lt;&lt; x2-&gt;_id &lt;&lt; el;
+
+    <span class="hljs-comment">//But you can still do this</span>
+    UPTest* pUP = <span class="hljs-keyword">new</span> UPTest(<span class="hljs-number">12</span>);
+
+    <span class="hljs-keyword">auto</span> up3 = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;UPTest&gt;(pUP);
+        
+    <span class="hljs-comment">//delete pUP; //BAD, when up3 goes out of scope it will double delete the pUP pointer</span>
+}
+</code></pre>
+<h1>Evitar creation y destrucion de puntero crudo cuando deberia usar <span class="hljs-built_in">std::unique_ptr&lt;T&gt;</span> con una clase</h1>
+<pre><code class="language-cpp"><span class="hljs-keyword">class</span> EnforceUniquePtr
+{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">static</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;EnforceUniquePtr&gt; create()
+    {
+        <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;EnforceUniquePtr&gt;(<span class="hljs-keyword">new</span> EnforceUniquePtr(i++));
+    }
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">i</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>{ <span class="hljs-keyword">return</span> _i; }
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">friend</span> <span class="hljs-built_in">std</span>::default_delete&lt;EnforceUniquePtr&gt;; <span class="hljs-comment">//Allow unique_ptr to call our destructor</span>
+
+    EnforceUniquePtr(<span class="hljs-keyword">int</span> i){}
+    ~EnforceUniquePtr() {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"destructing EnforceUniquePtr "</span> &lt;&lt; _i &lt;&lt; el;
+    }
+    <span class="hljs-keyword">int</span> _i { <span class="hljs-number">0</span> };
+};
+
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">doThingsWithRawPointer</span><span class="hljs-params">(<span class="hljs-keyword">const</span> EnforceUniquePtr* p)</span>
+</span>{
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Processing EnforceUniquePtr "</span> &lt;&lt; p-&gt;i() &lt;&lt; el;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">enforceUniquePtr</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">auto</span> o = EnforceUniquePtr::create();
+
+    <span class="hljs-comment">//error C2248: 'EnforceUniquePtr::EnforceUniquePtr' : cannot access private member declared in class 'EnforceUniquePtr'</span>
+    <span class="hljs-comment">//auto sp = new EnforceUniquePtr(); </span>
+
+    <span class="hljs-comment">//auto p = std::make_unique&lt;EnforceUniquePtr&gt;(1); //NO, constructor private</span>
+    <span class="hljs-comment">//auto p2 = std::unique_ptr&lt;EnforceUniquePtr&gt;(new EnforceUniquePtr(2)); //NO, constructor private</span>
+
+    <span class="hljs-comment">//But you can still do this</span>
+    EnforceUniquePtr* pEU = o.get();
+
+    doThingsWithRawPointer(pEU); <span class="hljs-comment">//Typically to call code that already expects a raw pointer</span>
+
+    <span class="hljs-comment">//Bad idea, you will have two std::unique_ptr owning the same pointer</span>
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;EnforceUniquePtr&gt; p2 = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;EnforceUniquePtr&gt;(pEU); 
+    
+    pEU = p2.release(); <span class="hljs-comment">//Now cleared up, p is the only unique_ptr owning it</span>
+
+    assert(p2 == <span class="hljs-literal">nullptr</span>);
+
+    <span class="hljs-comment">//delete pEU; //Cannot do this, destructor is private</span>
+}
+</code></pre>
+<h1>El <span class="hljs-built_in">auto_ptr&lt;T&gt;</span> esta obsoleto, y nunca fue bueno. ¡No lo uses nunca jamás!!</h1>
 <div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>
