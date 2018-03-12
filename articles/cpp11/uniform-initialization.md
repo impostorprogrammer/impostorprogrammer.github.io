@@ -166,7 +166,6 @@ Con C++ 11 podemos iniciar directamente con una lista de valores, similares como
 
 ```
 
-## C++ 11 inicialization de miembros de clases en la declaracion del clase
 <h2 id="class-members">C++ 11 inicialization de miembros de clases en la declaracion del clase</h2>
 
 ```cpp

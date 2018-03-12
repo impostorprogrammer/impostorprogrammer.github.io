@@ -104,7 +104,7 @@ Se podía hacerlo con los array tipo-C de vieja escuela, pero no con los colecci
     TestStruct* pTS2 = <span class="hljs-keyword">new</span> TestStruct{ <span class="hljs-number">1.2</span> , <span class="hljs-number">2</span>, <span class="hljs-number">3.2</span> };  <span class="hljs-comment">//warning C4244 : 'initializing' : conversion from 'double' to 'int', possible loss of data</span>
     TestStruct* pTS3 = <span class="hljs-keyword">new</span> TestStruct{ {<span class="hljs-number">1.2</span>}, <span class="hljs-number">2</span>, <span class="hljs-number">3.2</span> }; <span class="hljs-comment">// error C2440 : 'initializing' : cannot convert from 'initializer-list' to 'TestStruct'</span>
 </code></pre>
-<h2>Clases</h2>
+<h2>Clase de toda la vida</h2>
 <pre><code class="language-cpp">    <span class="hljs-keyword">class</span> Test
     {
         <span class="hljs-keyword">public</span>:
@@ -155,5 +155,26 @@ Se podía hacerlo con los array tipo-C de vieja escuela, pero no con los colecci
     <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;Test&gt; classes = { { <span class="hljs-number">1</span>,<span class="hljs-string">"1"</span> },{ <span class="hljs-number">2</span>,<span class="hljs-string">"2"</span>, <span class="hljs-number">3.1415</span> },{ <span class="hljs-number">3</span> ,<span class="hljs-string">"3"</span> } };
 
 </code></pre>
-<h2>C++ 11 inicialization de miembros de clases en la declaracion del clase</h2>
+<p><h2 id="class-members">C++ 11 inicialization de miembros de clases en la declaracion del clase</h2></p>
+<pre><code class="language-cpp">    <span class="hljs-keyword">class</span> Test
+    {
+        <span class="hljs-keyword">public</span>:
+            Test(<span class="hljs-keyword">int</span> i, <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> tipo, <span class="hljs-keyword">double</span> f = <span class="hljs-number">0.0</span>):
+                i(i),
+                tipo(tipo),
+                f(f)
+            {
+
+            }
+            <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getI</span><span class="hljs-params">()</span> </span>{ 
+                <span class="hljs-keyword">return</span> i; 
+            }
+            <span class="hljs-keyword">int</span> p{<span class="hljs-number">-1</span>};
+        <span class="hljs-keyword">private</span>:
+            <span class="hljs-keyword">int</span> i {<span class="hljs-number">0</span>};
+            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> tipo {<span class="hljs-string">"Sin Tipo"</span>}; <span class="hljs-comment">//No implementado en Visual Studio 2013 toolset, desde VS 2015</span>
+            <span class="hljs-keyword">double</span> f {<span class="hljs-number">1.0f</span>};
+    }
+</code></pre>
+<h2>Delegating constructors en C++ 11</h2>
 <div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>
