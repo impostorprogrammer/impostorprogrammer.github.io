@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../../styles/markdown.css">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "UA-58458282-5");
+</script>
+<!-- Source File ../.. -->
+</head>
+<body>
+<!-- Inspirado en este https://mbevin.wordpress.com/2012/11/16/uniform-initialization/ -->
+<h1>Inicialización uniforme - Nuevo en C++ 11</h1>
+<p>Las listas uniformes de inicialización e inicializador proporcionan una nueva sintaxis común para la inicialización en c++ 11.</p>
+<h2>Listas de inicializadores</h2>
+<p>Antes de C++ 11 no había una manera fácil para por ejemplo inicializar un std::vector o std::map etc. con una conjunto de valores.
+Se podía hacerlo con los array tipo-C de vieja escuela, pero no con los colecciones de la STL.</p>
+<p>Tendría que primero inicializar un array tipo-C, y después usarlo con algo de código para inyectar los valores.</p>
+<h2>La vieja escuela - <span class="hljs-built_in">std::vector, std::map</span> etc.</h2>
+<pre><code class="language-cpp">    <span class="hljs-comment">//Via un array inicializado con una lista de inicializacion</span>
+    <span class="hljs-keyword">int</span> carray[] = { <span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span> };
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; vec;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i&lt;<span class="hljs-number">5</span>; i++) { vec.push_back(carray[i]); }
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">set</span>&lt;<span class="hljs-keyword">int</span>&gt; conj;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i&lt;<span class="hljs-number">5</span>; i++) { conj.insert(carray[i]); }
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">map</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt; mapa;
+    mapa[<span class="hljs-number">0</span>] = <span class="hljs-string">"cero"</span>;
+    mapa[<span class="hljs-number">1</span>] = <span class="hljs-string">"uno"</span>;
+    mapa[<span class="hljs-number">2</span>] = <span class="hljs-string">"dos"</span>;
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; vec2;
+    vec2.push_back(<span class="hljs-number">10</span>);
+    vec2.push_back(<span class="hljs-number">20</span>);
+    vec2.push_back(<span class="hljs-number">30</span>);
+    vec2.push_back(<span class="hljs-number">40</span>);
+    <span class="hljs-keyword">int</span> total = vec2.size();
+
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* values[] = { <span class="hljs-string">"Via"</span>, <span class="hljs-string">"a"</span>, <span class="hljs-string">"constructor"</span>, <span class="hljs-string">"using"</span>, <span class="hljs-string">"initializer_list"</span> };
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt; strings;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> c = <span class="hljs-number">0</span>; c&lt;<span class="hljs-number">5</span>; c++) { strings.push_back(values[c]); }
+</code></pre>
+<h2>Desde C++ 11 - Directamente con una lista de inicializacion</h2>
+<p>Con C++ 11 podemos iniciar directamente con una lista de valores, similares como en C#</p>
+<pre><code class="language-cpp">    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; vec = { <span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span> };
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">set</span>&lt;<span class="hljs-keyword">int</span>&gt; conj = { <span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span> };
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">map</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt; mapa = { {<span class="hljs-number">0</span>,<span class="hljs-string">"cero"</span> }, {<span class="hljs-number">1</span>, <span class="hljs-string">"uno"</span>}, {<span class="hljs-number">2</span>, <span class="hljs-string">"dos"</span>} };
+    <span class="hljs-keyword">auto</span> second = mapa[<span class="hljs-number">2</span>];
+    <span class="hljs-built_in">cout</span> &lt;&lt; second &lt;&lt; el;
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt; strings = { <span class="hljs-string">"Via"</span>, <span class="hljs-string">"an"</span>, <span class="hljs-string">"initializer_list"</span> };
+    <span class="hljs-built_in">cout</span> &lt;&lt; strings.at(<span class="hljs-number">2</span>) &lt;&lt; el;
+</code></pre>
+<h2>C++ 11 - Protección de conversióne de datos no deseado o peligroso</h2>
+<pre><code class="language-cpp">    <span class="hljs-keyword">int</span> minusOne = <span class="hljs-number">-112345</span>;
+
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> ui { minusOne }; <span class="hljs-comment">//error C2397: conversion from 'int' to 'unsigned int' requires a narrowing conversion</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> ui2 = minusOne;
+
+    <span class="hljs-keyword">int</span> minusOne2{ ui2 }; <span class="hljs-comment">//error C2397 : conversion from 'unsigned int' to 'int' requires a narrowing conversion</span>
+    <span class="hljs-keyword">int</span> minusOne3 = ui2;
+
+
+    <span class="hljs-keyword">double</span> d = <span class="hljs-number">3.2</span>;
+    <span class="hljs-keyword">float</span> f = d;
+    <span class="hljs-keyword">float</span> f2{ d }; <span class="hljs-comment">//error C2397: conversion from 'double' to 'float' requires a narrowing conversion</span>
+
+    <span class="hljs-comment">//No loss of data, no problem or warning</span>
+    <span class="hljs-keyword">double</span> d2{ f };
+    <span class="hljs-keyword">int64_t</span> longLong{ minusOne };
+</code></pre>
+<h2>C++ 98 - Inicializacion de struct</h2>
+<pre><code class="language-cpp">    <span class="hljs-keyword">struct</span> TestStruct {
+        <span class="hljs-keyword">int</span> m_i;
+        <span class="hljs-keyword">int</span> m_x;
+        <span class="hljs-keyword">double</span> m_f;
+    };
+
+    TestStruct ts = { <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3.2</span> }; <span class="hljs-comment">// For structs you could do this since C99</span>
+    TestStruct ts1 = { <span class="hljs-number">1</span>, <span class="hljs-number">2</span> }; <span class="hljs-comment">//Zero initializing the rest</span>
+    TestStruct ts2 = {};     <span class="hljs-comment">// Initialize to 0</span>
+</code></pre>
+<h2>C++ 11 - Inicializacion de struct</h2>
+<pre><code class="language-cpp">    TestStruct ts = { <span class="hljs-number">1</span>, <span class="hljs-number">2.1</span>, <span class="hljs-number">3.2</span> }; <span class="hljs-comment">// warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data</span>
+    
+    TestStruct tsF2 = { <span class="hljs-number">1</span>, {<span class="hljs-number">2.1</span>}, <span class="hljs-number">3.2</span> }; <span class="hljs-comment">// error C2397: conversion from 'double' to 'int' requires a narrowing conversion</span>
+
+    TestStruct* pTS = <span class="hljs-keyword">new</span> TestStruct{ <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3.2</span> }; 
+
+    TestStruct* pTS1 = <span class="hljs-keyword">new</span> TestStruct{ <span class="hljs-number">1</span>, <span class="hljs-number">3</span>};
+
+    TestStruct* pTS2 = <span class="hljs-keyword">new</span> TestStruct{ <span class="hljs-number">1.2</span> , <span class="hljs-number">2</span>, <span class="hljs-number">3.2</span> };  <span class="hljs-comment">//warning C4244 : 'initializing' : conversion from 'double' to 'int', possible loss of data</span>
+    TestStruct* pTS3 = <span class="hljs-keyword">new</span> TestStruct{ {<span class="hljs-number">1.2</span>}, <span class="hljs-number">2</span>, <span class="hljs-number">3.2</span> }; <span class="hljs-comment">// error C2440 : 'initializing' : cannot convert from 'initializer-list' to 'TestStruct'</span>
+</code></pre>
+<h2>Clases</h2>
+<pre><code class="language-cpp">    <span class="hljs-keyword">class</span> Test
+    {
+        <span class="hljs-keyword">public</span>:
+            Test(<span class="hljs-keyword">int</span> i, <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> tipo, <span class="hljs-keyword">double</span> f = <span class="hljs-number">0.0</span>):
+                i(i),
+                tipo(tipo),
+                f(f)
+            {
+
+            }
+            <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getI</span><span class="hljs-params">()</span> </span>{ 
+                <span class="hljs-keyword">return</span> i; 
+            }
+            <span class="hljs-keyword">int</span> p;
+        <span class="hljs-keyword">private</span>:
+            <span class="hljs-keyword">int</span> i;
+            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> tipo;
+            <span class="hljs-keyword">double</span> f;
+    }
+</code></pre>
+<pre><code class="language-cpp">    <span class="hljs-keyword">class</span> Simple {
+    <span class="hljs-keyword">public</span>:
+        <span class="hljs-keyword">int</span> first;
+        <span class="hljs-keyword">double</span> second;
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> third;
+    };
+</code></pre>
+<h2>C++ 98 - Inicializacion de clases</h2>
+<pre><code class="language-cpp">    <span class="hljs-function">Test <span class="hljs-title">t</span><span class="hljs-params">(<span class="hljs-number">23</span>, <span class="hljs-string">"old"</span>)</span></span>;  <span class="hljs-comment">//Via constructor only way</span>
+
+    Simple s1 = { <span class="hljs-number">1</span>, <span class="hljs-number">2.1</span>, <span class="hljs-string">"Simple"</span> }; <span class="hljs-comment">//Same behaviour as struct, Simple is an 'aggregate' class</span>
+
+</code></pre>
+<h2>C++ 11 - Inicializacion de clases</h2>
+<pre><code class="language-cpp">    <span class="hljs-keyword">auto</span> t = Test{ <span class="hljs-number">34</span>, <span class="hljs-string">"Test"</span>, <span class="hljs-number">22</span>, <span class="hljs-number">3</span> }; <span class="hljs-comment">// No matching constructor - error C2440: '&lt;function-style-cast&gt;' : cannot convert from 'initializer-list' to 'Test'</span>
+
+    <span class="hljs-keyword">auto</span> t = Test{ <span class="hljs-number">34</span> }; <span class="hljs-comment">// No matching constructor - error C2440: '&lt;function-style-cast&gt;' : cannot convert from 'initializer-list' to 'Test'</span>
+
+    <span class="hljs-comment">//DIFFERENTE de clases</span>
+    <span class="hljs-keyword">auto</span> t0 = Test{ <span class="hljs-number">32.1</span>, <span class="hljs-string">"Test"</span> }; <span class="hljs-comment">//error C2398: Element '1': conversion from 'double' to 'int' requires a narrowing conversion</span>
+    <span class="hljs-keyword">auto</span> t1 = Test{ <span class="hljs-number">32</span>, <span class="hljs-string">"Test"</span> };
+
+    <span class="hljs-keyword">auto</span> t2 = Test{ <span class="hljs-number">0</span>, <span class="hljs-string">"Test2"</span> };
+    <span class="hljs-built_in">cout</span> &lt;&lt; t2.getI() &lt;&lt; el;
+
+    Test arrTests[] = { { <span class="hljs-number">1</span>,<span class="hljs-string">"1"</span> },{ <span class="hljs-number">2</span>,<span class="hljs-string">"2"</span> },{ <span class="hljs-number">3</span>,<span class="hljs-string">"3"</span> } };
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;Test&gt; classes = { { <span class="hljs-number">1</span>,<span class="hljs-string">"1"</span> },{ <span class="hljs-number">2</span>,<span class="hljs-string">"2"</span>, <span class="hljs-number">3.1415</span> },{ <span class="hljs-number">3</span> ,<span class="hljs-string">"3"</span> } };
+
+</code></pre>
+<h2>C++ 11 inicialization de miembros de clases en la declaracion del clase</h2>
+<div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>
