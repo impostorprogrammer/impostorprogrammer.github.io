@@ -8,6 +8,8 @@
 
 * ## Unir y abandonar hilos join / detach()
 
+atomic<>
+
 * ## std::condition_variable
 
 * ## std::async std::future std::promise y std::shared_future

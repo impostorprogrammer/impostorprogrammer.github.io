@@ -1,8 +1,9 @@
 [//]: # ( spellcheck-language es )
 <!-- Inspirado en este https://mbevin.wordpress.com/2012/11/16/uniform-initialization/ -->
 
-# Inicialización uniforme - Nuevo en C++ 11
+# Inicialización y Inicialización uniforme - Novedades en C++ 11
 Las listas uniformes de inicialización e inicializador proporcionan una nueva sintaxis común para la inicialización en c++ 11.
+
 
 ## Listas de inicializadores
 Antes de C++ 11 no había una manera fácil para por ejemplo inicializar un std::vector o std::map etc. con una conjunto de valores.
@@ -222,13 +223,57 @@ class Test
 		int getI() { 
 			return i; 
 		}
-        int p {-1};
+        int p {-1}; //En C++ 11 hacerlo así
+        int p = -1; //o hacerlo así
     private:
         int i {0};
         std::string tipo {"Sin Tipo"}; //No implementado en Visual Studio 2013 toolset, desde VS 2015
         double f {1.0f};
 }
 ```
+
+## ¿Que pasa con los clases y structs 'simples', agregados y POD?
+[Detalles de los PODs y clases agregados en stackoverflow](https://stackoverflow.com/questions/4178175/what-are-aggregates-and-pods-and-how-why-are-they-special)
+
+
+## Si tenmos estos dos tipos
+```cpp
+//PODStruct  es un clase agregado y tambíen un POD (plain old data)
+struct PODStruct {
+	int m_i;
+	int m_x;
+};
+```
+```cpp
+//NonPODStruct No es un clase agregado y tampoco un POD (plain old data)
+struct NonPODStruct {
+	int m_i;
+	int m_x{}; //This 0 initialization is basically equivalent to providing your own default constructor
+};
+```
+## ¿Cómo se inicializan estos?
+```cpp
+	auto ts0 = new PODStruct;
+	auto ts1 = new PODStruct();
+	auto ts2 = new PODStruct{};
+
+	auto ts2_0 = new NonPODStruct;
+	auto ts2_1 = new NonPODStruct();
+	auto ts2_2 = new NonPODStruct{};
+```
+## Resultado
+call | variable | address | values | type |
+:------------ | :------------ | :-----------: | :-----------: | :-----------: |
+new PODStruct|ts0|	0x00bf0818|{m_i=**0xcdcdcdcd** m_x=**0xcdcdcdcd** }|PODStruct *
+new PODStruct()|ts1|	0x00bf08f8|{m_i=0x00000000 m_x=0x00000000 }|PODStruct *
+new PODStruct{}|ts2|	0x00bf0620|{m_i=0x00000000 m_x=0x00000000 }|PODStruct *
+new NonPODStruct|ts2_0|	0x00bf0850|{m_i=**0xcdcdcdcd** m_x=0x00000000 }|NonPODStruct *
+new NonPODStruct()|ts2_1|	0x00bf0888|{m_i=**0xcdcdcdcd** m_x=0x00000000 }|NonPODStruct *
+new NonPODStruct{}|ts2_2|	0x00bf0968|{m_i=**0xcdcdcdcd** m_x=0x00000000 }|NonPODStruct *
+
+
+
+
 ## Constructores con delegación en C++ 11
 
 En el clase <span class="hljs-title">Test</span> anterior hay duplicado del initicializacion, tambien un calculo en el segundo constructor que hemos olvidado en la primera. Cosas que pasan, y antes de C++ 11 podria ocurir facilmente con clases grandes con varios combinaciones del parametros en los constructores.

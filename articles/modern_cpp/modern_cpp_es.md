@@ -18,8 +18,8 @@ int& getOnStack() {
 }
 ```
 La memoria asignada para la referencia desaparece, y quedas con una referencia a memoria aleatoria
-
 <br/>
+
 ## Devolución de referencia a memoria asignada del heap
 ```cpp
 int& getSomething() {
@@ -189,5 +189,38 @@ void enforceUniquePtr()
 	//delete pEU; //Cannot do this, destructor is private
 }
 ```
+
+## Usando static std::unique_ptr para reclamar recursos cuando hilos terminan
+
+
+
+# <span class="hljs-built_in">std::shared_ptr</span>
+
+## ¿Para que sirve <span class="hljs-built_in">std::shared_ptr</span>?
+<!-- Good article at http://www.modernescpp.com/index.php/std-shared-ptr  -->
+
+* Cuando un recurso tiene various dueños.
+* Cuando hay referencia y usos de un objecto desde varios 'lugares', y no es deterministico, o depende de la ejecucion cual va ser el ultimo para usar el puntero.
+* El ultimo que usa, descarta su shared_ptr, y entonces como no hay mas referencias al puntero, el shared_ptr detecta eso y lo destruye el objecto del puntero crudo y el bloque de control.
+* Es seguro para multi-hilo, _pero_ _ojo_ con tu objeto detras del puntero crudo, necesitara proteccion de concurrencia tambíen.
+
+## Comportamiento
+* Cada vez que se copia un <span class="hljs-built_in">std::shared_ptr</span>, se incrementa el conteo de referencias.
+* Así cada copia es uno de los dueños del recurso/puntero.
+* Cuando no hay mas copias del <span class="hljs-built_in">std::shared_ptr</span> que refere al mismo recurso, es destruido.
+
+```cpp
+
+
+```
+
+<img src="./SharedPtrRelations.png" style="width:80%;min-width:500px;max-width:1200px;">
+
+
+# <span class="hljs-built_in">std::weak_ptr</span>
+
+<img src="./SharedAndWeakPtrRelations.png" style="width:80%;min-width:500px;max-width:1200px;">
+
+
 
 # El <span class="hljs-built_in">auto_ptr&lt;T&gt;</span> esta obsoleto, y nunca fue bueno. ¡No lo uses nunca jamás!!

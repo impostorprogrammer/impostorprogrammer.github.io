@@ -18,7 +18,7 @@
 </head>
 <body>
 <!-- Inspirado en este https://mbevin.wordpress.com/2012/11/16/uniform-initialization/ -->
-<h1>Inicialización uniforme - Nuevo en C++ 11</h1>
+<h1>Inicialización y Inicialización uniforme - Novedades en C++ 11</h1>
 <p>Las listas uniformes de inicialización e inicializador proporcionan una nueva sintaxis común para la inicialización en c++ 11.</p>
 <h2>Listas de inicializadores</h2>
 <p>Antes de C++ 11 no había una manera fácil para por ejemplo inicializar un std::vector o std::map etc. con una conjunto de valores.
@@ -200,13 +200,94 @@ Se podía hacerlo con los array tipo-C de vieja escuela, pero no con los colecci
         <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getI</span><span class="hljs-params">()</span> </span>{ 
             <span class="hljs-keyword">return</span> i; 
         }
-        <span class="hljs-keyword">int</span> p {<span class="hljs-number">-1</span>};
+        <span class="hljs-keyword">int</span> p {<span class="hljs-number">-1</span>}; <span class="hljs-comment">//En C++ 11 hacerlo así</span>
+        <span class="hljs-keyword">int</span> p = <span class="hljs-number">-1</span>; <span class="hljs-comment">//o hacerlo así</span>
     <span class="hljs-keyword">private</span>:
         <span class="hljs-keyword">int</span> i {<span class="hljs-number">0</span>};
         <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> tipo {<span class="hljs-string">"Sin Tipo"</span>}; <span class="hljs-comment">//No implementado en Visual Studio 2013 toolset, desde VS 2015</span>
         <span class="hljs-keyword">double</span> f {<span class="hljs-number">1.0f</span>};
 }
 </code></pre>
+<h2>¿Que pasa con los clases y structs 'simples', agregados y POD?</h2>
+<p><a href="https://stackoverflow.com/questions/4178175/what-are-aggregates-and-pods-and-how-why-are-they-special">Detalles de los PODs y clases agregados en stackoverflow</a></p>
+<h2>Si tenmos estos dos tipos</h2>
+<pre><code class="language-cpp"><span class="hljs-comment">//PODStruct  es un clase agregado y tambíen un POD (plain old data)</span>
+<span class="hljs-keyword">struct</span> PODStruct {
+    <span class="hljs-keyword">int</span> m_i;
+    <span class="hljs-keyword">int</span> m_x;
+};
+</code></pre>
+<pre><code class="language-cpp"><span class="hljs-comment">//NonPODStruct No es un clase agregado y tampoco un POD (plain old data)</span>
+<span class="hljs-keyword">struct</span> NonPODStruct {
+    <span class="hljs-keyword">int</span> m_i;
+    <span class="hljs-keyword">int</span> m_x{}; <span class="hljs-comment">//This 0 initialization is basically equivalent to providing your own default constructor</span>
+};
+</code></pre>
+<h2>¿Cómo se inicializan estos?</h2>
+<pre><code class="language-cpp">    <span class="hljs-keyword">auto</span> ts0 = <span class="hljs-keyword">new</span> PODStruct;
+    <span class="hljs-keyword">auto</span> ts1 = <span class="hljs-keyword">new</span> PODStruct();
+    <span class="hljs-keyword">auto</span> ts2 = <span class="hljs-keyword">new</span> PODStruct{};
+
+    <span class="hljs-keyword">auto</span> ts2_0 = <span class="hljs-keyword">new</span> NonPODStruct;
+    <span class="hljs-keyword">auto</span> ts2_1 = <span class="hljs-keyword">new</span> NonPODStruct();
+    <span class="hljs-keyword">auto</span> ts2_2 = <span class="hljs-keyword">new</span> NonPODStruct{};
+</code></pre>
+<h2>Resultado</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">call</th>
+<th style="text-align:left">variable</th>
+<th style="text-align:center">address</th>
+<th style="text-align:center">values</th>
+<th style="text-align:center">type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">new PODStruct</td>
+<td style="text-align:left">ts0</td>
+<td style="text-align:center">0x00bf0818</td>
+<td style="text-align:center">{m_i=<strong>0xcdcdcdcd</strong> m_x=<strong>0xcdcdcdcd</strong> }</td>
+<td style="text-align:center">PODStruct *</td>
+</tr>
+<tr>
+<td style="text-align:left">new PODStruct()</td>
+<td style="text-align:left">ts1</td>
+<td style="text-align:center">0x00bf08f8</td>
+<td style="text-align:center">{m_i=0x00000000 m_x=0x00000000 }</td>
+<td style="text-align:center">PODStruct *</td>
+</tr>
+<tr>
+<td style="text-align:left">new PODStruct{}</td>
+<td style="text-align:left">ts2</td>
+<td style="text-align:center">0x00bf0620</td>
+<td style="text-align:center">{m_i=0x00000000 m_x=0x00000000 }</td>
+<td style="text-align:center">PODStruct *</td>
+</tr>
+<tr>
+<td style="text-align:left">new NonPODStruct</td>
+<td style="text-align:left">ts2_0</td>
+<td style="text-align:center">0x00bf0850</td>
+<td style="text-align:center">{m_i=<strong>0xcdcdcdcd</strong> m_x=0x00000000 }</td>
+<td style="text-align:center">NonPODStruct *</td>
+</tr>
+<tr>
+<td style="text-align:left">new NonPODStruct()</td>
+<td style="text-align:left">ts2_1</td>
+<td style="text-align:center">0x00bf0888</td>
+<td style="text-align:center">{m_i=<strong>0xcdcdcdcd</strong> m_x=0x00000000 }</td>
+<td style="text-align:center">NonPODStruct *</td>
+</tr>
+<tr>
+<td style="text-align:left">new NonPODStruct{}</td>
+<td style="text-align:left">ts2_2</td>
+<td style="text-align:center">0x00bf0968</td>
+<td style="text-align:center">{m_i=<strong>0xcdcdcdcd</strong> m_x=0x00000000 }</td>
+<td style="text-align:center">NonPODStruct *</td>
+</tr>
+</tbody>
+</table>
 <h2>Constructores con delegación en C++ 11</h2>
 <p>En el clase <span class="hljs-title">Test</span> anterior hay duplicado del initicializacion, tambien un calculo en el segundo constructor que hemos olvidado en la primera. Cosas que pasan, y antes de C++ 11 podria ocurir facilmente con clases grandes con varios combinaciones del parametros en los constructores.
 En C++ 11 al final tenemos constructores con delegación, algo que con por ejemplo C# estamos acostrumbrados.</p>

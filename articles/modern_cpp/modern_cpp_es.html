@@ -28,16 +28,15 @@ Maneras que hacer que el código sea más robusto y más fácil de mantener, com
     <span class="hljs-keyword">return</span> stackValue;  <span class="hljs-comment">// DON'T DO THIS.</span>
 }
 </code></pre>
-<p>La memoria asignada para la referencia desaparece, y quedas con una referencia a memoria aleatoria</p>
-<br/>
-## Devolución de referencia a memoria asignada del heap
-```cpp
-int& getSomething() {
-    int* heapValue = new int;
-    return *heapValue;  // DON'T DO THIS.
+<p>La memoria asignada para la referencia desaparece, y quedas con una referencia a memoria aleatoria
+<br/></p>
+<h2>Devolución de referencia a memoria asignada del heap</h2>
+<pre><code class="language-cpp"><span class="hljs-function"><span class="hljs-keyword">int</span>&amp; <span class="hljs-title">getSomething</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span>* heapValue = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;
+    <span class="hljs-keyword">return</span> *heapValue;  <span class="hljs-comment">// DON'T DO THIS.</span>
 }
-```
-Ahora el llamador tendrá que hacer cosas ' extrañas ' para obtener el puntero original fuera de la referencia para eliminarlo, o simplemente no se da cuenta que haya una asignación memoria del heap que requiera la eliminación.
+</code></pre>
+<p>Ahora el llamador tendrá que hacer cosas ' extrañas ' para obtener el puntero original fuera de la referencia para eliminarlo, o simplemente no se da cuenta que haya una asignación memoria del heap que requiera la eliminación.</p>
 <h2>No notó el valor fue devuelto por referencia</h2>
 <pre><code class="language-cpp"><span class="hljs-keyword">int</span> anyOldInt = getSomething(); <span class="hljs-comment">//Storing a copy in stack variable, original reference lost!</span>
 </code></pre>
@@ -180,5 +179,27 @@ Ahora el llamador tendrá que hacer cosas ' extrañas ' para obtener el puntero 
     <span class="hljs-comment">//delete pEU; //Cannot do this, destructor is private</span>
 }
 </code></pre>
+<h2>Usando static std::unique_ptr para reclamar recursos cuando hilos terminan</h2>
+<h1><span class="hljs-built_in">std::shared_ptr</span></h1>
+<h2>¿Para que sirve <span class="hljs-built_in">std::shared_ptr</span>?</h2>
+<!-- Good article at http://www.modernescpp.com/index.php/std-shared-ptr  -->
+<ul>
+<li>Cuando un recurso tiene various dueños.</li>
+<li>Cuando hay referencia y usos de un objecto desde varios 'lugares', y no es deterministico, o depende de la ejecucion cual va ser el ultimo para usar el puntero.</li>
+<li>El ultimo que usa, descarta su shared_ptr, y entonces como no hay mas referencias al puntero, el shared_ptr detecta eso y lo destruye el objecto del puntero crudo y el bloque de control.</li>
+<li>Es seguro para multi-hilo, <em>pero</em> <em>ojo</em> con tu objeto detras del puntero crudo, necesitara proteccion de concurrencia tambíen.</li>
+</ul>
+<h2>Comportamiento</h2>
+<ul>
+<li>Cada vez que se copia un <span class="hljs-built_in">std::shared_ptr</span>, se incrementa el conteo de referencias.</li>
+<li>Así cada copia es uno de los dueños del recurso/puntero.</li>
+<li>Cuando no hay mas copias del <span class="hljs-built_in">std::shared_ptr</span> que refere al mismo recurso, es destruido.</li>
+</ul>
+<pre><code class="language-cpp">
+
+</code></pre>
+<img src="./SharedPtrRelations.png" style="width:80%;min-width:500px;max-width:1200px;">
+<h1><span class="hljs-built_in">std::weak_ptr</span></h1>
+<img src="./SharedAndWeakPtrRelations.png" style="width:80%;min-width:500px;max-width:1200px;">
 <h1>El <span class="hljs-built_in">auto_ptr&lt;T&gt;</span> esta obsoleto, y nunca fue bueno. ¡No lo uses nunca jamás!!</h1>
 <div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>
