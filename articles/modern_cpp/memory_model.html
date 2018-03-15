@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../../styles/markdown.css">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "UA-58458282-5");
+</script>
+<!-- Source File articles\modern_cpp\memory_model.html -->
+</head>
+<body>
+<h1>C++ 11 - Ya existe hilos y concurrencia</h1>
+<p>Antes de <strong>C++ 11</strong>, en teoría no se pudo crear un programa multihilo en C++ estándar y compilarlo para diferentes plataformas.
+Era imposible (en teoría), porque el estándar de C++ antes de C++ 11 no sabia que era hilos, no tenia ningún concepto de acceso de memoria concurrente desde instrucciones originando de diversos hilos o núcleos.</p>
+<p>Aunque muchos somos que hemos creado estos tipos de programas, pero no fue gracias al estándar C++ 98/03 fue con ayuda de librerías de terceros y los creadores de los compiladores. Si tenia que hacerlo para varios plataformas, la opción probablemente sera usar ptrheads (posix threads), creando threads con ´pthread_create´, o en Windows usando VC++ con los ´CreateThread´ (Win32) o  ´_beginthread/_beginthreadex´ (C runtime library).</p>
+<div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>

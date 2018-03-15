@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../../styles/markdown.css">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "UA-58458282-5");
+</script>
+<!-- Source File articles\modern_cpp\memory_model_es.html -->
+</head>
+<body>
+<h1>C++ 11 - Ya existe hilos y concurrencia</h1>
+<p>Antes de <strong>C++ 11</strong>, en teoría no se pudo crear un programa multihilo en C++ estándar y compilarlo para diferentes plataformas.
+Era imposible (en teoría), porque el estándar de C++ antes de C++ 11 no sabia que era hilos, no tenia ningún concepto de acceso de memoria concurrente desde instrucciones originando de diversos hilos o núcleos.</p>
+<p>Aunque muchos somos que hemos creado estos tipos de programas, pero no fue gracias al estándar C++ 98/03 fue con ayuda de librerías de terceros y los creadores de los compiladores. Si tenia que hacerlo para varios plataformas, la opción probablemente será usar ptrheads (posix threads), creando threads con <code>pthread_create</code>, o en Windows usando VC++ con los <code>CreateThread</code> (Win32) o  <code>_beginthread/_beginthreadex</code> (C runtime library).</p>
+<p>Pero todo eso fueron extensiones no estándar para desarrollo con C++. Ahora desde C++ 11 el estándar tiene un modelo bien definido del acceso a memoria y como tiene que funcionar una implementación cumpliendo con el C++ estándar.</p>
+<h1>Antes de C++ 11, solo había un hilo</h1>
+<p>Antes de C++ 11, solo había un hilo, una programa con un hilo único con un secuencia de instrucciones leyendo y escribiendo al memoria bastante sencillo y intuitivo. Claro para los creadores de compiladores y procesadores no era tan sencillo, con todo optimizaciones que han inventado, como reordenar instrucciones, cacheo, hasta ejecutando instrucciones anticipado (<em>¿Spectre</em> alguien?). Bueno, nada de eso era una preocupación para C++, era algo que tenían que resolver y implementar en los compiladores y librerías.</p>
+<h1>El modelo nuevo de memoria en C++</h1>
+<p>Están hablando sobre el nuevo modelo de memoria en C++, no hablan sobre multihilo, pero bastante sobre concurrencia.
+Pensando un poco, la introducción de mas que un hilo en C++ conlleva nuevas comportamientos, nuevas problemas, y todo efectivamente es relacionado con concurrencia.
+Como acceder la memoria concurrente, como leer y escribir, y definir un comportamiento determinístico en un nuevo mundo caótico.</p>
+<p>Al fin, creo que <em>han hecho algo muy bueno</em> porque han conseguido, ya tenemos tres estándares basado en esto: C++ 11, 14 y 17. Han creado abstracciones para hilos, operaciones atómicas, mecanismos de bloqueo y serialización seguros y eficientes, funcionalidad para coordinar entre hilos etc.</p>
+<p>En este articulo <a href="http://www.theregister.co.uk/2011/06/11/herb_sutter_next_c_plus_plus/page2.html">De Gavin Clarke</a> y en <a href="https://stackoverflow.com/questions/6319146/c11-introduced-a-standardized-memory-model-what-does-it-mean-and-how-is-it-g">ese pregunta en stackoverflow</a> hay mucho para aprender de ello.</p>
+<h1>Ahora tenemos en C++ para todas plataformas en la librería estándar</h1>
+<h2>Hilos y asincronicidad</h2>
+<pre><code class="language-cpp">    <span class="hljs-built_in">std</span>::thread
+    <span class="hljs-built_in">std</span>::this_thread
+    <span class="hljs-built_in">std</span>::async
+    <span class="hljs-built_in">std</span>::future
+    <span class="hljs-built_in">std</span>::shared_future
+    <span class="hljs-built_in">std</span>::promise
+    <span class="hljs-built_in">std</span>::packaged_task
+</code></pre>
+<h2>Tipos Atómicas</h2>
+<pre><code class="language-cpp">    <span class="hljs-built_in">std</span>::atomic&lt;...&gt;
+</code></pre>
+<h2><span class="hljs-keyword">thread_local</span></h2>
+<pre><code class="language-cpp">    <span class="hljs-keyword">thread_local</span>
+</code></pre>
+<p><span class="hljs-keyword">thread_local</span> es como <span class="hljs-keyword">static</span> pero solo accesible desde un hilo, el hilo que lo creo. En Windows/VC++ había el <code>_declspec(thread)</code> como extensión antes.</p>
+<h2>Sincronización</h2>
+<pre><code class="language-cpp">    <span class="hljs-built_in">std</span>::call_once
+    <span class="hljs-built_in">std</span>::condition_variable
+    <span class="hljs-built_in">std</span>::lock
+    <span class="hljs-built_in">std</span>::mutex
+    <span class="hljs-built_in">std</span>::shared_lock
+    <span class="hljs-built_in">std</span>::timed_mutex
+    <span class="hljs-built_in">std</span>::unique_lock
+    <span class="hljs-built_in">std</span>::shared_mutex
+    <span class="hljs-built_in">std</span>::recursive_mutex
+    <span class="hljs-built_in">std</span>::shared_timed_mutex
+    <span class="hljs-built_in">std</span>::recursive_timed_mutex
+    <span class="hljs-built_in">std</span>::try_lock
+    <span class="hljs-built_in">std</span>::adopt_lock
+    <span class="hljs-built_in">std</span>::defer_lock
+    <span class="hljs-built_in">std</span>::shared_lock
+    <span class="hljs-built_in">std</span>::try_to_lock
+    <span class="hljs-built_in">std</span>::unique_lock
+    ...
+</code></pre>
+<h2>Barreras de memoria</h2>
+<pre><code class="language-cpp"><span class="hljs-built_in">std</span>::atomic_thread_fence
+</code></pre>
+<div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>
