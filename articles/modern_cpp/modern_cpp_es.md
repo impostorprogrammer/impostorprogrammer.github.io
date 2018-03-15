@@ -190,8 +190,6 @@ void enforceUniquePtr()
 }
 ```
 
-## Usando static std::unique_ptr para reclamar recursos cuando hilos terminan
-
 
 
 # <span class="hljs-built_in">std::shared_ptr</span>
@@ -224,3 +222,28 @@ void enforceUniquePtr()
 
 
 # El <span class="hljs-built_in">auto_ptr&lt;T&gt;</span> esta obsoleto, y nunca fue bueno. ¡No lo uses nunca jamás!!
+
+## Usando static std::unique_ptr para reclamar recursos cuando hilos terminan
+
+```cpp
+class ThreadCleanup {
+public:
+	//Only ever called on thread exit cleanup
+	~ThreadCleanup() {
+		cout << "~ThreadCleanup()" << el;
+		Singleton* tmp = Singleton::s_instance.load();
+		if (tmp)
+		{
+			delete tmp;
+			Singleton::s_instance.store(nullptr);
+		}
+	}
+};
+
+//Cuando termina el hilo principal y la programa
+static std::unique_ptr<ThreadCleanup> clean_up_program = std::make_unique<ThreadCleanup>();
+
+//cuando termina el hilo
+//thread_local es en C++ 11 pero en VS solo desde VS 2015
+thread_local static std::unique_ptr<ThreadCleanup> clean_up_thread = std::make_unique<ThreadCleanup>();
+```

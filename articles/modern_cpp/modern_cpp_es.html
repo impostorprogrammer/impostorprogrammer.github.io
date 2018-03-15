@@ -179,7 +179,6 @@ Maneras que hacer que el código sea más robusto y más fácil de mantener, com
     <span class="hljs-comment">//delete pEU; //Cannot do this, destructor is private</span>
 }
 </code></pre>
-<h2>Usando static std::unique_ptr para reclamar recursos cuando hilos terminan</h2>
 <h1><span class="hljs-built_in">std::shared_ptr</span></h1>
 <h2>¿Para que sirve <span class="hljs-built_in">std::shared_ptr</span>?</h2>
 <!-- Good article at http://www.modernescpp.com/index.php/std-shared-ptr  -->
@@ -202,4 +201,26 @@ Maneras que hacer que el código sea más robusto y más fácil de mantener, com
 <h1><span class="hljs-built_in">std::weak_ptr</span></h1>
 <img src="./SharedAndWeakPtrRelations.png" style="width:80%;min-width:500px;max-width:1200px;">
 <h1>El <span class="hljs-built_in">auto_ptr&lt;T&gt;</span> esta obsoleto, y nunca fue bueno. ¡No lo uses nunca jamás!!</h1>
+<h2>Usando static std::unique_ptr para reclamar recursos cuando hilos terminan</h2>
+<pre><code class="language-cpp"><span class="hljs-keyword">class</span> ThreadCleanup {
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-comment">//Only ever called on thread exit cleanup</span>
+    ~ThreadCleanup() {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"~ThreadCleanup()"</span> &lt;&lt; el;
+        Singleton* tmp = Singleton::s_instance.load();
+        <span class="hljs-keyword">if</span> (tmp)
+        {
+            <span class="hljs-keyword">delete</span> tmp;
+            Singleton::s_instance.store(<span class="hljs-literal">nullptr</span>);
+        }
+    }
+};
+
+<span class="hljs-comment">//Cuando termina el hilo principal y la programa</span>
+<span class="hljs-keyword">static</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;ThreadCleanup&gt; clean_up_program = <span class="hljs-built_in">std</span>::make_unique&lt;ThreadCleanup&gt;();
+
+<span class="hljs-comment">//cuando termina el hilo</span>
+<span class="hljs-comment">//thread_local es en C++ 11 pero en VS solo desde VS 2015</span>
+<span class="hljs-keyword">thread_local</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;ThreadCleanup&gt; clean_up_thread = <span class="hljs-built_in">std</span>::make_unique&lt;ThreadCleanup&gt;();
+</code></pre>
 <div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>
