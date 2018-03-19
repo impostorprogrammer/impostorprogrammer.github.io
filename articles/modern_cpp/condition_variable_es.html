@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../../styles/markdown.css">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "UA-58458282-5");
+</script>
+<!-- Source File articles\modern_cpp\condition_variable_es.html -->
+</head>
+<body>
+<h1>C++ 11 - <strong><code>std::condition_variable</code></strong></h1>
+<p>El nuevo <strong><code>std::condition_variable</code></strong> en C++ 11 es un bicho versátil pero por lo menos para mi un fuente de confusión.</p>
+<p>Principalmente tiene dos roles, uno funciona en un hilo recibiendo notificaciones, y la otra para transmitir notificaciones desde un un hilo a otro.</p>
+<h2>Recibiendo</h2>
+<pre><code>1. El hilo espera (`wait()`) hasta que recibe un 'señal' sin mantener un bloqueo de un candado (**`std::mutex`**)    
+2. Cuando el hilo recibe el 'señal' se despierta y adquiere el bloqueo de un candado otra vez.
+</code></pre>
+<h2>Transmitiendo</h2>
+<ol>
+<li>Un hilo puede despertar un hilo esperando (cualquiera), efectivamente señalando que algo ha ocurrido</li>
+</ol>
+<h2>Protegiendo recursos</h2>
+<p>El <strong><code>std::condition_variable</code></strong> siempre trabaja en conjunto e un <strong><code>std::mutex</code></strong> via un <strong><code>std::unique_lock</code></strong>, en simple caso solo para proteger una condición. Pero también podemos utilizar para proteger otros recursos, mas de eso abajo en ejemplo 3.</p>
+<h2>Ejemplo 1 -- Crear y despertar un hilo con un <strong><code>std::condition_variable</code></strong></h2>
+<pre><code class="language-cpp">
+<span class="hljs-built_in">std</span>::mutex awakeThreadMutex;
+<span class="hljs-built_in">std</span>::condition_variable signal_thread;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">waitOnSignal</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Thread created"</span> &lt;&lt; el;
+    <span class="hljs-built_in">std</span>::unique_lock&lt;<span class="hljs-built_in">std</span>::mutex&gt; locker(awakeThreadMutex);
+    signal_thread.wait(locker);
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Thread signaled"</span> &lt;&lt; el;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">startThreadAndSignal</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">std</span>::<span class="hljs-function">thread <span class="hljs-title">t</span><span class="hljs-params">(waitOnSignal)</span></span>;
+
+    <span class="hljs-built_in">std</span>::this_thread::sleep_for(<span class="hljs-built_in">std</span>::chrono::milliseconds(<span class="hljs-number">1000</span>));
+
+    signal_thread.notify_one(); <span class="hljs-comment">//Or signal_thread.notify_one(); it is the same here with only one thread</span>
+
+    t.join(); <span class="hljs-comment">//Wait for thread to terminate, if not undefined/bad things happens</span>
+}
+
+</code></pre>
+<h2>Activación falsa de <strong><code>std::condition_variable</code></strong></h2>
+<p>El ejemplo anterior, tiene una problema, hay una posibilidad que el hile esperando con <code>wait()</code> sea despertado sin ninguno otro hilo ha señalado.
+En ingles se llama 'spurious wake up'</p>
+<p>Así la recomendación es siempre usa una condición con un bucle que controla si realmente fue señalada.
+El alternativo con predicado, en teoría puede ser más eficaz si el implementador de la librería consigue algo mejor que un bucle...</p>
+<h2>Ejemplo 2 -- Despertar hilo, y evitar falsa alarma <em>'spurious wake up'</em></h2>
+<pre><code class="language-cpp"><span class="hljs-built_in">std</span>::atomic&lt;<span class="hljs-keyword">bool</span>&gt; threadSignaled = <span class="hljs-literal">false</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">waitOnSignal2</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Thread created in waitOnSignal2"</span> &lt;&lt; el;
+    <span class="hljs-built_in">std</span>::unique_lock&lt;<span class="hljs-built_in">std</span>::mutex&gt; locker(awakeThreadMutex);
+</code></pre>
+<p><em><strong>Alternativo con bucle</strong></em></p>
+<hr>
+<pre><code class="language-cpp">
+    <span class="hljs-keyword">while</span> (!threadSignaled) <span class="hljs-comment">//Guarantees to protect if a spurious wake up happens</span>
+    {
+        signal_thread.wait(locker);
+    }
+</code></pre>
+<p><em><strong>Alternative con wait() usando predicado</strong></em></p>
+<hr>
+<pre><code class="language-cpp">
+    <span class="hljs-comment">//Alternative using wait() with predicate</span>
+    signal_thread.wait(locker, []() { <span class="hljs-keyword">return</span> threadSignaled.load(); });
+</code></pre>
+<hr>
+<pre><code class="language-cpp">    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Thread signaled in waitOnSignal2"</span> &lt;&lt; el;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">startThreadAndSignal2</span><span class="hljs-params">()</span>
+</span>{
+
+     <span class="hljs-comment">//Version safe against spurious wake ups</span>
+    <span class="hljs-built_in">std</span>::<span class="hljs-function">thread <span class="hljs-title">t2</span><span class="hljs-params">(waitOnSignal2)</span></span>;
+    <span class="hljs-built_in">std</span>::this_thread::sleep_for(<span class="hljs-built_in">std</span>::chrono::milliseconds(<span class="hljs-number">1000</span>));
+
+    threadSignaled = <span class="hljs-literal">true</span>;
+    signal_thread.notify_one(); <span class="hljs-comment">//Or signal_thread.notify_one(); it is the same here, first thread is gone</span>
+
+    t2.join(); <span class="hljs-comment">//Wait for thread to terminate, if not undefined/bad things happens</span>
+
+}
+
+</code></pre>
+<h2>Porqué usamos el <code>std::unique_lock</code> y no el <code>std::lock_guard</code></h2>
+<p>El <code>std::condition_variable::wait</code> requiere un <code>std::unique_lock</code> porque mientras está esperando se libera el bloque, y despertando se adqiure otra vez.
+El <code>std::lock_guard</code> no tiene esta funcionalidad. Pero el <code>std::unique_lock</code> tiene el mismo comportamiento que <code>std::lock_guard</code> y se libera el bloqueo cuando sale del ámbito.</p>
+<h2>Protegiendo recursos compartido</h2>
+<p>Ya hemos visto como hilos puede señalar una al otro, pero el <code>std::condition_variable</code> no solo sirve para esto. También si los hilos comparten recursos y cuando necesitamos coordinar el acceso entre ellos los <code>std::condition_variable</code> nos sirve en combinaciónes para señalar y proteger que el recurso ya está libre para otro hilo.</p>
+<h2>Pasar el recurso entre dos hilos</h2>
+<p>En el siguiente ejemplo creamos dos hilos que comparte un recurso, un vector. Cada uno de ellos trabaja con el vector protegido y cuando terminan su trabajo, señala para el otro hilo que toma las riendas del recurso y hace su trabajo con el vector protegido. Cuando termina su trabajo, le vuelve a señalar para el otro hilo, y así siguen.</p>
+<p>Nota que usamos dos <strong><code>std::condition_variable</code></strong>, uno para comunicar or señalar en una direcion y receiber desde la misma, y otra para comunicar en la otra direcion.</p>
+<p>¡Ver el ejemplo!</p>
+<h2>Ejemplo 3 -- Dos hilos trabajando alternativamente en añadir elementos en un vector compartido</h2>
+<pre><code class="language-cpp"><span class="hljs-built_in">std</span>::mutex alternateThreadsMutex;
+<span class="hljs-built_in">std</span>::condition_variable runThread1condition;
+<span class="hljs-built_in">std</span>::atomic&lt;<span class="hljs-keyword">bool</span>&gt; runThread1 = <span class="hljs-literal">false</span>;
+<span class="hljs-built_in">std</span>::atomic&lt;<span class="hljs-keyword">bool</span>&gt; runThread2 = <span class="hljs-literal">false</span>;
+<span class="hljs-built_in">std</span>::condition_variable runThread2condition;
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; threadWork;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">thread1</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+    {
+        <span class="hljs-built_in">std</span>::unique_lock&lt;<span class="hljs-built_in">std</span>::mutex&gt; lock(alternateThreadsMutex);
+        runThread1condition.wait(lock, []() { <span class="hljs-keyword">return</span> runThread1.load(); });
+        <span class="hljs-keyword">auto</span> workSize = threadWork.size();
+        <span class="hljs-keyword">if</span> (workSize &lt; <span class="hljs-number">1000</span>)
+            threadWork.push_back(<span class="hljs-number">1</span>);
+
+        runThread1 = <span class="hljs-literal">false</span>;
+        runThread2 = <span class="hljs-literal">true</span>;
+        lock.unlock();
+        
+        runThread2condition.notify_one();
+        <span class="hljs-keyword">if</span> (++workSize &gt;= <span class="hljs-number">1000</span>)
+        {
+            <span class="hljs-keyword">break</span>;
+        }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">thread2</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+    {
+        <span class="hljs-built_in">std</span>::unique_lock&lt;<span class="hljs-built_in">std</span>::mutex&gt; lock(alternateThreadsMutex);
+        runThread2condition.wait(lock, []() { <span class="hljs-keyword">return</span> runThread2.load(); });
+        <span class="hljs-keyword">auto</span> workSize = threadWork.size();
+        <span class="hljs-keyword">if</span> (workSize &lt; <span class="hljs-number">1000</span>)
+            threadWork.push_back(<span class="hljs-number">1</span>);
+
+        runThread2 = <span class="hljs-literal">false</span>;
+        runThread1 = <span class="hljs-literal">true</span>;
+        lock.unlock();
+        runThread1condition.notify_one();
+        <span class="hljs-keyword">if</span> (++workSize &gt;= <span class="hljs-number">1000</span>)
+        {
+            <span class="hljs-keyword">break</span>;
+        }
+    }
+}
+
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">alternateThreads</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-built_in">std</span>::<span class="hljs-function">thread <span class="hljs-title">t1</span><span class="hljs-params">(thread1)</span></span>;
+    <span class="hljs-built_in">std</span>::<span class="hljs-function">thread <span class="hljs-title">t2</span><span class="hljs-params">(thread2)</span></span>;
+
+    runThread2 = <span class="hljs-literal">true</span>;
+    runThread2condition.notify_one();
+
+    t1.join();
+    t2.join();
+
+    <span class="hljs-built_in">cout</span> &lt;&lt; threadWork.size() &lt;&lt; el;
+}
+
+</code></pre>
+<h1>El código completo disponible en <a href="https://raw.githubusercontent.com/JonasBr68/moderncpp_samples/master/Features/CPP11Features/ConditionVariables.cpp">github</a></h1>
+<div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>
