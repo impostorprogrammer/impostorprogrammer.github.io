@@ -111,70 +111,70 @@ El <code>std::lock_guard</code> no tiene esta funcionalidad. Pero el <code>std::
 <p>Nota que usamos dos <strong><code>std::condition_variable</code></strong>, uno para comunicar or señalar en una direcion y receiber desde la misma, y otra para comunicar en la otra direcion.</p>
 <p>¡Ver el ejemplo!</p>
 <h2>Ejemplo 3 -- Dos hilos trabajando alternativamente en añadir elementos en un vector compartido</h2>
-<pre><code class="language-cpp"><span class="hljs-built_in">std</span>::mutex alternateThreadsMutex;
-<span class="hljs-built_in">std</span>::condition_variable runThread1condition;
-<span class="hljs-built_in">std</span>::atomic&lt;<span class="hljs-keyword">bool</span>&gt; runThread1 = <span class="hljs-literal">false</span>;
-<span class="hljs-built_in">std</span>::atomic&lt;<span class="hljs-keyword">bool</span>&gt; runThread2 = <span class="hljs-literal">false</span>;
-<span class="hljs-built_in">std</span>::condition_variable runThread2condition;
-<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; threadWork;
+<pre><code class="language-cpp">    <span class="hljs-built_in">std</span>::mutex alternateThreadsMutex;
+    <span class="hljs-built_in">std</span>::condition_variable runThread1condition;
+    <span class="hljs-built_in">std</span>::atomic&lt;<span class="hljs-keyword">bool</span>&gt; runThread1 = <span class="hljs-literal">false</span>;
+    <span class="hljs-built_in">std</span>::atomic&lt;<span class="hljs-keyword">bool</span>&gt; runThread2 = <span class="hljs-literal">false</span>;
+    <span class="hljs-built_in">std</span>::condition_variable runThread2condition;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; threadWork;
 
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">thread1</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
-    {
-        <span class="hljs-built_in">std</span>::unique_lock&lt;<span class="hljs-built_in">std</span>::mutex&gt; lock(alternateThreadsMutex);
-        runThread1condition.wait(lock, []() { <span class="hljs-keyword">return</span> runThread1.load(); });
-        <span class="hljs-keyword">auto</span> workSize = threadWork.size();
-        <span class="hljs-keyword">if</span> (workSize &lt; <span class="hljs-number">1000</span>)
-            threadWork.push_back(<span class="hljs-number">1</span>);
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">thread1</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+        {
+            <span class="hljs-built_in">std</span>::unique_lock&lt;<span class="hljs-built_in">std</span>::mutex&gt; lock(alternateThreadsMutex);
+            runThread1condition.wait(lock, []() { <span class="hljs-keyword">return</span> runThread1.load(); });
+            <span class="hljs-keyword">auto</span> workSize = threadWork.size();
+            <span class="hljs-keyword">if</span> (workSize &lt; <span class="hljs-number">1000</span>)
+                threadWork.push_back(<span class="hljs-number">1</span>);
 
-        runThread1 = <span class="hljs-literal">false</span>;
+            runThread1 = <span class="hljs-literal">false</span>;
+            runThread2 = <span class="hljs-literal">true</span>;
+            lock.unlock();
+            
+            runThread2condition.notify_one();
+            <span class="hljs-keyword">if</span> (++workSize &gt;= <span class="hljs-number">1000</span>)
+            {
+                <span class="hljs-keyword">break</span>;
+            }
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">thread2</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+        {
+            <span class="hljs-built_in">std</span>::unique_lock&lt;<span class="hljs-built_in">std</span>::mutex&gt; lock(alternateThreadsMutex);
+            runThread2condition.wait(lock, []() { <span class="hljs-keyword">return</span> runThread2.load(); });
+            <span class="hljs-keyword">auto</span> workSize = threadWork.size();
+            <span class="hljs-keyword">if</span> (workSize &lt; <span class="hljs-number">1000</span>)
+                threadWork.push_back(<span class="hljs-number">1</span>);
+
+            runThread2 = <span class="hljs-literal">false</span>;
+            runThread1 = <span class="hljs-literal">true</span>;
+            lock.unlock();
+            runThread1condition.notify_one();
+            <span class="hljs-keyword">if</span> (++workSize &gt;= <span class="hljs-number">1000</span>)
+            {
+                <span class="hljs-keyword">break</span>;
+            }
+        }
+    }
+
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">alternateThreads</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-built_in">std</span>::<span class="hljs-function">thread <span class="hljs-title">t1</span><span class="hljs-params">(thread1)</span></span>;
+        <span class="hljs-built_in">std</span>::<span class="hljs-function">thread <span class="hljs-title">t2</span><span class="hljs-params">(thread2)</span></span>;
+
         runThread2 = <span class="hljs-literal">true</span>;
-        lock.unlock();
-        
         runThread2condition.notify_one();
-        <span class="hljs-keyword">if</span> (++workSize &gt;= <span class="hljs-number">1000</span>)
-        {
-            <span class="hljs-keyword">break</span>;
-        }
+
+        t1.join();
+        t2.join();
+
+        <span class="hljs-built_in">cout</span> &lt;&lt; threadWork.size() &lt;&lt; el;
     }
-}
-
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">thread2</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
-    {
-        <span class="hljs-built_in">std</span>::unique_lock&lt;<span class="hljs-built_in">std</span>::mutex&gt; lock(alternateThreadsMutex);
-        runThread2condition.wait(lock, []() { <span class="hljs-keyword">return</span> runThread2.load(); });
-        <span class="hljs-keyword">auto</span> workSize = threadWork.size();
-        <span class="hljs-keyword">if</span> (workSize &lt; <span class="hljs-number">1000</span>)
-            threadWork.push_back(<span class="hljs-number">1</span>);
-
-        runThread2 = <span class="hljs-literal">false</span>;
-        runThread1 = <span class="hljs-literal">true</span>;
-        lock.unlock();
-        runThread1condition.notify_one();
-        <span class="hljs-keyword">if</span> (++workSize &gt;= <span class="hljs-number">1000</span>)
-        {
-            <span class="hljs-keyword">break</span>;
-        }
-    }
-}
-
-
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">alternateThreads</span><span class="hljs-params">()</span>
-</span>{
-    <span class="hljs-built_in">std</span>::<span class="hljs-function">thread <span class="hljs-title">t1</span><span class="hljs-params">(thread1)</span></span>;
-    <span class="hljs-built_in">std</span>::<span class="hljs-function">thread <span class="hljs-title">t2</span><span class="hljs-params">(thread2)</span></span>;
-
-    runThread2 = <span class="hljs-literal">true</span>;
-    runThread2condition.notify_one();
-
-    t1.join();
-    t2.join();
-
-    <span class="hljs-built_in">cout</span> &lt;&lt; threadWork.size() &lt;&lt; el;
-}
 
 </code></pre>
 <h1>El código completo disponible en <a href="https://raw.githubusercontent.com/JonasBr68/moderncpp_samples/master/Features/CPP11Features/ConditionVariables.cpp">github</a></h1>

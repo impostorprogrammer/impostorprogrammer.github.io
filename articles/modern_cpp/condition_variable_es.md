@@ -126,70 +126,70 @@ Nota que usamos dos **`std::condition_variable`**, uno para comunicar or señala
 ## Ejemplo 3 -- Dos hilos trabajando alternativamente en añadir elementos en un vector compartido
 
 ```cpp
-std::mutex alternateThreadsMutex;
-std::condition_variable runThread1condition;
-std::atomic<bool> runThread1 = false;
-std::atomic<bool> runThread2 = false;
-std::condition_variable runThread2condition;
-std::vector<int> threadWork;
+    std::mutex alternateThreadsMutex;
+    std::condition_variable runThread1condition;
+    std::atomic<bool> runThread1 = false;
+    std::atomic<bool> runThread2 = false;
+    std::condition_variable runThread2condition;
+    std::vector<int> threadWork;
 
-void thread1()
-{
-	while (true)
-	{
-		std::unique_lock<std::mutex> lock(alternateThreadsMutex);
-		runThread1condition.wait(lock, []() { return runThread1.load(); });
-		auto workSize = threadWork.size();
-		if (workSize < 1000)
-			threadWork.push_back(1);
+    void thread1()
+    {
+        while (true)
+        {
+            std::unique_lock<std::mutex> lock(alternateThreadsMutex);
+            runThread1condition.wait(lock, []() { return runThread1.load(); });
+            auto workSize = threadWork.size();
+            if (workSize < 1000)
+                threadWork.push_back(1);
 
-		runThread1 = false;
-		runThread2 = true;
-		lock.unlock();
-		
-		runThread2condition.notify_one();
-		if (++workSize >= 1000)
-		{
-			break;
-		}
-	}
-}
+            runThread1 = false;
+            runThread2 = true;
+            lock.unlock();
+            
+            runThread2condition.notify_one();
+            if (++workSize >= 1000)
+            {
+                break;
+            }
+        }
+    }
 
-void thread2()
-{
-	while (true)
-	{
-		std::unique_lock<std::mutex> lock(alternateThreadsMutex);
-		runThread2condition.wait(lock, []() { return runThread2.load(); });
-		auto workSize = threadWork.size();
-		if (workSize < 1000)
-			threadWork.push_back(1);
+    void thread2()
+    {
+        while (true)
+        {
+            std::unique_lock<std::mutex> lock(alternateThreadsMutex);
+            runThread2condition.wait(lock, []() { return runThread2.load(); });
+            auto workSize = threadWork.size();
+            if (workSize < 1000)
+                threadWork.push_back(1);
 
-		runThread2 = false;
-		runThread1 = true;
-		lock.unlock();
-		runThread1condition.notify_one();
-		if (++workSize >= 1000)
-		{
-			break;
-		}
-	}
-}
+            runThread2 = false;
+            runThread1 = true;
+            lock.unlock();
+            runThread1condition.notify_one();
+            if (++workSize >= 1000)
+            {
+                break;
+            }
+        }
+    }
 
 
-void alternateThreads()
-{
-	std::thread t1(thread1);
-	std::thread t2(thread2);
+    void alternateThreads()
+    {
+        std::thread t1(thread1);
+        std::thread t2(thread2);
 
-	runThread2 = true;
-	runThread2condition.notify_one();
+        runThread2 = true;
+        runThread2condition.notify_one();
 
-	t1.join();
-	t2.join();
+        t1.join();
+        t2.join();
 
-	cout << threadWork.size() << el;
-}
+        cout << threadWork.size() << el;
+    }
 
 ```
 
