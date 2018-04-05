@@ -1,0 +1,346 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../../styles/markdown.css">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "UA-58458282-5");
+</script>
+<!-- Source File articles\modern_csharp\modern_csharp_es.html -->
+</head>
+<body>
+<h1>C# MODERNO - Novedades en C# 6.0, 7.0, 7.1 y 7.2 y más</h1>
+<h1>C# 6.0</h1>
+<h2>1. Propiedades automáticas de sólo lectura</h2>
+<pre><code class="language-CSharp">
+        <span class="hljs-comment">// TODO CS6 1.1 Read only properties can be initialized at declaraction or in constructor</span>
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> FirstName { <span class="hljs-keyword">get</span>; } = <span class="hljs-string">"Unknown"</span>; 
+
+</code></pre>
+<h2>2. Inicializadores de propiedades automáticas</h2>
+<pre><code class="language-CSharp">
+        <span class="hljs-comment">// TODO CS6 1.1 Read only properties can be initialized at declaraction or in constructor</span>
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> FirstName { <span class="hljs-keyword">get</span>; } = <span class="hljs-string">"Unknown"</span>; 
+
+</code></pre>
+<h2>3. Funciones con el cuerpo como expresión</h2>
+<h3>Función</h3>
+<pre><code class="language-CSharp">       <span class="hljs-comment">// TODO CS6 2.0 Method with expression body</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">string</span> <span class="hljs-title">ToString</span>(<span class="hljs-params"></span>) </span>=&gt; LastName + <span class="hljs-string">" "</span> + FirstName;
+</code></pre>
+<h3>Propiedad</h3>
+<pre><code class="language-CSharp">        <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> FullName =&gt; LastName + <span class="hljs-string">" "</span> + FirstName;
+</code></pre>
+<h2>4. <code>using static</code> - Insertar funciones en el namespace</h2>
+<pre><code class="language-CSharp"><span class="hljs-comment">// TODO CS6 3.1 using static to allow calling Assert(...)</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">static</span> System.Diagnostics.Debug;
+</code></pre>
+<h2>...</h2>
+<pre><code class="language-CSharp">            <span class="hljs-comment">// TODO CS6 3.4 Calling System.Diagnostics.Debug.Assert directly thanks to 'using static'</span>
+            Assert(name == <span class="hljs-literal">null</span>); 
+
+</code></pre>
+<h2>5. Operador condicional de <code>null ?.</code>  y  <code>?[]</code></h2>
+<pre><code class="language-CSharp">
+            <span class="hljs-comment">// TODO CS6 4.0 Null-conditional operator with . (dot) operator</span>
+            <span class="hljs-keyword">var</span> name = nullStudent?.FullName;
+
+            <span class="hljs-keyword">string</span>[] names = <span class="hljs-literal">null</span>;
+
+            <span class="hljs-comment">// TODO CS6 4.1 Null-conditional operator with [] (index) operator</span>
+            <span class="hljs-keyword">var</span> firstName = names?[<span class="hljs-number">0</span>]; <span class="hljs-comment">//Only calls operator [] if names is not null</span>
+</code></pre>
+<h2>6. Interpolación en string</h2>
+<pre><code class="language-CSharp">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">string</span> <span class="hljs-title">ToString</span>(<span class="hljs-params"></span>) </span>=&gt; <span class="hljs-string">$"<span class="hljs-subst">{LastName}</span>, <span class="hljs-subst">{FirstName}</span>"</span>; <span class="hljs-comment">// TODO CS6 5.0 interpolated strings</span>
+
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> FullName =&gt; <span class="hljs-string">$"<span class="hljs-subst">{LastName}</span>, <span class="hljs-subst">{FirstName}</span>"</span>; <span class="hljs-comment">// TODO CS6 5.1 interpolated strings</span>
+
+        <span class="hljs-comment">// TODO CS6 5.3 interpolated string with format specifier and method call</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> <span class="hljs-title">GetFormattedGradePoint</span>(<span class="hljs-params"></span>) </span>=&gt; <span class="hljs-string">$"Name: <span class="hljs-subst">{LastName}</span>, <span class="hljs-subst">{FirstName}</span>. G.P.A: <span class="hljs-subst">{Grades.Average():F2}</span>"</span>;
+</code></pre>
+<h2>6.2 Nuevo tipo <code>FormattableString</code></h2>
+<pre><code class="language-CSharp">        FormattableString fStr2 = <span class="hljs-string">$"Now2 <span class="hljs-subst">{DateTime.Now}</span>"</span>; <span class="hljs-comment">// TODO CS6 5.4 Interpolated strings compiles to FormattableString if you want</span>
+        Console.WriteLine(fStr2.Format);
+        Console.WriteLine(fStr2);
+
+        <span class="hljs-comment">// TODO CS6 5.5 Interpolated strings/FormattableString can be used and reused with different cultures</span>
+        Console.WriteLine(fStr2.ToString(CultureInfo.CreateSpecificCulture(<span class="hljs-string">"en-us"</span>)));
+
+        FormattableString fStr = FormattableStringFactory.Create(<span class="hljs-string">"Now1 {0:m}"</span>, DateTime.Now);
+        Console.WriteLine(fStr);
+        Console.WriteLine(fStr.ToString(CultureInfo.CreateSpecificCulture(<span class="hljs-string">"en-us"</span>)));
+        Console.WriteLine(fStr.ToString(CultureInfo.CreateSpecificCulture(<span class="hljs-string">"es-es"</span>)));
+</code></pre>
+<h2>7. Filtros de excepciones</h2>
+<pre><code class="language-CSharp">           <span class="hljs-keyword">try</span>
+            {
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> HttpRequestException(<span class="hljs-string">"Failed"</span>, <span class="hljs-keyword">new</span> FormatException());
+            }
+            <span class="hljs-comment">// TODO CS6 6.1 Exception filter on typeof InnerException</span>
+            <span class="hljs-keyword">catch</span> (HttpRequestException ex) when (ex.InnerException <span class="hljs-keyword">is</span> FormatException) 
+            {
+                Console.WriteLine(ex.ToString());
+            }
+</code></pre>
+<h2>8. Expresión <code>nameof(myVar)</code></h2>
+<pre><code class="language-CSharp">            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">string</span>.IsNullOrEmpty(requestedUrl))
+            {
+                <span class="hljs-comment">// TODO CS6 7.2 nameof turns variable into its name as string, allows safe renaming/refactoring</span>
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ArgumentNullException(<span class="hljs-keyword">nameof</span>(requestedUrl));
+            }
+</code></pre>
+<h2>9. <code>await</code> en bloques de <code>catch</code> y <code>finally</code></h2>
+<pre><code class="language-CSharp">
+            <span class="hljs-comment">// TODO CS6 6.5 Exception filter on exception message contents</span>
+            <span class="hljs-keyword">catch</span> (HttpRequestException ex) when (ex.Message.Contains(<span class="hljs-string">" 301 "</span>) ||
+                                                    ex.Message.Contains(<span class="hljs-string">" 302 "</span>) ||
+                                                    ex.Message.Contains(<span class="hljs-string">" 307 "</span>))
+            {
+                <span class="hljs-comment">// TODO CS6 8.0 C# 6 now allows await in catch and finally blocks</span>
+                <span class="hljs-keyword">await</span> AsyncLog(<span class="hljs-string">"Recovered from redirect"</span>, ex);
+                <span class="hljs-keyword">return</span> response.Headers.Location;
+            }
+</code></pre>
+<h2>10. Inicializadores de índice</h2>
+<pre><code class="language-CSharp">            Dictionary&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">string</span>&gt; webErrorsOld = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">string</span>&gt;
+            {
+                { <span class="hljs-number">404</span>, <span class="hljs-string">"Page not Found"</span> },
+                { <span class="hljs-number">302</span>, <span class="hljs-string">"Page moved, but left a forwarding address."</span> },
+                { <span class="hljs-number">500</span>, <span class="hljs-string">"The web server can't come out to play today."</span> }
+            };
+            <span class="hljs-comment">// TODO CS6 9.0 Index based Initializers - works on types where indexer can add new items</span>
+            Dictionary&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">string</span>&gt; webErrors = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">string</span>&gt;
+            {
+                [<span class="hljs-number">404</span>] = <span class="hljs-string">"Page not Found"</span>,
+                [<span class="hljs-number">302</span>] = <span class="hljs-string">"Page moved, but left a forwarding address."</span>,
+                [<span class="hljs-number">500</span>] = <span class="hljs-string">"The web server can't come out to play today."</span>
+            };
+</code></pre>
+<h2>11. Métodos de extensión para inicializadores de colección</h2>
+<pre><code class="language-CSharp">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">StudentExtensions</span>
+    {
+        <span class="hljs-comment">// TODO CS6 9.3 Extension method to enable Collection initializer of Enrollment</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Add</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Enrollment e, Student s</span>) </span>=&gt; e.Enroll(s);
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Add</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Enrollment e, <span class="hljs-keyword">string</span> firstName, <span class="hljs-keyword">string</span> lastName</span>) </span>=&gt; e.Enroll(<span class="hljs-keyword">new</span> Student(firstName, lastName));
+    }
+
+            <span class="hljs-comment">// TODO CS6 9.2 Collection initializers - Extension Add method if type has different name </span>
+            <span class="hljs-keyword">var</span> classList = <span class="hljs-keyword">new</span> Enrollment()
+            {              
+                <span class="hljs-keyword">new</span> Student(<span class="hljs-string">"Vicki"</span>, <span class="hljs-string">"Petty"</span>),
+                <span class="hljs-keyword">new</span> Student(<span class="hljs-string">"Ofelia"</span>, <span class="hljs-string">"Hobbs"</span>),
+                <span class="hljs-keyword">new</span> Student(<span class="hljs-string">"Leah"</span>, <span class="hljs-string">"Kinney"</span>),
+                <span class="hljs-keyword">new</span> Student(<span class="hljs-string">"Alton"</span>, <span class="hljs-string">"Stoker"</span>),
+                <span class="hljs-keyword">new</span> Student(<span class="hljs-string">"Luella"</span>, <span class="hljs-string">"Ferrell"</span>),
+                { <span class="hljs-string">"Lessie"</span>, <span class="hljs-string">"Crosby"</span> }, <span class="hljs-comment">// Different extension method</span>
+            };
+
+</code></pre>
+<h2><s>12. Resolución de sobrecarga mejorada</s></h2>
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr>
+<h1>C# 7.0</h1>
+<h2>1. Variables <code>out</code></h2>
+<pre><code class="language-CSharp">            <span class="hljs-comment">// TODO CS70 1.0 out variable declarations, in situ visible in current scope</span>
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">int</span>.TryParse(input, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> result))
+                WriteLine(result);
+
+</code></pre>
+<h2>2. Tuples y deconstrucción <code>ValueTuple</code> <code>Deconstructor(...)</code></h2>
+<pre><code class="language-CSharp">            <span class="hljs-comment">// TODO CS70 2.0.3 Creates tuple </span>
+            <span class="hljs-keyword">var</span> tupleNumbers = (<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);
+
+            <span class="hljs-comment">// TODO CS70 2.6.3 Tuple deconstruction into separate variables</span>
+            (<span class="hljs-keyword">int</span> first, <span class="hljs-keyword">int</span> second, <span class="hljs-keyword">int</span> third) = tupleNumbers;
+
+            <span class="hljs-comment">// TODO CS70 2.1.3 Creates tuple with named fields</span>
+            <span class="hljs-keyword">var</span> t = (firstValue: <span class="hljs-number">1</span>, secondValue: <span class="hljs-number">2</span>, thirdValue: <span class="hljs-number">3</span>);
+
+            WriteLine(t.firstValue);
+
+            <span class="hljs-comment">// TODO CS70 2.1.4 Creates tuple with 'anonymous' fields, Item1, Item2, etc</span>
+            <span class="hljs-keyword">var</span> t2 = (<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);
+            WriteLine(t2.Item2);
+</code></pre>
+<h2>3. Descartes - Discards</h2>
+<pre><code class="language-CSharp">   
+            <span class="hljs-keyword">var</span> tupleNumbers = (<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);
+   
+            (_, _, <span class="hljs-keyword">int</span> third) = tupleNumbers;
+
+</code></pre>
+<h2>4. Coincidencia de patrones - Pattern Matching</h2>
+<pre><code class="language-CSharp">            <span class="hljs-comment">// TODO CS70 4.1 is type expression, if true casts and assigns to variable</span>
+            <span class="hljs-keyword">if</span> (obj <span class="hljs-keyword">is</span> <span class="hljs-keyword">int</span> intVal)
+            {
+                WriteLine(<span class="hljs-string">$"o is int = <span class="hljs-subst">{intVal}</span>"</span>);
+            }
+</code></pre>
+<pre><code class="language-CSharp">       <span class="hljs-comment">//switch statement</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">object</span> <span class="hljs-title">CreateShape</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> shapeDescription</span>)
+        </span>{
+            <span class="hljs-keyword">switch</span> (shapeDescription)
+            {
+                <span class="hljs-keyword">case</span> <span class="hljs-string">"circle"</span>:
+                    <span class="hljs-keyword">return</span> (<span class="hljs-number">2</span>, <span class="hljs-string">"circle"</span>);
+
+                <span class="hljs-keyword">case</span> <span class="hljs-string">"square"</span>:
+                    <span class="hljs-keyword">return</span> (<span class="hljs-number">4</span>, <span class="hljs-string">"square"</span>);
+
+                <span class="hljs-keyword">case</span> <span class="hljs-string">"large-circle"</span>:
+                    <span class="hljs-keyword">return</span> (<span class="hljs-number">12</span>, <span class="hljs-string">"large-circle"</span>);
+
+                <span class="hljs-function"><span class="hljs-keyword">case</span> <span class="hljs-keyword">string</span> o <span class="hljs-title">when</span> (<span class="hljs-params">o.Trim(</span>)?.Length ?? 0) </span>== <span class="hljs-number">0</span>:
+                    <span class="hljs-comment">// white space</span>
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-literal">null</span>:
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+                <span class="hljs-keyword">default</span>:
+                    <span class="hljs-keyword">return</span> <span class="hljs-string">"invalid shape description"</span>;
+            }
+        }
+</code></pre>
+<h2>5. <code>ref</code> locales y retornos</h2>
+<pre><code class="language-CSharp">            <span class="hljs-keyword">var</span> idStrTuple = (id: <span class="hljs-number">1</span>, str: <span class="hljs-string">"idStrTuple"</span>);
+
+            <span class="hljs-keyword">ref</span> <span class="hljs-keyword">var</span> refTemp = <span class="hljs-keyword">ref</span> idStrTuple; <span class="hljs-comment">//Creates ref to value type</span>
+
+            idStrTuple.str = <span class="hljs-string">"tuple2"</span>;
+
+            WriteLine(refTemp.str); <span class="hljs-comment">//tuple2</span>
+</code></pre>
+<h2>6. Funciones locales - anidados dentro otra función</h2>
+<pre><code class="language-CSharp">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">LocalFunctionAsync</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> param</span>)
+        </span>{
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">string</span>.IsNullOrEmpty(param))
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ArgumentNullException(<span class="hljs-keyword">nameof</span>(param));
+
+            <span class="hljs-keyword">return</span> FakeAsync(param);
+
+            <span class="hljs-function"><span class="hljs-keyword">async</span> Task <span class="hljs-title">FakeAsync</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> msg</span>)
+            </span>{
+                <span class="hljs-keyword">await</span> Task.Yield();
+                WriteLine(msg);
+            }
+        }
+</code></pre>
+<h2>7. Mas miembros con el cuerpo como expresión</h2>
+<pre><code class="language-CSharp">        <span class="hljs-comment">// TODO CS70 7.0 Expression bodied constructor, deconstructing tuple straight into member variables</span>
+        <span class="hljs-function"><span class="hljs-keyword">internal</span> <span class="hljs-title">Area</span>(<span class="hljs-params"><span class="hljs-keyword">in</span> (<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y, <span class="hljs-keyword">int</span> width, <span class="hljs-keyword">int</span> height</span>) areaTuple) </span>=&gt; (X, Y, Width, Height) = 
+                                                                            (areaTuple.x,
+                                                                            areaTuple.y,
+                                                                            areaTuple.width,
+                                                                            areaTuple.height);
+</code></pre>
+<h2>8. Expresiones <code>throw</code></h2>
+<pre><code class="language-CSharp">        <span class="hljs-keyword">private</span> <span class="hljs-keyword">string</span> label;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> Label
+        {
+            <span class="hljs-keyword">get</span> =&gt; label;
+            <span class="hljs-comment">// TODO CS70 8.0 throw expression, now throw possible in expression bodied members and properties</span>
+            <span class="hljs-keyword">set</span> =&gt; label = <span class="hljs-keyword">value</span> ?? <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ArgumentNullException(paramName: <span class="hljs-keyword">nameof</span>(Label), message: <span class="hljs-string">"New label must not be null"</span>);
+        }
+</code></pre>
+<h2>9. Mejoras en la sintaxis literal numérica</h2>
+<pre><code class="language-CSharp">        <span class="hljs-comment">// TODO CS70 9.1 Binary literals</span>
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> One = <span class="hljs-number">0</span>b0001;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> Two = <span class="hljs-number">0</span>b0010;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> Four = <span class="hljs-number">0</span>b0100;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> Eight = <span class="hljs-number">0</span>b1000;
+
+        <span class="hljs-comment">// TODO CS70 9.2 Binary literals with digit separator</span>
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> Sixteen = <span class="hljs-number">0</span>b0001_0000;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> ThirtyTwo = <span class="hljs-number">0</span>b0010_0000;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> SixtyFour = <span class="hljs-number">0</span>b0100_0000;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> OneHundredTwentyEight = <span class="hljs-number">0</span>b1000_0000;
+
+        <span class="hljs-comment">// TODO CS72 Leading digit separator _ in binary and hex literals</span>
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> LeadingSeparatorBin = <span class="hljs-number">0</span>b_1010_0110_0000_1010_0110;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> LeadingSeparatorHex = <span class="hljs-number">0</span>x_0A_60_A6;
+
+        <span class="hljs-comment">// TODO CS70 9.3 Large base 10 with digit separator</span>
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">long</span> BillionsAndBillions = <span class="hljs-number">100</span>_000_000_000;
+
+        <span class="hljs-comment">// TODO CS70 9.4 Digit separator with double, decimal and float</span>
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> AvogadroConstant = <span class="hljs-number">6.022</span>_140_857_747_474e23;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">decimal</span> GoldenRatio = <span class="hljs-number">1.618</span>_033_988_749_894_848_204_586_834_365_638_117_720_309_179M;
+</code></pre>
+<h2><s>10. Tipos de retorno asincrónico generalizado</s></h2>
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr>
+<h1>C# 7.1</h1>
+<h2>1. método Main asincrónico (<code>async</code>)</h2>
+<pre><code class="language-CSharp">        <span class="hljs-comment">// TODO CS71 1.0 Async Main</span>
+        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)
+        </span>{
+</code></pre>
+<h2>2. Expresiones literales de <code>default</code></h2>
+<pre><code class="language-CSharp">
+        <span class="hljs-comment">// TODO CS71 2.0 default literal</span>
+        (<span class="hljs-keyword">int</span> deltaX, <span class="hljs-keyword">int</span> deltaY, <span class="hljs-keyword">double</span> Length) res = <span class="hljs-keyword">default</span>;
+</code></pre>
+<h2>3. Nombres de elementos de tuple inferidos</h2>
+<pre><code class="language-CSharp">
+            <span class="hljs-keyword">var</span> tuple = (name, sirname, age);
+
+            <span class="hljs-comment">// TODO CS71 3.0 inferred name from variable name - probably using nameof infrastructure</span>
+            WriteLine(tuple.name);
+</code></pre>
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr>
+<h1>C# 7.2</h1>
+<h2>1. Semántica de referencia con tipos de valor</h2>
+<ul>
+<li><code>in</code></li>
+<li><code>ref readonly</code></li>
+<li><code>readonly struct</code></li>
+<li><code>ref struct</code></li>
+</ul>
+<pre><code class="language-CSharp">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">static</span> (<span class="hljs-params"><span class="hljs-keyword">int</span> deltaX, <span class="hljs-keyword">int</span> deltaY, <span class="hljs-keyword">double</span> Length</span>)  <span class="hljs-title">CalcLength</span>(<span class="hljs-params"><span class="hljs-keyword">in</span> (<span class="hljs-keyword">int</span> X, <span class="hljs-keyword">int</span> Y</span>) origin, 
+                                                                          <span class="hljs-title">in</span> (<span class="hljs-params"><span class="hljs-keyword">int</span> X, <span class="hljs-keyword">int</span> Y</span>) end, 
+                                                                          <span class="hljs-title">ref</span> (<span class="hljs-params"><span class="hljs-keyword">int</span> deltaX, <span class="hljs-keyword">int</span> deltaY, <span class="hljs-keyword">double</span> Length</span>) res)
+        </span>{
+            (res.deltaX, res.deltaY) = ((end.X - origin.X), (end.Y - origin.Y));
+            res.Length = Math.Sqrt(res.deltaX * res.deltaX + res.deltaY * res.deltaY);
+            <span class="hljs-keyword">return</span> res;
+        }
+
+
+        CalcLength(<span class="hljs-keyword">in</span> roStruct, <span class="hljs-keyword">in</span> endPoint, <span class="hljs-keyword">ref</span> res); <span class="hljs-comment">//No copies allowed by compiler</span>
+
+</code></pre>
+<h2>2. Guion bajo comenzando literal numérico</h2>
+<pre><code class="language-CSharp">        <span class="hljs-comment">// TODO CS72 Leading digit separator _ in binary and hex literals</span>
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> LeadingSeparatorBin = <span class="hljs-number">0</span>b_1010_0110_0000_1010_0110;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> LeadingSeparatorHex = <span class="hljs-number">0</span>x_0A_60_A6;
+</code></pre>
+<h2>3. <code>private protected</code> modificador de acceso</h2>
+<pre><code class="language-CSharp">        <span class="hljs-comment">// TODO CS72 4.0 new protection level private protected maps to the CLR notion of protectedAndInternal so can be exposed via InternalsVisibleTo</span>
+        <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnlyForTrustedDerivedClasses</span>(<span class="hljs-params"></span>)
+        </span>{
+            WriteLine(<span class="hljs-keyword">nameof</span>(<span class="hljs-keyword">this</span>.OnlyForTrustedDerivedClasses));
+        }
+</code></pre>
+<h2><s>4. Argumentos con nombre en mas sitios</s></h2>
+<div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>
