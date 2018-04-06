@@ -295,6 +295,10 @@
 <pre><code class="language-CSharp">
         <span class="hljs-comment">// TODO CS71 2.0 default literal</span>
         (<span class="hljs-keyword">int</span> deltaX, <span class="hljs-keyword">int</span> deltaY, <span class="hljs-keyword">double</span> Length) res = <span class="hljs-keyword">default</span>;
+
+        <span class="hljs-keyword">int</span>? nullableInt = <span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">var</span> isNullableOrNot = nullableInt ?? <span class="hljs-keyword">default</span>; <span class="hljs-comment">// What type is isNullableOrNot ?</span>
+
 </code></pre>
 <h2>3. Nombres de elementos de tuple inferidos</h2>
 <pre><code class="language-CSharp">
@@ -343,4 +347,6 @@
         }
 </code></pre>
 <h2><s>4. Argumentos con nombre en mas sitios</s></h2>
+<h1>Ejemplos de <code>async/await</code> y <code>SynchronizationContext</code> para un hilo</h1>
+<p>LLlamando un api REST y descargando imágenes en &quot;paralelo&quot; usando I/O de asincrónica ver proyecto <strong>\dotnet_samples\CSharp7Async</strong></p>
 <div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>

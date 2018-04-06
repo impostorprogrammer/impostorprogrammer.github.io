@@ -356,6 +356,10 @@ using static System.Diagnostics.Debug;
 
         // TODO CS71 2.0 default literal
         (int deltaX, int deltaY, double Length) res = default;
+
+        int? nullableInt = null;
+        var isNullableOrNot = nullableInt ?? default; // What type is isNullableOrNot ?
+
 ```
 
 ## 3. Nombres de elementos de tuple inferidos
@@ -418,3 +422,7 @@ using static System.Diagnostics.Debug;
 
 ## ~~4. Argumentos con nombre en mas sitios~~
 
+
+# Ejemplos de `async/await` y `SynchronizationContext` para un hilo
+
+LLlamando un api REST y descargando imágenes en "paralelo" usando I/O de asincrónica ver proyecto **\dotnet_samples\CSharp7Async**
