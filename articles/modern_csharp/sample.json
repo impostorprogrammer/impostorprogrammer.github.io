@@ -1,0 +1,34 @@
+{
+    'teachers': [
+        {
+            'name': 'Jonas',
+            'sirname': 'Brandel',
+            'birthdate': '1968-01-02T00:00:00.000Z',
+            'height': 1.8,
+            'weight': 87.9
+        }
+    ],
+    'pupils': [
+        {
+            'name': 'Ruben',
+            'sirname': 'Muñoz',
+            'birthdate': '1994-01-16T00:00:00.000Z',
+            'height': 1.78,
+            'weight': 77.3
+        },
+        {
+            'name': 'Bobby',
+            'sirname': 'Sinclair',
+            'birthdate': '1973-12-01T00:00:00.000Z',
+            'height': 1.88,
+            'weight': 97.3
+        },
+        {
+            'name': 'Eleanor',
+            'sirname': 'Rigby',
+            'birthdate': '1893-12-31T00:00:00.000Z',
+            'height': 1.68,
+            'weight': 57.4
+        }
+    ]
+}
