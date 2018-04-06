@@ -423,6 +423,16 @@ using static System.Diagnostics.Debug;
 ## ~~4. Argumentos con nombre en mas sitios~~
 
 
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr>
+
+
 # Ejemplos de `async/await` y `SynchronizationContext` para un hilo
 
-LLlamando un api REST y descargando imágenes en "paralelo" usando I/O de asincrónica ver proyecto **\dotnet_samples\CSharp7Async**
+Llamando api REST del PageLr.com y descargando imágenes/screenshots en "paralelo" usando I/O de asincrónica.
+## Ver proyecto **\dotnet_samples\CSharp7Async**
