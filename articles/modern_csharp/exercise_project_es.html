@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../../styles/markdown.css">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "UA-58458282-5");
+</script>
+<!-- Source File articles\modern_csharp\exercise_project_es.html -->
+</head>
+<body>
+<h1>Proyecto de ejercicio C# 6 hasta 7.2 con 'async' y 'await' programación</h1>
+<p>Esto es un pequeño proyecto para aprender y practicar las novedades del C# 6.0, 7.0, 7.1 y 7.2 en un proyecto usando un modelo de programación asincrónico.</p>
+<h2>Ejemplos de código de referencia</h2>
+<p>En el proyecto <em>dotnet_samples\CSharp7Project</em> encontrarás algunos trozo de código ilustrando como hacer ciertas cosas en adición de los ejemplos disponible el el resto de la solución dotnet_samples.</p>
+<p>La solución dotnet_samples esta disponible en GitHub https://github.com/JonasBr68/dotnet_samples</p>
+<h1>Utilice siempre la nueva sintaxis, maneras y patrones</h1>
+<p>Seguramente no hay como usar lo todas en este proyecto, pero la mayora si se puede.</p>
+<h2>Un repaso de las novedades para recordarlos y usarlo!</h2>
+<h2><strong>C# 6.0</strong></h2>
+<ol>
+<li>Propiedades automáticas de sólo lectura</li>
+<li>Inicializadores de propiedades automáticas</li>
+<li>Funciones con el cuerpo como expresión
+Función
+Propiedad</li>
+<li><code>using static</code> - Insertar funciones en el namespace</li>
+<li>Operador condicional de <code>null ?.</code>  y  <code>?[]</code></li>
+<li>Interpolación en string
+6.2 Nuevo tipo <code>FormattableString</code></li>
+<li>Filtros de excepciones</li>
+<li>Expresión <code>nameof(myVar)</code></li>
+<li><code>await</code> en bloques de <code>catch</code> y <code>finally</code></li>
+<li>Inicializadores de índice</li>
+<li>Métodos de extensión para inicializadores de colección</li>
+</ol>
+<h2><strong>C# 7.0</strong></h2>
+<ol>
+<li>Variables <code>out</code></li>
+<li>Tuplas y deconstrucción <code>ValueTuple</code> <code>Deconstructor(...)</code></li>
+<li>Descartes - Discards</li>
+<li>Coincidencia de patrones - Pattern Matching</li>
+<li><code>ref</code> locales y retornos</li>
+<li>Funciones locales - anidados dentro otra función</li>
+<li>Mas miembros con el cuerpo como expresión</li>
+<li>Expresiones <code>throw</code></li>
+<li>Mejoras en la sintaxis literal numérica</li>
+</ol>
+<h2><strong>C# 7.1</strong></h2>
+<ol>
+<li>método Main asincrónico (<code>async</code>)</li>
+<li>Expresiones literales de <code>default</code></li>
+<li>Nombres de elementos de tupla inferidos</li>
+</ol>
+<h2><strong>C# 7.2</strong></h2>
+<ol>
+<li>Semántica de referencia con tipos de valor</li>
+<li>Guion bajo comenzando literal numérico</li>
+<li><code>private protected</code> modificador de acceso</li>
+</ol>
+<h1>El proyecto - Descarga asíncrona, deserialización en tipos fuertes usando tuplas y clases, deconstrucción y serialización de culturas con asincronicidad</h1>
+<p>Vamos descargar un archivo tipo JSon asincrónicamente, serializarlo en tipos fuertes con tuplas y clases, usando coincidencia de patrones/tipo para enlace dinámicamente y crear los tipos fuerte correspondiente. Todo la estructura de llamadas debe tener característica usando <code>async/await</code>.</p>
+<p>Con el entrada <code>Main</code> declarado como:</p>
+<pre><code class="language-CSharp">        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)
+        </span>{
+</code></pre>
+<p>Después de serializar el archivo en tipos fuertes, vamos crear versiones del archivo para cada cultura disponible en el ordenador, y serializar en archivos separado en una manera asincrónica.</p>
+<h2>Usa un proyecto tipo consola, con versión de lenguaje 7.2 y dirigiéndose a .NET 4.7.1</h2>
+<h2>Tipos</h2>
+<p>Vamos crear dos tipos o jerarquías de tipos representado los datos en el archivo.</p>
+<h3>La primero usando neo-tuplas (C# 7.*)</h3>
+<h3>La segunda una jerarquías de clases/structs mas tradicional, aunque implementado métodos de <code>Deconstruct</code></h3>
+<h2>Descargar archivo asincrónicamente</h2>
+<p>El archivo para descargar es disponible en http://www.impostorprogrammer.com/articles/modern_csharp/sample.json</p>
+<h2>Deserialización en tipo con tuplas</h2>
+<p>Deserialización de archivo en objeto tipado fuerte <code>DocumentStruct</code></p>
+<pre><code>• Solo el objeto representando el archivo puede ser un tipado class/struct nombrado, el resto debe ser en forma de tuplas (`ValueTuple`) en una manera similar del clase `DBEmulator` en .\dotnet_samples\CSharp7Console\ProgramCS7.cs
+• La deserialización tiene que ser ejecutado en un hilo del thread pool usando el `Task.Run`
+</code></pre>
+<h2>Crear un clase <code>DocumentClass</code></h2>
+<p>Con la misma estructura que <code>DocumentStruct</code>, pero con tipos explicito declarados como <code>class Teacher</code> , <code>class Pupil</code> etc,
+Ejemplo:</p>
+<pre><code class="language-CSharp">Ilist&lt;Teacher&gt; DocumentClass.Teachers { <span class="hljs-keyword">get</span>; }
+</code></pre>
+<p>Todo tipos debe tener &quot;Deconstructores&quot; correspondiente de las tuplas declarado/usado en <code>DocumentStruct</code> para los mismo datos.</p>
+<p>Un object tipo <code>DocumentClass</code> puede ser inicializado con un instancia de un <code>DocumentStruct</code>,</p>
+<p>Un objeto tipo <code>DocumentStruct</code> puede ser inicializado fácilmente desde un instancia de un <code>DocumentClass</code> y sus descendientes usando los &quot;Deconstructores&quot;.</p>
+<p>Mientras es posible, todo los miembros del <code>DocumentClass</code> y sus descendientes debe tener todo los miembros declarado con estilo &quot;cuerpo como expresión&quot; incluyendo la constructora.</p>
+<h2>Propiedades lectura solo</h2>
+<p>Todo los propiedades del tipo &quot;colección&quot;  <code>DocumentClass</code> y <code>DocumentStruct</code> debe ser de solo lectura.</p>
+<h2>Inicializadores de propiedades automáticas</h2>
+<p>Todo los propiedades que requiere inicialización por defecto deben ser inicializado en su declaración.</p>
+<h2>Usa el JSON.NET para parsear el documento</h2>
+<p>Ver ejemplo en dotnet_samples\CSharp7Project\ProgramProjectSample.cs</p>
+<pre><code class="language-CSharp">           <span class="hljs-keyword">dynamic</span> stuff = JsonConvert.DeserializeObject(jsonSample);
+
+            <span class="hljs-keyword">foreach</span>(<span class="hljs-keyword">var</span> t <span class="hljs-keyword">in</span> stuff.teachers)
+            {
+                WriteLine(t.name);
+            }
+</code></pre>
+<h2>Coincidencia de patrones</h2>
+<p>Usa coincidencia de patrones con <code>switch</code> para atravesar la estructura con el objeto <code>dynamic</code> del json.
+Parecido de eso, para cada elemento llamar código correspondiente  para cada tipo 'fuerte'
+Tienes que boxear el <code>dynamic</code> para funcionar con coincidencia de patrones.</p>
+<pre><code class="language-CSharp"><span class="hljs-keyword">dynamic</span> foo = <span class="hljs-number">10</span>;
+<span class="hljs-keyword">switch</span> ((<span class="hljs-keyword">object</span>)foo)
+{
+    <span class="hljs-keyword">case</span> <span class="hljs-keyword">int</span> i:
+        Console.WriteLine(<span class="hljs-string">"int"</span>);
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">default</span>:
+        Console.WriteLine(<span class="hljs-string">"other"</span>);
+        <span class="hljs-keyword">break</span>;
+}
+</code></pre>
+<h2>Funciones Locales</h2>
+<p>En todas métodos <code>async</code>, separa el parte <code>async</code> de validación de parámetros usando funciones locales para el parte <code>async</code>, ver ejemplo en dotnet_samples\CSharp7Console\LocalFunctions.cs</p>
+<h2>LinQ metodos</h2>
+<p>Crea métodos recibiendo parámetros y retornando <code>IEnumerable</code> de tuplas en tu clase/struct.</p>
+<h2><code>string ToString(IFormatProvider formatProvider)</code></h2>
+<p><code>DocumentClass</code> y <code>DocumentStruct</code> debe tener un método <code>ToString</code> como esa, que utiliza <code>FormattedString</code> and  interpolación de string para convertir el <code>objeto</code> en un <code>string</code>, usando el <code>CultureInfo</code> en <code>formatProvider</code>.</p>
+<h2>Formato</h2>
+<p>El formato del string retornado debe coincidir con la estructura semántica (no de la sangría etc.) del archivo original, con la diferencia de fechas y números etc usan formatos correspondiente del CultureInfo usado.</p>
+<h2>Archivos para toda culturas</h2>
+<p>Crea archivos por cada cultura disponible usando async IO y el <code>DocumentStruct/Class.ToString</code></p>
+<h3>Toda culturas disponible con:</h3>
+<pre><code class="language-CSharp">CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
+</code></pre>
+<h3>Ejemplo escribir texto en archivo <code>async</code></h3>
+<pre><code class="language-CSharp">       <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">WriteTextAsync</span>(<span class="hljs-params"></span>)
+        </span>{
+            <span class="hljs-keyword">using</span> (StreamWriter writer = File.CreateText(<span class="hljs-string">"newfile.txt"</span>))
+            {
+                <span class="hljs-keyword">await</span> writer.WriteAsync(<span class="hljs-string">"Example text as string"</span>);
+            }
+        }
+</code></pre>
+<h1>BUENA SUERTE!</h1>
+<div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>
