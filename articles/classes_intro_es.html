@@ -107,12 +107,12 @@ hoy.anadirDias(<span class="hljs-number">1</span>);
 <pre><code class="language-javascript"><span class="hljs-keyword">let</span> hoy = <span class="hljs-keyword">new</span> FechaSimple(<span class="hljs-number">24</span>, <span class="hljs-number">10</span>, <span class="hljs-number">2018</span>); <span class="hljs-comment">//Llama el constructor del FechaSimple con los argumentos</span>
 </code></pre>
 <h2>Validez del los datos y el estado del objeto</h2>
-<p>Intentamos diseñar nuestros clases en una manera que garantiza que su estado esta valida. Usando un <code>constructor</code> que sabes iniciar solo con valores validos. Creando métodos que solo cambian valores en una manera que deja los valores del objeto siempre en un estado valido.</p>
-<p>Obviamente, solo el hecho que tenemos un <code>constructor</code> y métodos no garantiza el validez. <em><strong>PERO</strong></em>, si hemos equivocado hay un lugar concreto y fácil encontrar donde corregir los errores.</p>
+<p>Intentamos diseñar nuestros clases en una manera que garantiza que su estado esta valida. Usando un <code class="language-javascript"><span class="hljs-keyword">constructor</span></code> que sabes iniciar solo con valores validos. Creando métodos que solo cambian valores en una manera que deja los valores del objeto siempre en un estado valido.</p>
+<p>Obviamente, solo el hecho que tenemos un <code class="language-javascript"><span class="hljs-keyword">constructor</span></code> y métodos no garantiza el validez. <em><strong>PERO</strong></em>, si hemos equivocado hay un lugar concreto y fácil encontrar donde corregir los errores.</p>
 <h2>Proteger los datos del objeto</h2>
 <p>Para asegurarnos que nada o nadie altera los datos del objeto fuera de los métodos <em>oficiales</em> seria bueno si podríamos proteger los datos o propiedades de alteración directa, fuer de los métodos diseñado por tal fin.</p>
-<p>En <code>JavaScript</code> y los clases no hay desafortunadamente ningún mecanismo inherente o nativo para hacer esto. Tenemos que hacerlo usando convenciones, y nuestra propia disciplina para cumplirlo. En otros lenguajes de programación en muchas ocasiones hay palabra claves para proteger los miembros (propiedades) del los clases y objetos.</p>
-<p>Si prestaba atención en el ejemplo arriba del clase <span class="hljs-title">FechaSimple</span> los propiedades tiene un prefijo <strong>'<code>_</code>'</strong> como <strong><code>_dia</code></strong>  etc. Así, podemos usar la convención que propiedades con ese prefijo son <em><strong>privados</strong></em> y no se debe usar n tocar fuera del clase que los defina.</p>
+<p>En <code class="language-javascript">JavaScript</code> y los clases no hay desafortunadamente ningún mecanismo inherente o nativo para hacer esto. Tenemos que hacerlo usando convenciones, y nuestra propia disciplina para cumplirlo. En otros lenguajes de programación en muchas ocasiones hay palabra claves para proteger los miembros (propiedades) del los clases y objetos.</p>
+<p>Si prestaba atención en el ejemplo arriba del clase <span class="hljs-title">FechaSimple</span> los propiedades tiene un prefijo <strong>'<code class="language-javascript">_</code>'</strong> como <strong><code class="language-javascript">_dia</code></strong>  etc. Así, podemos usar la convención que propiedades con ese prefijo son <em><strong>privados</strong></em> y no se debe usar n tocar fuera del clase que los defina.</p>
 <h2>Propiedades en clases</h2>
 <p>En las declaraciones de clases, no se declara simple propiedades como en los objetos, por ejemplo <span class="hljs-attr">dia</span> y <span class="hljs-attr">mes</span> abajo.</p>
 <pre><code class="language-javascript"><span class="hljs-keyword">let</span> fecha = {
@@ -140,11 +140,11 @@ hoy.anadirDias(<span class="hljs-number">1</span>);
 fecha.dia = <span class="hljs-number">3</span>;
 fecha.mes = <span class="hljs-number">12</span>;
 </code></pre>
-<h2>Métodos <strong><code>get</code></strong> y <strong><code>set</code></strong> (getter y setter)</h2>
+<h2>Métodos <strong><code class="language-javascript">get</code></strong> y <strong><code class="language-javascript">set</code></strong> (getter y setter)</h2>
 <p>Pero, si creamos los propiedades como arriba, es facil acceder y alterarlo sin darse cuenta, usando la convención de _ hacemos la misma pero 'esconderlos' con la convención.
-Ya solo falta una manera de acceder y alterar estos datos en una manera segura y controlada. Por eso en los clases tenemo los metodos <code>get</code> y <code>set</code>.</p>
-<h3>El método <strong><code>get</code></strong></h3>
-<p>El método <code>get</code> es una función que se comporta como una propiedad, para llamarle no hace falta los brackets o paréntesis <strong>()</strong>, y retorna un valor.</p>
+Ya solo falta una manera de acceder y alterar estos datos en una manera segura y controlada. Por eso en los clases tenemo los metodos <code class="language-javascript">get</code> y <code class="language-javascript">set</code>.</p>
+<h3>El método <strong><code class="language-javascript">get</code></strong></h3>
+<p>El método <code class="language-javascript">get</code> es una función que se comporta como una propiedad, para llamarle no hace falta los brackets o paréntesis <strong>()</strong>, y retorna un valor.</p>
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Fecha</span> </span>{
 ...
     get mes()
@@ -157,8 +157,8 @@ Ya solo falta una manera de acceder y alterar estos datos en una manera segura y
 <span class="hljs-built_in">console</span>.log(f.mes);
 
 </code></pre>
-<h3>El método <strong><code>set</code></strong></h3>
-<p>El método  <code>set</code> es una función que se comporta como una propiedad, se recibe un parametro representando el valor que queremos asignar, pero para llamarle no hace falta los brackets/paréntesis (), solo el sintaxis para asignar valor con <strong><code>=</code></strong> .</p>
+<h3>El método <strong><code class="language-javascript">set</code></strong></h3>
+<p>El método  <code class="language-javascript">set</code> es una función que se comporta como una propiedad, se recibe un parametro representando el valor que queremos asignar, pero para llamarle no hace falta los brackets/paréntesis (), solo el sintaxis para asignar valor con <strong><code class="language-javascript">=</code></strong> .</p>
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Fecha</span> </span>{
 ...
     set dia(dia){
@@ -171,7 +171,7 @@ Ya solo falta una manera de acceder y alterar estos datos en una manera segura y
 f.dia = <span class="hljs-number">23</span>;
 
 </code></pre>
-<h2>Ejemplo: Clase con métodos <strong><code>get</code></strong> y <strong><code>set</code></strong></h2>
+<h2>Ejemplo: Clase con métodos <strong><code class="language-javascript">get</code></strong> y <strong><code class="language-javascript">set</code></strong></h2>
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Fecha</span> </span>{
     <span class="hljs-keyword">constructor</span>(dia, mes)
     {
@@ -202,9 +202,9 @@ f.dia = <span class="hljs-number">23</span>;
 f.dia = <span class="hljs-number">64</span>;
 <span class="hljs-built_in">console</span>.log(f.dia, f.mes); <span class="hljs-comment">// 2 3</span>
 </code></pre>
-<h2>Grandes ventajas con <strong><code>get</code></strong> y <strong><code>set</code></strong></h2>
+<h2>Grandes ventajas con <strong><code class="language-javascript">get</code></strong> y <strong><code class="language-javascript">set</code></strong></h2>
 <p>En los dos casos, con el get y el set podemos <em><strong>interceptar el acceso</strong></em>, igual leyendo el valor y asignando un valor. Así se pueden añadir logico, o cálculos etc. al los propiedades cuando están leídos o asignados.</p>
-<p>También con <strong><code>get</code></strong> podemos hacer un <em>propiedad de solo lectura</em>, simplemente no implementamos ninguno método <strong><code>set</code></strong> con el mismo nombre. Así solo hay <em>una funcion para leer</em> el valor, y ninguna para asignar un valor.</p>
+<p>También con <strong><code class="language-javascript">get</code></strong> podemos hacer un <em>propiedad de solo lectura</em>, simplemente no implementamos ninguno método <strong><code class="language-javascript">set</code></strong> con el mismo nombre. Así solo hay <em>una funcion para leer</em> el valor, y ninguna para asignar un valor.</p>
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SoloLectura</span>
 </span>{
     <span class="hljs-keyword">constructor</span>(nombre)
@@ -223,8 +223,8 @@ obj.Nombre = <span class="hljs-string">"No funciona!"</span>;
 </code></pre>
 <img src="./OnlyGetter.png" alt="Exception has occurred: TypeError Cannot set property Nombre of #<Lectura> which has only a getter" title="Exception has occurred: TypeError Cannot set property Nombre of #<Lectura> which has only a getter">
 <h2>Propiedades calculadas</h2>
-<p>Con <strong><code>get</code></strong> y <strong><code>set</code></strong> puedes tener propiedades <em>virtuales</em>, es decir actúan como propiedades pero no hay una sola pieza de datos que les corresponda. También se pueden considerar propiedades calculadas.</p>
-<h2><strong><code>get</code></strong> calculado de otros datos</h2>
+<p>Con <strong><code class="language-javascript">get</code></strong> y <strong><code class="language-javascript">set</code></strong> puedes tener propiedades <em>virtuales</em>, es decir actúan como propiedades pero no hay una sola pieza de datos que les corresponda. También se pueden considerar propiedades calculadas.</p>
+<h2><strong><code class="language-javascript">get</code></strong> calculado de otros datos</h2>
 <h3><strong>nombre</strong></h3>
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Persona</span> </span>{
     <span class="hljs-keyword">constructor</span>(nombre_de_pila, apellidos)
@@ -253,7 +253,7 @@ obj.Nombre = <span class="hljs-string">"No funciona!"</span>;
     }
 }
 </code></pre>
-<h2>Propiedad <strong><code>set</code></strong> parseado (deconstruido) en sus partes</h2>
+<h2>Propiedad <strong><code class="language-javascript">set</code></strong> parseado (deconstruido) en sus partes</h2>
 <p>Hay situaciones cuando hay varias maneras expresar un valor, puede que es una manera conjunta, como por ejemplo una fecha como &quot;2 de enero de 1968&quot;, o &quot;2/1/1968&quot; etc. pero en nuestras clases guardamos esto separado en día, mes, año.</p>
 <p>Aunque así, por para mayor comodidad queremos que el uso de nuestra clase puede directamente usar una fecha así.</p>
 <h2>Asignar el valor</h2>
@@ -265,7 +265,7 @@ f.fecha = <span class="hljs-string">"2/1/1968"</span>;
 <pre><code class="language-javascript"><span class="hljs-keyword">let</span> f = <span class="hljs-keyword">new</span> Fecha(<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1968</span>);
 <span class="hljs-built_in">console</span>.log(f.fecha); <span class="hljs-comment">//"2/1/1968"</span>
 </code></pre>
-<p>Con la 'magia' de metodos  <strong><code>get</code></strong> y  <strong><code>set</code></strong> podemos intreceptar y convertir a y desde nuestro formato interno.</p>
+<p>Con la 'magia' de metodos  <strong><code class="language-javascript">get</code></strong> y  <strong><code class="language-javascript">set</code></strong> podemos intreceptar y convertir a y desde nuestro formato interno.</p>
 <pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Fecha</span> </span>{
     <span class="hljs-keyword">constructor</span>(dia, mes, ano)
     {

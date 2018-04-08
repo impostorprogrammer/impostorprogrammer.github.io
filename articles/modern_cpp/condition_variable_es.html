@@ -17,20 +17,20 @@
 <!-- Source File articles\modern_cpp\condition_variable_es.html -->
 </head>
 <body>
-<h1>C++ 11 - <strong><code>std::condition_variable</code></strong></h1>
-<p>El nuevo <strong><code>std::condition_variable</code></strong> en C++ 11 es un bicho versátil pero por lo menos para mi un fuente de confusión.</p>
+<h1>C++ 11 - <strong><code class="language-CSharp">std::condition_variable</code></strong></h1>
+<p>El nuevo <strong><code class="language-CSharp">std::condition_variable</code></strong> en C++ 11 es un bicho versátil pero por lo menos para mi un fuente de confusión.</p>
 <p>Principalmente tiene dos roles, uno funciona en un hilo recibiendo notificaciones, y la otra para transmitir notificaciones desde un un hilo a otro.</p>
 <h2>Recibiendo</h2>
-<pre><code>1. El hilo espera (`wait()`) hasta que recibe un 'señal' sin mantener un bloqueo de un candado (**`std::mutex`**)    
+<pre><code class="language-CSharp"><span class="hljs-number">1.</span> <span class="hljs-function">El hilo <span class="hljs-title">espera</span> (<span class="hljs-params">`wait(</span>)`) hasta que recibe un 'señal' sin mantener un bloqueo de un <span class="hljs-title">candado</span> (<span class="hljs-params">**`std::mutex`**</span>)    
 2. Cuando el hilo recibe el 'señal' se despierta y adquiere el bloqueo de un candado otra vez.
-</code></pre>
+</span></code></pre>
 <h2>Transmitiendo</h2>
 <ol>
 <li>Un hilo puede despertar un hilo esperando (cualquiera), efectivamente señalando que algo ha ocurrido</li>
 </ol>
 <h2>Protegiendo recursos</h2>
-<p>El <strong><code>std::condition_variable</code></strong> siempre trabaja en conjunto e un <strong><code>std::mutex</code></strong> via un <strong><code>std::unique_lock</code></strong>, en simple caso solo para proteger una condición. Pero también podemos utilizar para proteger otros recursos, mas de eso abajo en ejemplo 3.</p>
-<h2>Ejemplo 1 -- Crear y despertar un hilo con un <strong><code>std::condition_variable</code></strong></h2>
+<p>El <strong><code class="language-CSharp">std::condition_variable</code></strong> siempre trabaja en conjunto e un <strong><code class="language-CSharp">std::mutex</code></strong> via un <strong><code class="language-CSharp">std::unique_lock</code></strong>, en simple caso solo para proteger una condición. Pero también podemos utilizar para proteger otros recursos, mas de eso abajo en ejemplo 3.</p>
+<h2>Ejemplo 1 -- Crear y despertar un hilo con un <strong><code class="language-CSharp">std::condition_variable</code></strong></h2>
 <pre><code class="language-cpp">
 <span class="hljs-built_in">std</span>::mutex awakeThreadMutex;
 <span class="hljs-built_in">std</span>::condition_variable signal_thread;
@@ -55,8 +55,8 @@
 }
 
 </code></pre>
-<h2>Activación falsa de <strong><code>std::condition_variable</code></strong></h2>
-<p>El ejemplo anterior, tiene una problema, hay una posibilidad que el hile esperando con <code>wait()</code> sea despertado sin ninguno otro hilo ha señalado.
+<h2>Activación falsa de <strong><code class="language-cpp"><span class="hljs-built_in">std</span>::condition_variable</code></strong></h2>
+<p>El ejemplo anterior, tiene una problema, hay una posibilidad que el hile esperando con <code class="language-cpp">wait()</code> sea despertado sin ninguno otro hilo ha señalado.
 En ingles se llama 'spurious wake up'</p>
 <p>Así la recomendación es siempre usa una condición con un bucle que controla si realmente fue señalada.
 El alternativo con predicado, en teoría puede ser más eficaz si el implementador de la librería consigue algo mejor que un bucle...</p>
@@ -101,14 +101,14 @@ El alternativo con predicado, en teoría puede ser más eficaz si el implementad
 }
 
 </code></pre>
-<h2>Porqué usamos el <code>std::unique_lock</code> y no el <code>std::lock_guard</code></h2>
-<p>El <code>std::condition_variable::wait</code> requiere un <code>std::unique_lock</code> porque mientras está esperando se libera el bloque, y despertando se adqiure otra vez.
-El <code>std::lock_guard</code> no tiene esta funcionalidad. Pero el <code>std::unique_lock</code> tiene el mismo comportamiento que <code>std::lock_guard</code> y se libera el bloqueo cuando sale del ámbito.</p>
+<h2>Porqué usamos el <code class="language-cpp"><span class="hljs-built_in">std</span>::unique_lock</code> y no el <code class="language-cpp"><span class="hljs-built_in">std</span>::lock_guard</code></h2>
+<p>El <code class="language-cpp"><span class="hljs-built_in">std</span>::condition_variable::wait</code> requiere un <code class="language-cpp"><span class="hljs-built_in">std</span>::unique_lock</code> porque mientras está esperando se libera el bloque, y despertando se adqiure otra vez.
+El <code class="language-cpp"><span class="hljs-built_in">std</span>::lock_guard</code> no tiene esta funcionalidad. Pero el <code class="language-cpp"><span class="hljs-built_in">std</span>::unique_lock</code> tiene el mismo comportamiento que <code class="language-cpp"><span class="hljs-built_in">std</span>::lock_guard</code> y se libera el bloqueo cuando sale del ámbito.</p>
 <h2>Protegiendo recursos compartido</h2>
-<p>Ya hemos visto como hilos puede señalar una al otro, pero el <code>std::condition_variable</code> no solo sirve para esto. También si los hilos comparten recursos y cuando necesitamos coordinar el acceso entre ellos los <code>std::condition_variable</code> nos sirve en combinaciónes para señalar y proteger que el recurso ya está libre para otro hilo.</p>
+<p>Ya hemos visto como hilos puede señalar una al otro, pero el <code class="language-cpp"><span class="hljs-built_in">std</span>::condition_variable</code> no solo sirve para esto. También si los hilos comparten recursos y cuando necesitamos coordinar el acceso entre ellos los <code class="language-cpp"><span class="hljs-built_in">std</span>::condition_variable</code> nos sirve en combinaciónes para señalar y proteger que el recurso ya está libre para otro hilo.</p>
 <h2>Pasar el recurso entre dos hilos</h2>
 <p>En el siguiente ejemplo creamos dos hilos que comparte un recurso, un vector. Cada uno de ellos trabaja con el vector protegido y cuando terminan su trabajo, señala para el otro hilo que toma las riendas del recurso y hace su trabajo con el vector protegido. Cuando termina su trabajo, le vuelve a señalar para el otro hilo, y así siguen.</p>
-<p>Nota que usamos dos <strong><code>std::condition_variable</code></strong>, uno para comunicar or señalar en una direcion y receiber desde la misma, y otra para comunicar en la otra direcion.</p>
+<p>Nota que usamos dos <strong><code class="language-cpp"><span class="hljs-built_in">std</span>::condition_variable</code></strong>, uno para comunicar or señalar en una direcion y receiber desde la misma, y otra para comunicar en la otra direcion.</p>
 <p>¡Ver el ejemplo!</p>
 <h2>Ejemplo 3 -- Dos hilos trabajando alternativamente en añadir elementos en un vector compartido</h2>
 <pre><code class="language-cpp">    <span class="hljs-built_in">std</span>::mutex alternateThreadsMutex;

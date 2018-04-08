@@ -39,7 +39,7 @@
 <h3>Propiedad</h3>
 <pre><code class="language-CSharp">        <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> FullName =&gt; LastName + <span class="hljs-string">" "</span> + FirstName;
 </code></pre>
-<h2>4. <code>using static</code> - Insertar funciones en el namespace</h2>
+<h2>4. <code class="language-CSharp"><span class="hljs-keyword">using</span> <span class="hljs-keyword">static</span></code> - Insertar funciones en el namespace</h2>
 <pre><code class="language-CSharp"><span class="hljs-comment">// TODO CS6 3.1 using static to allow calling Assert(...)</span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">static</span> System.Diagnostics.Debug;
 </code></pre>
@@ -48,7 +48,7 @@
             Assert(name == <span class="hljs-literal">null</span>); 
 
 </code></pre>
-<h2>5. Operador condicional de <code>null ?.</code>  y  <code>?[]</code></h2>
+<h2>5. Operador condicional de <code class="language-CSharp"><span class="hljs-literal">null</span> ?.</code>  y  <code class="language-CSharp">?[]</code></h2>
 <pre><code class="language-CSharp">
             <span class="hljs-comment">// TODO CS6 4.0 Null-conditional operator with . (dot) operator</span>
             <span class="hljs-keyword">var</span> name = nullStudent?.FullName;
@@ -66,7 +66,7 @@
         <span class="hljs-comment">// TODO CS6 5.3 interpolated string with format specifier and method call</span>
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> <span class="hljs-title">GetFormattedGradePoint</span>(<span class="hljs-params"></span>) </span>=&gt; <span class="hljs-string">$"Name: <span class="hljs-subst">{LastName}</span>, <span class="hljs-subst">{FirstName}</span>. G.P.A: <span class="hljs-subst">{Grades.Average():F2}</span>"</span>;
 </code></pre>
-<h2>6.2 Nuevo tipo <code>FormattableString</code></h2>
+<h2>6.2 Nuevo tipo <code class="language-CSharp">FormattableString</code></h2>
 <pre><code class="language-CSharp">        FormattableString fStr2 = <span class="hljs-string">$"Now2 <span class="hljs-subst">{DateTime.Now}</span>"</span>; <span class="hljs-comment">// TODO CS6 5.4 Interpolated strings compiles to FormattableString if you want</span>
         Console.WriteLine(fStr2.Format);
         Console.WriteLine(fStr2);
@@ -90,14 +90,14 @@
                 Console.WriteLine(ex.ToString());
             }
 </code></pre>
-<h2>8. Expresión <code>nameof(myVar)</code></h2>
+<h2>8. Expresión <code class="language-CSharp"><span class="hljs-keyword">nameof</span>(myVar)</code></h2>
 <pre><code class="language-CSharp">            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">string</span>.IsNullOrEmpty(requestedUrl))
             {
                 <span class="hljs-comment">// TODO CS6 7.2 nameof turns variable into its name as string, allows safe renaming/refactoring</span>
                 <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ArgumentNullException(<span class="hljs-keyword">nameof</span>(requestedUrl));
             }
 </code></pre>
-<h2>9. <code>await</code> en bloques de <code>catch</code> y <code>finally</code></h2>
+<h2>9. <code class="language-CSharp"><span class="hljs-keyword">await</span></code> en bloques de <code class="language-CSharp"><span class="hljs-keyword">catch</span></code> y <code class="language-CSharp"><span class="hljs-keyword">finally</span></code></h2>
 <pre><code class="language-CSharp">
             <span class="hljs-comment">// TODO CS6 6.5 Exception filter on exception message contents</span>
             <span class="hljs-keyword">catch</span> (HttpRequestException ex) when (ex.Message.Contains(<span class="hljs-string">" 301 "</span>) ||
@@ -153,13 +153,13 @@
 <br>
 <hr>
 <h1>C# 7.0</h1>
-<h2>1. Variables <code>out</code></h2>
+<h2>1. Variables <code class="language-CSharp"><span class="hljs-keyword">out</span></code></h2>
 <pre><code class="language-CSharp">            <span class="hljs-comment">// TODO CS70 1.0 out variable declarations, in situ visible in current scope</span>
             <span class="hljs-keyword">if</span> (<span class="hljs-keyword">int</span>.TryParse(input, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> result))
                 WriteLine(result);
 
 </code></pre>
-<h2>2. Tuples y deconstrucción <code>ValueTuple</code> <code>Deconstructor(...)</code></h2>
+<h2>2. Tuples y deconstrucción <code class="language-CSharp">ValueTuple</code> <code class="language-CSharp">Deconstructor(...)</code></h2>
 <pre><code class="language-CSharp">            <span class="hljs-comment">// TODO CS70 2.0.3 Creates tuple </span>
             <span class="hljs-keyword">var</span> tupleNumbers = (<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);
 
@@ -213,7 +213,7 @@
             }
         }
 </code></pre>
-<h2>5. <code>ref</code> locales y retornos</h2>
+<h2>5. <code class="language-CSharp"><span class="hljs-keyword">ref</span></code> locales y retornos</h2>
 <pre><code class="language-CSharp">            <span class="hljs-keyword">var</span> idStrTuple = (id: <span class="hljs-number">1</span>, str: <span class="hljs-string">"idStrTuple"</span>);
 
             <span class="hljs-keyword">ref</span> <span class="hljs-keyword">var</span> refTemp = <span class="hljs-keyword">ref</span> idStrTuple; <span class="hljs-comment">//Creates ref to value type</span>
@@ -245,7 +245,7 @@
                                                                             areaTuple.width,
                                                                             areaTuple.height);
 </code></pre>
-<h2>8. Expresiones <code>throw</code></h2>
+<h2>8. Expresiones <code class="language-CSharp"><span class="hljs-keyword">throw</span></code></h2>
 <pre><code class="language-CSharp">        <span class="hljs-keyword">private</span> <span class="hljs-keyword">string</span> label;
         <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> Label
         {
@@ -286,12 +286,12 @@
 <br>
 <hr>
 <h1>C# 7.1</h1>
-<h2>1. método Main asincrónico (<code>async</code>)</h2>
+<h2>1. método Main asincrónico (<code class="language-CSharp"><span class="hljs-keyword">async</span></code>)</h2>
 <pre><code class="language-CSharp">        <span class="hljs-comment">// TODO CS71 1.0 Async Main</span>
         <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)
         </span>{
 </code></pre>
-<h2>2. Expresiones literales de <code>default</code></h2>
+<h2>2. Expresiones literales de <code class="language-CSharp"><span class="hljs-keyword">default</span></code></h2>
 <pre><code class="language-CSharp">
         <span class="hljs-comment">// TODO CS71 2.0 default literal</span>
         (<span class="hljs-keyword">int</span> deltaX, <span class="hljs-keyword">int</span> deltaY, <span class="hljs-keyword">double</span> Length) res = <span class="hljs-keyword">default</span>;
@@ -316,10 +316,10 @@
 <h1>C# 7.2</h1>
 <h2>1. Semántica de referencia con tipos de valor</h2>
 <ul>
-<li><code>in</code></li>
-<li><code>ref readonly</code></li>
-<li><code>readonly struct</code></li>
-<li><code>ref struct</code></li>
+<li><code class="language-CSharp"><span class="hljs-keyword">in</span></code></li>
+<li><code class="language-CSharp"><span class="hljs-keyword">ref</span> <span class="hljs-keyword">readonly</span></code></li>
+<li><code class="language-CSharp"><span class="hljs-keyword">readonly</span> <span class="hljs-keyword">struct</span></code></li>
+<li><code class="language-CSharp"><span class="hljs-keyword">ref</span> <span class="hljs-keyword">struct</span></code></li>
 </ul>
 <pre><code class="language-CSharp">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">static</span> (<span class="hljs-params"><span class="hljs-keyword">int</span> deltaX, <span class="hljs-keyword">int</span> deltaY, <span class="hljs-keyword">double</span> Length</span>)  <span class="hljs-title">CalcLength</span>(<span class="hljs-params"><span class="hljs-keyword">in</span> (<span class="hljs-keyword">int</span> X, <span class="hljs-keyword">int</span> Y</span>) origin, 
                                                                           <span class="hljs-title">in</span> (<span class="hljs-params"><span class="hljs-keyword">int</span> X, <span class="hljs-keyword">int</span> Y</span>) end, 
@@ -339,7 +339,7 @@
         <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> LeadingSeparatorBin = <span class="hljs-number">0</span>b_1010_0110_0000_1010_0110;
         <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> LeadingSeparatorHex = <span class="hljs-number">0</span>x_0A_60_A6;
 </code></pre>
-<h2>3. <code>private protected</code> modificador de acceso</h2>
+<h2>3. <code class="language-CSharp"><span class="hljs-keyword">private</span> <span class="hljs-keyword">protected</span></code> modificador de acceso</h2>
 <pre><code class="language-CSharp">        <span class="hljs-comment">// TODO CS72 4.0 new protection level private protected maps to the CLR notion of protectedAndInternal so can be exposed via InternalsVisibleTo</span>
         <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnlyForTrustedDerivedClasses</span>(<span class="hljs-params"></span>)
         </span>{
@@ -353,7 +353,7 @@
 <br>
 <br>
 <hr>
-<h1>Ejemplos de <code>async/await</code> y <code>SynchronizationContext</code> para un hilo</h1>
+<h1>Ejemplos de <code class="language-CSharp"><span class="hljs-keyword">async</span>/<span class="hljs-keyword">await</span></code> y <code class="language-CSharp">SynchronizationContext</code> para un hilo</h1>
 <p>Llamando api REST del PageLr.com y descargando imágenes/screenshots en &quot;paralelo&quot; usando I/O de asincrónica.</p>
 <h2>Ver proyecto <strong>\dotnet_samples\CSharp7Async</strong></h2>
 <div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>

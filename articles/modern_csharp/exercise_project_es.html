@@ -32,43 +32,43 @@
 <li>Funciones con el cuerpo como expresión
 Función
 Propiedad</li>
-<li><code>using static</code> - Insertar funciones en el namespace</li>
-<li>Operador condicional de <code>null ?.</code>  y  <code>?[]</code></li>
+<li><code class="language-cpp"><span class="hljs-keyword">using</span> <span class="hljs-keyword">static</span></code> - Insertar funciones en el namespace</li>
+<li>Operador condicional de <code class="language-cpp">null ?.</code>  y  <code class="language-cpp">?[]</code></li>
 <li>Interpolación en string
-6.2 Nuevo tipo <code>FormattableString</code></li>
+6.2 Nuevo tipo <code class="language-cpp">FormattableString</code></li>
 <li>Filtros de excepciones</li>
-<li>Expresión <code>nameof(myVar)</code></li>
-<li><code>await</code> en bloques de <code>catch</code> y <code>finally</code></li>
+<li>Expresión <code class="language-cpp">nameof(myVar)</code></li>
+<li><code class="language-cpp">await</code> en bloques de <code class="language-cpp"><span class="hljs-keyword">catch</span></code> y <code class="language-cpp">finally</code></li>
 <li>Inicializadores de índice</li>
 <li>Métodos de extensión para inicializadores de colección</li>
 </ol>
 <h2><strong>C# 7.0</strong></h2>
 <ol>
-<li>Variables <code>out</code></li>
-<li>Tuplas y deconstrucción <code>ValueTuple</code> <code>Deconstructor(...)</code></li>
+<li>Variables <code class="language-cpp">out</code></li>
+<li>Tuplas y deconstrucción <code class="language-cpp">ValueTuple</code> <code class="language-cpp">Deconstructor(...)</code></li>
 <li>Descartes - Discards</li>
 <li>Coincidencia de patrones - Pattern Matching</li>
-<li><code>ref</code> locales y retornos</li>
+<li><code class="language-cpp">ref</code> locales y retornos</li>
 <li>Funciones locales - anidados dentro otra función</li>
 <li>Mas miembros con el cuerpo como expresión</li>
-<li>Expresiones <code>throw</code></li>
+<li>Expresiones <code class="language-cpp"><span class="hljs-keyword">throw</span></code></li>
 <li>Mejoras en la sintaxis literal numérica</li>
 </ol>
 <h2><strong>C# 7.1</strong></h2>
 <ol>
-<li>método Main asincrónico (<code>async</code>)</li>
-<li>Expresiones literales de <code>default</code></li>
+<li>método Main asincrónico (<code class="language-cpp">async</code>)</li>
+<li>Expresiones literales de <code class="language-cpp"><span class="hljs-keyword">default</span></code></li>
 <li>Nombres de elementos de tupla inferidos</li>
 </ol>
 <h2><strong>C# 7.2</strong></h2>
 <ol>
 <li>Semántica de referencia con tipos de valor</li>
 <li>Guion bajo comenzando literal numérico</li>
-<li><code>private protected</code> modificador de acceso</li>
+<li><code class="language-cpp"><span class="hljs-keyword">private</span> <span class="hljs-keyword">protected</span></code> modificador de acceso</li>
 </ol>
 <h1>El proyecto - Descarga asíncrona, deserialización en tipos fuertes usando tuplas y clases, deconstrucción y serialización de culturas con asincronicidad</h1>
-<p>Vamos descargar un archivo tipo JSon asincrónicamente, serializarlo en tipos fuertes con tuplas y clases, usando coincidencia de patrones/tipo para enlace dinámicamente y crear los tipos fuerte correspondiente. Todo la estructura de llamadas debe tener característica usando <code>async/await</code>.</p>
-<p>Con el entrada <code>Main</code> declarado como:</p>
+<p>Vamos descargar un archivo tipo JSon asincrónicamente, serializarlo en tipos fuertes con tuplas y clases, usando coincidencia de patrones/tipo para enlace dinámicamente y crear los tipos fuerte correspondiente. Todo la estructura de llamadas debe tener característica usando <code class="language-cpp">async/await</code>.</p>
+<p>Con el entrada <code class="language-cpp">Main</code> declarado como:</p>
 <pre><code class="language-CSharp">        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)
         </span>{
 </code></pre>
@@ -77,25 +77,25 @@ Propiedad</li>
 <h2>Tipos</h2>
 <p>Vamos crear dos tipos o jerarquías de tipos representado los datos en el archivo.</p>
 <h3>La primero usando neo-tuplas (C# 7.*)</h3>
-<h3>La segunda una jerarquías de clases/structs mas tradicional, aunque implementado métodos de <code>Deconstruct</code></h3>
+<h3>La segunda una jerarquías de clases/structs mas tradicional, aunque implementado métodos de <code class="language-CSharp">Deconstruct</code></h3>
 <h2>Descargar archivo asincrónicamente</h2>
 <p>El archivo para descargar es disponible en http://www.impostorprogrammer.com/articles/modern_csharp/sample.json</p>
 <h2>Deserialización en tipo con tuplas</h2>
-<p>Deserialización de archivo en objeto tipado fuerte <code>DocumentStruct</code></p>
-<pre><code>• Solo el objeto representando el archivo puede ser un tipado class/struct nombrado, el resto debe ser en forma de tuplas (`ValueTuple`) en una manera similar del clase `DBEmulator` en .\dotnet_samples\CSharp7Console\ProgramCS7.cs
-• La deserialización tiene que ser ejecutado en un hilo del thread pool usando el `Task.Run`
+<p>Deserialización de archivo en objeto tipado fuerte <code class="language-CSharp">DocumentStruct</code></p>
+<pre><code class="language-CSharp">• Solo el objeto representando el archivo puede ser un tipado <span class="hljs-keyword">class</span>/<span class="hljs-title">struct</span> <span class="hljs-title">nombrado</span>, <span class="hljs-title">el</span> <span class="hljs-title">resto</span> <span class="hljs-title">debe</span> <span class="hljs-title">ser</span> <span class="hljs-title">en</span> <span class="hljs-title">forma</span> <span class="hljs-title">de</span> <span class="hljs-title">tuplas</span> (`<span class="hljs-title">ValueTuple</span>`) <span class="hljs-title">en</span> <span class="hljs-title">una</span> <span class="hljs-title">manera</span> <span class="hljs-title">similar</span> <span class="hljs-title">del</span> <span class="hljs-title">clase</span> `<span class="hljs-title">DBEmulator</span>` <span class="hljs-title">en</span> .\<span class="hljs-title">dotnet_samples</span>\<span class="hljs-title">CSharp7Console</span>\<span class="hljs-title">ProgramCS7</span>.<span class="hljs-title">cs</span>
+• <span class="hljs-title">La</span> <span class="hljs-title">deserializaci</span>ó<span class="hljs-title">n</span> <span class="hljs-title">tiene</span> <span class="hljs-title">que</span> <span class="hljs-title">ser</span> <span class="hljs-title">ejecutado</span> <span class="hljs-title">en</span> <span class="hljs-title">un</span> <span class="hljs-title">hilo</span> <span class="hljs-title">del</span> <span class="hljs-title">thread</span> <span class="hljs-title">pool</span> <span class="hljs-title">usando</span> <span class="hljs-title">el</span> `<span class="hljs-title">Task</span>.<span class="hljs-title">Run</span>`
 </code></pre>
-<h2>Crear un clase <code>DocumentClass</code></h2>
-<p>Con la misma estructura que <code>DocumentStruct</code>, pero con tipos explicito declarados como <code>class Teacher</code> , <code>class Pupil</code> etc,
+<h2>Crear un clase <code class="language-CSharp">DocumentClass</code></h2>
+<p>Con la misma estructura que <code class="language-CSharp">DocumentStruct</code>, pero con tipos explicito declarados como <code class="language-CSharp"><span class="hljs-keyword">class</span> <span class="hljs-title">Teacher</span></code> , <code class="language-CSharp"><span class="hljs-keyword">class</span> <span class="hljs-title">Pupil</span></code> etc,
 Ejemplo:</p>
 <pre><code class="language-CSharp">Ilist&lt;Teacher&gt; DocumentClass.Teachers { <span class="hljs-keyword">get</span>; }
 </code></pre>
-<p>Todo tipos debe tener &quot;Deconstructores&quot; correspondiente de las tuplas declarado/usado en <code>DocumentStruct</code> para los mismo datos.</p>
-<p>Un object tipo <code>DocumentClass</code> puede ser inicializado con un instancia de un <code>DocumentStruct</code>,</p>
-<p>Un objeto tipo <code>DocumentStruct</code> puede ser inicializado fácilmente desde un instancia de un <code>DocumentClass</code> y sus descendientes usando los &quot;Deconstructores&quot;.</p>
-<p>Mientras es posible, todo los miembros del <code>DocumentClass</code> y sus descendientes debe tener todo los miembros declarado con estilo &quot;cuerpo como expresión&quot; incluyendo la constructora.</p>
+<p>Todo tipos debe tener &quot;Deconstructores&quot; correspondiente de las tuplas declarado/usado en <code class="language-CSharp">DocumentStruct</code> para los mismo datos.</p>
+<p>Un object tipo <code class="language-CSharp">DocumentClass</code> puede ser inicializado con un instancia de un <code class="language-CSharp">DocumentStruct</code>,</p>
+<p>Un objeto tipo <code class="language-CSharp">DocumentStruct</code> puede ser inicializado fácilmente desde un instancia de un <code class="language-CSharp">DocumentClass</code> y sus descendientes usando los &quot;Deconstructores&quot;.</p>
+<p>Mientras es posible, todo los miembros del <code class="language-CSharp">DocumentClass</code> y sus descendientes debe tener todo los miembros declarado con estilo &quot;cuerpo como expresión&quot; incluyendo la constructora.</p>
 <h2>Propiedades lectura solo</h2>
-<p>Todo los propiedades del tipo &quot;colección&quot;  <code>DocumentClass</code> y <code>DocumentStruct</code> debe ser de solo lectura.</p>
+<p>Todo los propiedades del tipo &quot;colección&quot;  <code class="language-CSharp">DocumentClass</code> y <code class="language-CSharp">DocumentStruct</code> debe ser de solo lectura.</p>
 <h2>Inicializadores de propiedades automáticas</h2>
 <p>Todo los propiedades que requiere inicialización por defecto deben ser inicializado en su declaración.</p>
 <h2>Usa el JSON.NET para parsear el documento</h2>
@@ -108,9 +108,9 @@ Ejemplo:</p>
             }
 </code></pre>
 <h2>Coincidencia de patrones</h2>
-<p>Usa coincidencia de patrones con <code>switch</code> para atravesar la estructura con el objeto <code>dynamic</code> del json.
+<p>Usa coincidencia de patrones con <code class="language-CSharp"><span class="hljs-keyword">switch</span></code> para atravesar la estructura con el objeto <code class="language-CSharp"><span class="hljs-keyword">dynamic</span></code> del json.
 Parecido de eso, para cada elemento llamar código correspondiente  para cada tipo 'fuerte'
-Tienes que boxear el <code>dynamic</code> para funcionar con coincidencia de patrones.</p>
+Tienes que boxear el <code class="language-CSharp"><span class="hljs-keyword">dynamic</span></code> para funcionar con coincidencia de patrones.</p>
 <pre><code class="language-CSharp"><span class="hljs-keyword">dynamic</span> foo = <span class="hljs-number">10</span>;
 <span class="hljs-keyword">switch</span> ((<span class="hljs-keyword">object</span>)foo)
 {
@@ -123,19 +123,19 @@ Tienes que boxear el <code>dynamic</code> para funcionar con coincidencia de pat
 }
 </code></pre>
 <h2>Funciones Locales</h2>
-<p>En todas métodos <code>async</code>, separa el parte <code>async</code> de validación de parámetros usando funciones locales para el parte <code>async</code>, ver ejemplo en dotnet_samples\CSharp7Console\LocalFunctions.cs</p>
+<p>En todas métodos <code class="language-CSharp"><span class="hljs-keyword">async</span></code>, separa el parte <code class="language-CSharp"><span class="hljs-keyword">async</span></code> de validación de parámetros usando funciones locales para el parte <code class="language-CSharp"><span class="hljs-keyword">async</span></code>, ver ejemplo en dotnet_samples\CSharp7Console\LocalFunctions.cs</p>
 <h2>LinQ metodos</h2>
-<p>Crea métodos recibiendo parámetros y retornando <code>IEnumerable</code> de tuplas en tu clase/struct.</p>
-<h2><code>string ToString(IFormatProvider formatProvider)</code></h2>
-<p><code>DocumentClass</code> y <code>DocumentStruct</code> debe tener un método <code>ToString</code> como esa, que utiliza <code>FormattedString</code> and  interpolación de string para convertir el <code>objeto</code> en un <code>string</code>, usando el <code>CultureInfo</code> en <code>formatProvider</code>.</p>
+<p>Crea métodos recibiendo parámetros y retornando <code class="language-CSharp">IEnumerable</code> de tuplas en tu clase/struct.</p>
+<h2><code class="language-CSharp"><span class="hljs-function"><span class="hljs-keyword">string</span> <span class="hljs-title">ToString</span>(<span class="hljs-params">IFormatProvider formatProvider</span>)</span></code></h2>
+<p><code class="language-CSharp">DocumentClass</code> y <code class="language-CSharp">DocumentStruct</code> debe tener un método <code class="language-CSharp">ToString</code> como esa, que utiliza <code class="language-CSharp">FormattedString</code> and  interpolación de string para convertir el <code class="language-CSharp">objeto</code> en un <code class="language-CSharp"><span class="hljs-keyword">string</span></code>, usando el <code class="language-CSharp">CultureInfo</code> en <code class="language-CSharp">formatProvider</code>.</p>
 <h2>Formato</h2>
 <p>El formato del string retornado debe coincidir con la estructura semántica (no de la sangría etc.) del archivo original, con la diferencia de fechas y números etc usan formatos correspondiente del CultureInfo usado.</p>
 <h2>Archivos para toda culturas</h2>
-<p>Crea archivos por cada cultura disponible usando async IO y el <code>DocumentStruct/Class.ToString</code></p>
+<p>Crea archivos por cada cultura disponible usando async IO y el <code class="language-CSharp">DocumentStruct/Class.ToString</code></p>
 <h3>Toda culturas disponible con:</h3>
 <pre><code class="language-CSharp">CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
 </code></pre>
-<h3>Ejemplo escribir texto en archivo <code>async</code></h3>
+<h3>Ejemplo escribir texto en archivo <code class="language-CSharp"><span class="hljs-keyword">async</span></code></h3>
 <pre><code class="language-CSharp">       <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">WriteTextAsync</span>(<span class="hljs-params"></span>)
         </span>{
             <span class="hljs-keyword">using</span> (StreamWriter writer = File.CreateText(<span class="hljs-string">"newfile.txt"</span>))

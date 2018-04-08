@@ -5,6 +5,7 @@ var hljs = require('highlightjs');
 var header = require('gulp-header');
 var footer = require('gulp-footer');
 var through = require('through2');
+
 markdown.html = true;
 
 function getRelativePathSteps(relativeFilePath) {
@@ -24,35 +25,35 @@ gulp.task('markdown', function () {
             html: true,
             preset: 'commonmark',
             highlight: function (str, lang) {
+                lang = lang || this.lastLang;
                 if (lang && hljs.getLanguage(lang)) {
+                    this.lastLang = lang || this.lastLang;
                     try {
                         return hljs.highlight(lang, str, true).value;
                     } catch (__) { }
                 }
 
-                return ''; // use external default escaping
+                return this.lastLang || ''; // use external default escaping
             }
-
             //   linkify: true,
             //   typographer: true
-        }
+        },
+        plugins: ["../../md_highlight_inline"] // This gets loaded from node_modules\markdown-it\lib\index.js so need relative path
     };
     class GulpFile {
-        constructor(file)
-        {
+        constructor(file) {
             this._File = file;
         }
-        get relativeSteps()
-        {
+        get relativeSteps() {
             return getRelativePathSteps(this._File.relative);
         }
     }
-    
 
-    const myGulpStep = function (){
+
+    const myGulpStep = function () {
         return through.obj(function (file, enc, callback) {
             console.log("Started processing  " + file.relative);
-            if(typeof(global.relativeSteps) == 'undefined') 
+            if (typeof (global.relativeSteps) == 'undefined')
                 global.relativeSteps = getRelativePathSteps;
 
             // make sure the file goes through the next gulp plugin
@@ -60,13 +61,14 @@ gulp.task('markdown', function () {
             callback();
         });
     };
-    const addHeader = function (){
+    const addHeader = function () {
         return through.obj(function (file, enc, callback) {
             this.push(file);
             callback();
         });
     };
 
+    var md = markdown(config);
     return gulp.src(['**/*.md', "!**/node_modules/**", "!README.md"])
         // .pipe(through.obj(function (file, enc, callback) {
         //     console.log("Started processing  " + file.relative);
@@ -76,23 +78,23 @@ gulp.task('markdown', function () {
         //     callback();
         // }))
         .pipe(myGulpStep())
-        .pipe(markdown(config))
+        .pipe(md)
         .pipe(header('\ufeff' +
-                    '<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title></title>\n\t\t' +
-                    '<link type="text/css" rel="stylesheet" href="<%=global.relativeSteps(file.relative)%>/styles/vs.css">\n' +
-                    '<link type="text/css" rel="stylesheet" href="<%=global.relativeSteps(file.relative)%>/styles/markdown.css">\n' +
-                    '\n\t' +
-                    '<!-- Global site tag (gtag.js) - Google Analytics -->\n' +
-                    '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>\n' +
-                    '<script>\n' +
-                    '  window.dataLayer = window.dataLayer || [];\n' +
-                    '  function gtag(){dataLayer.push(arguments);}\n' +
-                    '  gtag("js", new Date());\n' +
-                    '\n' +
-                    '  gtag("config", "UA-58458282-5");\n' +
-                    '</script>\n' +
-                    '<!-- Source File <%= file.relative %> -->\n' +
-                    '</head>\n<body>\n')
+            '<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title></title>\n\t\t' +
+            '<link type="text/css" rel="stylesheet" href="<%=global.relativeSteps(file.relative)%>/styles/vs.css">\n' +
+            '<link type="text/css" rel="stylesheet" href="<%=global.relativeSteps(file.relative)%>/styles/markdown.css">\n' +
+            '\n\t' +
+            '<!-- Global site tag (gtag.js) - Google Analytics -->\n' +
+            '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>\n' +
+            '<script>\n' +
+            '  window.dataLayer = window.dataLayer || [];\n' +
+            '  function gtag(){dataLayer.push(arguments);}\n' +
+            '  gtag("js", new Date());\n' +
+            '\n' +
+            '  gtag("config", "UA-58458282-5");\n' +
+            '</script>\n' +
+            '<!-- Source File <%= file.relative %> -->\n' +
+            '</head>\n<body>\n')
         )
         .pipe(footer('<div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>'))
         .pipe(through.obj(function (file, enc, callback) {

@@ -20,7 +20,7 @@
 <h1>C++ 11 - Ya existe hilos y concurrencia</h1>
 <p>Antes de <strong>C++ 11</strong>, en teoría no se pudo crear un programa multihilo en C++ estándar y compilarlo para diferentes plataformas.
 Era imposible (en teoría), porque el estándar de C++ antes de C++ 11 no sabia que era hilos, no tenia ningún concepto de acceso de memoria concurrente desde instrucciones originando de diversos hilos o núcleos.</p>
-<p>Aunque muchos somos que hemos creado estos tipos de programas, pero no fue gracias al estándar C++ 98/03 fue con ayuda de librerías de terceros y los creadores de los compiladores. Si tenia que hacerlo para varios plataformas, la opción probablemente será usar ptrheads (posix threads), creando threads con <code>pthread_create</code>, o en Windows usando VC++ con los <code>CreateThread</code> (Win32) o  <code>_beginthread/_beginthreadex</code> (C runtime library).</p>
+<p>Aunque muchos somos que hemos creado estos tipos de programas, pero no fue gracias al estándar C++ 98/03 fue con ayuda de librerías de terceros y los creadores de los compiladores. Si tenia que hacerlo para varios plataformas, la opción probablemente será usar ptrheads (posix threads), creando threads con <code class="language-cpp">pthread_create</code>, o en Windows usando VC++ con los <code class="language-cpp">CreateThread</code> (Win32) o  <code class="language-cpp">_beginthread/_beginthreadex</code> (C runtime library).</p>
 <p>Pero todo eso fueron extensiones no estándar para desarrollo con C++. Ahora desde C++ 11 el estándar tiene un modelo bien definido del acceso a memoria y como tiene que funcionar una implementación cumpliendo con el C++ estándar.</p>
 <h1>Antes de C++ 11, solo había un hilo</h1>
 <p>Antes de C++ 11, solo había un hilo, una programa con un hilo único con un secuencia de instrucciones leyendo y escribiendo al memoria bastante sencillo y intuitivo. Claro para los creadores de compiladores y procesadores no era tan sencillo, con todo optimizaciones que han inventado, como reordenar instrucciones, cacheo, hasta ejecutando instrucciones anticipado (<em>¿Spectre</em> alguien?). Bueno, nada de eso era una preocupación para C++, era algo que tenían que resolver y implementar en los compiladores y librerías.</p>
@@ -46,7 +46,7 @@ Como acceder la memoria concurrente, como leer y escribir, y definir un comporta
 <h2><span class="hljs-keyword">thread_local</span></h2>
 <pre><code class="language-cpp">    <span class="hljs-keyword">thread_local</span>
 </code></pre>
-<p><span class="hljs-keyword">thread_local</span> es como <span class="hljs-keyword">static</span> pero solo accesible desde un hilo, el hilo que lo creo. En Windows/VC++ había el <code>_declspec(thread)</code> como extensión antes.</p>
+<p><span class="hljs-keyword">thread_local</span> es como <span class="hljs-keyword">static</span> pero solo accesible desde un hilo, el hilo que lo creo. En Windows/VC++ había el <code class="language-cpp">_declspec(thread)</code> como extensión antes.</p>
 <h2>Sincronización</h2>
 <pre><code class="language-cpp">    <span class="hljs-built_in">std</span>::call_once
     <span class="hljs-built_in">std</span>::condition_variable

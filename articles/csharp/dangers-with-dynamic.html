@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" rel="stylesheet" href="../../styles/vs.css">
+<link type="text/css" rel="stylesheet" href="../../styles/markdown.css">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "UA-58458282-5");
+</script>
+<!-- Source File articles\csharp\dangers-with-dynamic.html -->
+</head>
+<body>
+<!-- Sets up a default language for inline syntax highlighting -->
+<pre><code class="language-CSharp"></code></pre>
+<h1>The dangers with using <code class="language-CSharp"><span class="hljs-keyword">dynamic</span></code> - Never mix <code class="language-CSharp"><span class="hljs-keyword">var</span></code> and <code class="language-CSharp"><span class="hljs-keyword">dynamic</span></code></h1>
+<p>DynamicObject, or as used in C# <code class="language-CSharp"><span class="hljs-keyword">dynamic</span></code> can be a very powerful tool. I was using it the other day to quickly process some simple JSON strings into it's parts and building up my own strongly typed object.</p>
+<p>Then I ran into a very non-intuitive run time exception:</p>
+<p><code class="language-CSharp">Microsoft.CSharp.RuntimeBinder.RuntimeBinderException Message=<span class="hljs-string">'System.Collections.Generic.IList&lt;string&gt;'</span> does not contain a definition <span class="hljs-keyword">for</span> <span class="hljs-string">'Add'</span></code></p>
+<p>How can it be possible that IList doesn't have an Add method? At first I couldn't figure it out, my collection was properly initialized and had a valid instance of IList<string>, but when calling it at run-time it was consistently throwing this exception.</p>
+<p>It turns out this is a 'feature' in the C# language, whenever a method receives a <code class="language-CSharp"><span class="hljs-keyword">dynamic</span></code> parameter, it is allowed to return a dynamic object, even if the method has a strongly typed return type. The sample program below illustrates the issue.</p>
+<p>Intuitively, or at least for me, looking at the code in the below program one would expect the a return value from a method returning a <code class="language-CSharp"><span class="hljs-keyword">string</span></code> to be of type <code class="language-CSharp"><span class="hljs-keyword">string</span></code>, so as common these days one would happily use a <code class="language-CSharp"><span class="hljs-keyword">var</span></code> as declaration instead of <code class="language-CSharp"><span class="hljs-keyword">string</span></code>. Turns out that is problematic, apparently if the method returning a string has a <code class="language-CSharp"><span class="hljs-keyword">dynamic</span></code> input parameter, the compiler is allowed to return a <code class="language-CSharp"><span class="hljs-keyword">dynamic</span></code> as well, even though the method declaration clearly states it should be a <code class="language-CSharp"><span class="hljs-keyword">string</span></code>.</p>
+<p>The compiler doesn't even give a warning about such behavior.</p>
+<pre><code class="language-CSharp">    <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span>
+    {
+        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> <span class="hljs-title">MakeString</span>(<span class="hljs-params"><span class="hljs-keyword">dynamic</span> dyn</span>)
+        </span>{
+            <span class="hljs-keyword">return</span> dyn.str;
+        }
+        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)
+        </span>{
+            IList&lt;<span class="hljs-keyword">string</span>&gt; list = <span class="hljs-keyword">new</span> List&lt;<span class="hljs-keyword">string</span>&gt;();
+
+            <span class="hljs-keyword">dynamic</span> input = <span class="hljs-keyword">new</span> ExpandoObject();
+            input.str = <span class="hljs-string">"string value"</span>;
+
+            <span class="hljs-keyword">var</span> str = MakeString(input);
+            <span class="hljs-comment">//string str = MakeString(input); // Using this with explicit type, works as expected</span>
+
+            <span class="hljs-comment">// Microsoft.CSharp.RuntimeBinder.RuntimeBinderException 'System.Collections.Generic.IList&lt;string&gt;' does not contain a definition for 'Add'</span>
+            list.Add(str); 
+        }
+    }
+</code></pre>
+<h2>Solution</h2>
+<p>Turns out the solution is simple, don't use a <code class="language-CSharp"><span class="hljs-keyword">var</span></code> declaration, use an explicit typed (<code class="language-CSharp"><span class="hljs-keyword">string</span></code>) variable instead and it works as expected.</p>
+<h2>Further info...</h2>
+<p>More details at <a href="https://stackoverflow.com/questions/25892404/passing-dynamic-object-to-c-sharp-method-changes-return-type">Stackoverflow</a> or
+in the
+<a href="https://download.microsoft.com/download/0/B/D/0BDA894F-2CCD-4C2C-B5A7-4EB1171962E5/CSharp%20Language%20Specification.docx">C# 5 Language Spec, 7.6.5</a></p>
+<div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>
