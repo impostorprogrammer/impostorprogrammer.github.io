@@ -25,7 +25,7 @@ gulp.task('markdown', function () {
             html: true,
             preset: 'commonmark',
             highlight: function (str, lang) {
-                lang = lang || this.lastLang;
+                lang = lang || this.lastLang || "javascript";
                 if (lang && hljs.getLanguage(lang)) {
                     this.lastLang = lang || this.lastLang;
                     try {

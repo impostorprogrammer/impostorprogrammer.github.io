@@ -8,7 +8,7 @@ A veces hay llamadas que pueden tomar un tiempo para completar y volver. Para ev
 
 Le decimos a la llamada qué hacer cuando regrese, y luego seguimos adelante con el resto del programa, antes de que algo haya sucedido.
 
-## Ejemplo: setTimeout con función como parámetro
+## Ejemplo: `setTimeout` con función como parámetro
 
 ```javascript
 
