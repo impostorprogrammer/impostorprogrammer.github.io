@@ -12,7 +12,7 @@ I finally managed to get Server-Media-Foundation installed and working in Window
 4. Now you should be good to go...
 
 ## Docker file and script
-You can find a Dockerfile and the script used to patch up the .mum files on [here on github](https://github.com/JonasBr68/docker/tree/master/containers/servercoretest)
+You can find a Dockerfile and the script used to patch up the .mum files on [here on GitHub](https://github.com/JonasBr68/docker/tree/master/containers/servercoretest)
 
 ## Patching C:\Windows\servicing\Packages\*.mum files
 Some of the solutions I did find that had worked (see references below), was patching selected mum files, but I realized two things, depending on the version/build of your base image the require set of files to patch might vary. And secondly, you will not be able to install any other component that requires a restart in the container anyway, so I just went a head with a script that removes any restart requirements. This can possibly work for other windows server feature installs as well. You mileage might vary...

@@ -19,7 +19,7 @@
 <body>
 <!-- Sets up a default language for inline syntax highlighting -->
 <pre><code class="language-CSharp"></code></pre>
-<h1>The dangers with using <code class="language-CSharp"><span class="hljs-keyword">dynamic</span></code> - Never mix <code class="language-CSharp"><span class="hljs-keyword">var</span></code> and <code class="language-CSharp"><span class="hljs-keyword">dynamic</span></code></h1>
+<h1>The dangers with using <code class="language-CSharp"><span class="hljs-keyword">dynamic</span></code> - You should never mix <code class="language-CSharp"><span class="hljs-keyword">var</span></code> and <code class="language-CSharp"><span class="hljs-keyword">dynamic</span></code></h1>
 <p>DynamicObject, or as used in C# <code class="language-CSharp"><span class="hljs-keyword">dynamic</span></code> can be a very powerful tool. I was using it the other day to quickly process some simple JSON strings into it's parts and building up my own strongly typed object.</p>
 <p>Then I ran into a very non-intuitive run time exception:</p>
 <p><code class="language-CSharp">Microsoft.CSharp.RuntimeBinder.RuntimeBinderException Message=<span class="hljs-string">'System.Collections.Generic.IList&lt;string&gt;'</span> does not contain a definition <span class="hljs-keyword">for</span> <span class="hljs-string">'Add'</span></code></p>

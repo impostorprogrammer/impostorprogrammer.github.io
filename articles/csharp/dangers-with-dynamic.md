@@ -3,7 +3,7 @@
 <!-- Sets up a default language for inline syntax highlighting -->
 ```CSharp
 ```
-# The dangers with using `dynamic` - Never mix `var` and `dynamic`
+# The dangers with using `dynamic` - You should never mix `var` and `dynamic`
 
 DynamicObject, or as used in C# `dynamic` can be a very powerful tool. I was using it the other day to quickly process some simple JSON strings into it's parts and building up my own strongly typed object.
 
