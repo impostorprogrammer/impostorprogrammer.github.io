@@ -49,8 +49,8 @@ I figured this out after trying to build the same Dockerfile on a Windows Server
 I did not yet try to build the Docker image on a 1709 server, but I suspect it is the same result.</p>
 <h2>Windows Server 1709 mystery</h2>
 <p>To note is that I was not able to get it to work on 1709, on 1709 you can run
-<code class="language-CSharp">Install-WindowsFeature Server-Media-Foundation</code>
-And it reports success, and no need to reboot, but it does NOT work.</p>
+<code class="language-CSharp">Install-WindowsFeature Server-Media-Foundation</code>and it reports success, and no need to reboot, but it does NOT work.
+I also tried building a 1709 container on a 1709 server, but same result.</p>
 <h1>References</h1>
 <ul>
 <li><a href="https://forums.docker.com/t/installing-server-media-foundation-in-a-docker-container/23587">Installing Server-Media-Foundation in a Docker Container</a></li>
