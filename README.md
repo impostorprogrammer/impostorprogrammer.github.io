@@ -10,10 +10,12 @@
 </script>
 
 ## Welcome to the Impostor Programmer
-
+<img src="./JonasProfile300x300.png">
+I am Jonas Brandel the founder and creator of PageLr.com and Contenator.com and their technologies. I love to solve problems and build technologies, especially ones that doesn't exist or doesn't do what is needed.
+Before creating PageLr and Contenator I solved problems and built technologies for Microsoft for some 18 years. 
 
 ### Are you also an impostor like me? 
-
+Well, for sure sometimes it feels like it alright, so many details, framework, nuances in intricate language syntax, I'm sure you know what I mean...
 
 > Whether you call it imposter syndrome or simply your jerkbrain acting up, we all have our moments of feeling like a fake and that, someday, everyone will find out. And at it turns out, one of the professions most prone to imposter syndrome is software development.
 [Article by Sharon Fisher, April 20, 2016](https://www.laserfiche.com/simplicity/shut-up-imposter-syndrome-i-can-too-program/)
