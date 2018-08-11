@@ -22,11 +22,13 @@
 
 Recursion, how to twist your brain inside out... [a brain exercise to 'get' recursive thinking](./articles/recursion_en.html)
 
+<h2><a href="./matrix_rain.html">Some fun... ported a C# matrix like console to JavaScript</a></h2>
+<iframe style="width:640px;height:480px;border:none;" scrolling="no" src="./matrix_rain.html"></iframe>
+
+<h3><a href="https://www.codeproject.com/articles/113227/matrix-rain"> Original C# code on codeproject https://www.codeproject.com/articles/113227/matrix-rain</a></h3>
+
+
 Check back here for further ramblings from the Impostor programmer!
-
-
-
-
 
 ### Editing... 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).

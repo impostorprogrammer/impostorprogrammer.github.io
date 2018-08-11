@@ -69,7 +69,8 @@ gulp.task('markdown', function () {
     };
 
     var md = markdown(config);
-    return gulp.src(['**/*.md', "!**/node_modules/**", "!README.md"])
+    //return gulp.src(['**/*.md', "!**/node_modules/**", "!README.md"])
+    return gulp.src(['**/*.md', "!**/node_modules/**"])
         // .pipe(through.obj(function (file, enc, callback) {
         //     console.log("Started processing  " + file.relative);
         //     global.current_gulpfile = file;

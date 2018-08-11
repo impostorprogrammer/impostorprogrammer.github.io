@@ -62,8 +62,8 @@ var NormalColor = ConsoleColor.DarkGreen;
 var GlowColor = ConsoleColor.Green;
 var FancyColor = ConsoleColor.BrightWhite;
 
-var TextInput = "HOLA CODESPACE!";
-var TextInput2 = "Así es el mundo..";
+var TextInput = "Welcome!";
+var TextInput2 = "to impostorprogrammer.com";
 
 
 
