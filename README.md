@@ -11,7 +11,8 @@
 
 ## Welcome to the Impostor Programmer
 <img src="./JonasProfile300x300.png">
-I am Jonas Brandel the founder and creator of PageLr.com and Contenator.com and their technologies. I love to solve problems and build technologies, especially ones that doesn't exist or doesn't do what is needed.
+<p>
+  I am Jonas Brandel, the founder and creator of <a href="https://www.PageLr.com">PageLr.com</a> and <a href="http://www.contenator.com">Contenator.com</a> and their technologies. I love to solve problems and build technologies, especially ones that doesn't exist or doesn't do what is needed.
 Before creating PageLr and Contenator I solved problems and built technologies for Microsoft for some 18 years. 
 
 ### Are you also an impostor like me? 
