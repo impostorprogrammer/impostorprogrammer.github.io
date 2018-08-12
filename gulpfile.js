@@ -5,6 +5,9 @@ var hljs = require('highlightjs');
 var header = require('gulp-header');
 var footer = require('gulp-footer');
 var through = require('through2');
+var fs = require("fs");
+
+const commmonHeader = fs.readFileSync('common_header.txt', 'utf8');
 
 markdown.html = true;
 
@@ -15,6 +18,8 @@ function getRelativePathSteps(relativeFilePath) {
     for (let i = 0; i < steps.length - 1; i++) {
         relativeSteps.push("..");
     }
+    if(relativeSteps.length == 0)
+        relativeSteps.push(".");
     return relativeSteps.join("/");
 }
 
@@ -49,8 +54,16 @@ gulp.task('markdown', function () {
         }
     }
 
+    const reportFileProcessingEnd = function () {
+        return through.obj(function (file, enc, callback) {
+            console.log("Finishing processing  " + file.relative);
+            // make sure the file goes through the next gulp plugin
+            this.push(file);
+            callback();
+        });
+    };
 
-    const myGulpStep = function () {
+    const reportFileProcessingStart = function () {
         return through.obj(function (file, enc, callback) {
             console.log("Started processing  " + file.relative);
             if (typeof (global.relativeSteps) == 'undefined')
@@ -78,32 +91,28 @@ gulp.task('markdown', function () {
         //     this.push(file);
         //     callback();
         // }))
-        .pipe(myGulpStep())
+        .pipe(reportFileProcessingStart())
         .pipe(md)
-        .pipe(header('\ufeff' +
-            '<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title></title>\n\t\t' +
-            '<link type="text/css" rel="stylesheet" href="<%=global.relativeSteps(file.relative)%>/styles/vs.css">\n' +
-            '<link type="text/css" rel="stylesheet" href="<%=global.relativeSteps(file.relative)%>/styles/markdown.css">\n' +
-            '\n\t' +
-            '<!-- Global site tag (gtag.js) - Google Analytics -->\n' +
-            '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>\n' +
-            '<script>\n' +
-            '  window.dataLayer = window.dataLayer || [];\n' +
-            '  function gtag(){dataLayer.push(arguments);}\n' +
-            '  gtag("js", new Date());\n' +
-            '\n' +
-            '  gtag("config", "UA-58458282-5");\n' +
-            '</script>\n' +
-            '<!-- Source File <%= file.relative %> -->\n' +
-            '</head>\n<body>\n')
-        )
+        // .pipe(header('\ufeff' +
+        //     '<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title></title>\n\t\t' +
+        //     '<link type="text/css" rel="stylesheet" href="<%=global.relativeSteps(file.relative)%>/styles/vs.css">\n' +
+        //     '<link type="text/css" rel="stylesheet" href="<%=global.relativeSteps(file.relative)%>/styles/markdown.css">\n' +
+        //     '\n\t' +
+        //     '<!-- Global site tag (gtag.js) - Google Analytics -->\n' +
+        //     '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58458282-5"></script>\n' +
+        //     '<script>\n' +
+        //     '  window.dataLayer = window.dataLayer || [];\n' +
+        //     '  function gtag(){dataLayer.push(arguments);}\n' +
+        //     '  gtag("js", new Date());\n' +
+        //     '\n' +
+        //     '  gtag("config", "UA-58458282-5");\n' +
+        //     '</script>\n' +
+        //     '<!-- Source File <%= file.relative %> -->\n' +
+        //     '</head>\n<body>\n')
+        // )
+        .pipe(header(commmonHeader))
         .pipe(footer('<div style="width:100%;padding-top:8vh;"><div style="text-align:center">Jonas Brandel y CloudCraic S.L. © 2018</div></div></body></html>'))
-        .pipe(through.obj(function (file, enc, callback) {
-            console.log("Finishing processing  " + file.relative);
-            // make sure the file goes through the next gulp plugin
-            this.push(file);
-            callback();
-        }))
+        .pipe(reportFileProcessingEnd())
         .pipe(gulp.dest(function (f) {
             return f.base;
         }));
